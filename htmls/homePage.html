@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>HomePage</title>
+    <script>
+        $(() => {
+            const socket = io.connect('http://localhost:3000');
+        });
+    </script>
+</head>
+<body>
+    <div class="hero">
+        <h1 class="hero-title">Home Page</h1>
+        <div class="links">
+            <a href="file:///C:/Users/kerem/Desktop/Kerem/nodejsChatSystem/htmls/LogIn.html" class="LogIn">Kayıt ol</a>
+            <a href="file:///C:/Users/kerem/Desktop/Kerem/nodejsChatSystem/htmls/SıgnIn.html" class="SıgnIn">Giriş yap</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <script>
+        $(() => {
+            const invis = () => {
+                // Make invis
+                $('.TRUE-VALUES').hide();
+                $('.WRONG-NAME').hide();
+                $('.WRONG-SURNAME').hide();
+                $('.WRONG-YEAR').hide();
+                $('.WRONG-USERNAME').hide();
+                $('.WRONG-PASSWORD').hide();
+            }
+            invis();
+
+            const socket = io.connect('http://localhost:3000');
+
+            const Form = document.getElementById('form');
+            const Buton = document.getElementById('buton');
+            Buton.value = 'Kayıt için gönder';
+            const Name = document.getElementById('name');
+            const Surname = document.getElementById('surname');
+            const Year = document.getElementById('year');
+            const Username = document.getElementById('username');
+            const Password = document.getElementById('password');
+
+            Form.addEventListener('submit', e => {
+                e.preventDefault();
+                const name = Name.value;
+                const surname = Surname.value;
+                const year = Year.value;
+                const username = Username.value;
+                const password = Password.value;
+
+                socket.emit('VARIABLES_LOGIN', { name, surname, year, username, password });
+            });
+
+            socket.on('TRUE_VALUES_LOGIN', () => {
+                Name.value = '';
+                Surname.value = '';
+                Year.value = '';
+                Username.value = '';
+                Password.value = '';
+                invis();
+                $('.TRUE-VALUES').show();
+                $('.GO-SIGNIN').show();
+                $('.LINK').show();
+            });
+            socket.on('WRONG_NAME_LOGIN', () => {
+                invis();
+                $('.WRONG-NAME').show();
+            });
+            socket.on('WRONG_SURNAME_LOGIN', () => {
+                invis();
+                $('.WRONG-SURNAME').show();
+            });
+            socket.on('WRONG_YEAR_LOGIN', () => {
+                invis();
+                $('.WRONG-YEAR').show();
+            });
+            socket.on('WRONG_USERNAME_LOGIN', () => {
+                invis();
+                $('.WRONG-USERNAME').show();
+            });
+            socket.on('WRONG_PASSWORD_LOGIN', () => {
+                invis();
+                $('.WRONG-PASSWORD').show();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="hero">
+        <h1 class="hero-title">Kayıt Formu</h1>
+    </div>
+    <form id="form">
+        <table class="table">
+            <tr>
+                <td><input type="text" id="name"></td>
+                <td>İsim ?</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="surname"></td>
+                <td>Soyisim ?</td>
+            </tr>
+            <tr>
+                <td><input type="number" id="year"></td>
+                <td>Yaş ?</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="username"></td>
+                <td>Kullanıcı adı ?</td>
+            </tr>
+            <tr>
+                <td><input type="password" id="password"></td>
+                <td>Şifre ?</td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" id="buton">
+    </form>
+    <div class="messages">
+        <div class="TRUE-VALUES">Başarıyla kayıt olundu.</div>
+        <div class="WRONG-NAME">İsim girmediniz !</div>
+        <div class="WRONG-SURNAME">Soyisim girmediniz !</div>
+        <div class="WRONG-YEAR">Yaş girmediniz !</div>
+        <div class="WRONG-USERNAME">Kullanıcı adı girmediniz !</div>
+        <div class="WRONG-PASSWORD">Şifre girmediniz !</div>
+    </div>
+    <div class="GO-SIGNIN">
+        <a href="file:///C:/Users/kerem/Desktop/Kerem/nodejsChatSystem/htmls/SıgnIn.html" class="LINK">Giriş yap</a>
+    </div>
+</body>
+</html>
