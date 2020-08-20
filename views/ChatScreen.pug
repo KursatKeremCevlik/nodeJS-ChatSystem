@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    script(src='http://localhost:3000/socket.io/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    style
+        include chat.css
+    title Chat
+  body
+    .hero
+      .counts
+        .onlineCounts Online Kişiler
+      .messages-size
+        .messages-1
+          a.messages_all Selam nasılsın?
+        .messages-2
+          a.messages_all Ben iyiyim sen nasılsın?
+        .messages-1
+          a.messages_all Bende iyiyim Allah a şükür.
+        .messages-2
+          a.messages_all İşleri ne yaptın?
