@@ -1,5 +1,14 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    style
+      include style.css
+    title HomePage
+  body
+    .hero
+      h1.hero-title Home Page
+      .links
+        a.LogIn(href='/LogIn') Kayıt ol
+        a.SignIn(href='/SignIn') Giriş yap

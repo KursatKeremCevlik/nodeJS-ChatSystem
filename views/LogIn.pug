@@ -1,0 +1,49 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    script(src='http://localhost:3000/socket.io/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    style
+        include style.css
+    title LogIn
+    script
+        include LogIn.js
+  body
+    .hero
+      h1.hero-title Kayıt Formu
+    form#form
+      table.table
+        tbody
+          tr
+            td
+              input#name(type='text')
+            td İsim ?
+          tr
+            td
+              input#surname(type='text')
+            td Soyisim ?
+          tr
+            td
+              input#year(type='number')
+            td Yaş ?
+          tr
+            td
+              input#username(type='text')
+            td Kullanıcı adı ?
+          tr
+            td
+              input#password(type='password')
+            td Şifre ?
+      br
+      input#buton(type='submit')
+    .messages
+      .TRUE-VALUES Başarıyla kayıt olundu.
+      .WRONG-NAME İsim girmediniz !
+      .WRONG-SURNAME Soyisim girmediniz !
+      .WRONG-YEAR Yaş girmediniz !
+      .WRONG-USERNAME Kullanıcı adı girmediniz !
+      .WRONG-PASSWORD Şifre girmediniz !
+    .GO-SIGNIN
+      a.LINK(href='/SignIn') Giriş yap
