@@ -7,11 +7,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="chat.css">
     <title>Chat</title>
+    <script>
+        $(() => {
+            const socket = io.connect('http://localhost:3000');
+            const Form = document.getElementById('form');
+            const Buton = document.getElementById('buton');
+
+            Form.addEventListener('submit', e => {
+                e.preventDefault();
+                const Message = document.getElementById('message_ınput');
+                const message = Message.value;
+
+                socket.emit('MESSAGE_CHAT', { message });
+                Message.value = '';
+            });
+
+            socket.on('NEW_MESSAGE_CHAT', (data) => {
+                console.log(data);
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="hero">
         <div class="counts">
-            <div class="onlıneCounts">Online Kişiler</div>
+            <div class="onlineCounts">Online Kişiler</div>
         </div>
         <div class="messages-size">
             <div class="messages-1"> 
@@ -26,6 +46,12 @@
             <div class="messages-2">
                 <a class="messages_all">İşleri ne yaptın?</a>
             </div>
+        </div>
+        <div class="ınput">
+            <form id="form">
+                <input type="text" size="95px" id="message_ınput">
+                <input type="submit" id="buton">
+            </form>
         </div>
     </div>
 </body>

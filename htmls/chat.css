@@ -9,14 +9,13 @@ body{
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10%;
-}.onlıneCounts{
+}.onlineCounts{
     margin-top: 36px;
     font-size: 20px;
 }.counts{
     border: 1px solid red;
     height: 100px;
 }.messages-size{
-    border: 1px solid red;
     height: 350px;
     font-size: 17px;
     overflow-y: auto;
@@ -29,4 +28,6 @@ body{
 }.messages-2{
     background-color: rgb(66, 65, 65);
     max-width: 200px;
+}#buton{
+    padding: 1px 21px;
 }

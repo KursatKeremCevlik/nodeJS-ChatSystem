@@ -57,6 +57,15 @@ io.on('connection', (socket) => {
       });
     }
   });
+
+  socket.on('MESSAGE_CHAT', (data) => {
+    if(!data.message){
+      socket.emit('EMPTY_MESSAGE_CHAT');
+    }else{
+      let message = data.message;
+      io.emit('NEW_MESSAGE_CHAT', { message });
+    }
+  });
 });
 
 module.exports = socketApi;
