@@ -23,7 +23,16 @@
             });
 
             socket.on('NEW_MESSAGE_CHAT', (data) => {
-                console.log(data);
+                if(data.type == 1){
+                    // Ekrana bas karşı mesaj
+                    $('.messages-size').append(`<div class="messages-2"><a class="messages_all">${data.message}</a></div>`);
+                }
+            });
+            socket.on('NEW_MESSAGE_FIRST_CHAT', (data) => {
+                if(data.type == 0){
+                    // Ekrana bas kendi mesajın
+                    $('.messages-size').append(`<div class="messages-1"><a class="messages_all">${data.message}</a></div>`);
+                }
             });
         });
     </script>
@@ -34,18 +43,7 @@
             <div class="onlineCounts">Online Kişiler</div>
         </div>
         <div class="messages-size">
-            <div class="messages-1"> 
-                <a class="messages_all">Selam nasılsın?</a> 
-            </div>
-            <div class="messages-2"> 
-                <a class="messages_all">Ben iyiyim sen nasılsın?</a> 
-            </div>
-            <div class="messages-1">
-                <a class="messages_all">Bende iyiyim Allah a şükür.</a>
-            </div>
-            <div class="messages-2">
-                <a class="messages_all">İşleri ne yaptın?</a>
-            </div>
+            <!-- Messages -->
         </div>
         <div class="ınput">
             <form id="form">

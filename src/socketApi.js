@@ -60,10 +60,14 @@ io.on('connection', (socket) => {
 
   socket.on('MESSAGE_CHAT', (data) => {
     if(!data.message){
-      socket.emit('EMPTY_MESSAGE_CHAT');
+      // Empty message
     }else{
-      let message = data.message;
-      io.emit('NEW_MESSAGE_CHAT', { message });
+      const defaultData = {
+        message: data.message,
+        type: 1
+      }
+      socket.broadcast.emit('NEW_MESSAGE_CHAT', defaultData);
+      socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message });
     }
   });
 });

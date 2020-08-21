@@ -1,5 +1,5 @@
 body{
-    background-color: green;
+    background-color: lightgreen;
 }.hero{
     background-color: white;
     min-height: 450px;
@@ -8,7 +8,6 @@ body{
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10%;
 }.onlineCounts{
     margin-top: 36px;
     font-size: 20px;
@@ -19,15 +18,25 @@ body{
     height: 350px;
     font-size: 17px;
     overflow-y: auto;
+    background-color: green;
 }.messages-1{
     background-color: lightgreen;
     max-width: 200px;
-    margin-left: 600px;
+    margin-left: 580px;
+    margin-top: 5px;
+    border-radius: 10px;
 }.messages_all{
+    color: black;
     margin-left: 6px;
-}.messages-2{
-    background-color: rgb(66, 65, 65);
+}
+.messages-2{
+    background-color: grey;
     max-width: 200px;
+    margin-top: 5px;
+    margin-left: 15px;
+    border-radius: 10px;
 }#buton{
     padding: 1px 21px;
+}#form{
+    background-color: green;
 }
