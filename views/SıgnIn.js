@@ -9,10 +9,12 @@ $(() => {
         $('.WAIT-2').hide();
         $('.WAIT-3').hide();
         $('.LINK').hide();
+        $('.CHAT').hide();
+        $('.WRONG_ACCOUNT').hide();
     }
     invis();
     
-    const Form = document.getElementById('SıgnInForm');
+    const Form = document.getElementById('SignInForm');
     const Buton = document.getElementById('Buton');
     Buton.value = 'Giriş yapmak için doğrula';
 
@@ -60,5 +62,49 @@ $(() => {
         $('.TRUE_SIGNIN').html(`Hoş geldin <a class="name">${data.name} ${data.surname}</a> <br>`);
         $('.LINKHOME').show();
         $('.LINK').show();
+    });
+    socket.on('WRONG_ACCOUNT_VALUES', () => {
+        invis();
+        $('.WRONG_ACCOUNT').show();
+    });
+    $('.LINK').on('click', () => {
+        invis();
+        $('.hero-title').hide();
+        $('.messages').hide();
+        $('#SignInForm').hide();
+        $('.LINKHOME').hide();
+        const Body = document.getElementById('body');
+        Body.style.background = 'lightgreen';
+        $('.CHAT').show();
+        socket.emit('IAM_ONLINE');
+    });
+
+    socket.on('WRONG_ACCOUNT', () => {
+        $('.CHAT').hide();
+    });
+
+    const FormChat = document.getElementById('formChat');
+    const ButonChat = document.getElementById('butonChat');
+
+    FormChat.addEventListener('submit', e => {
+        e.preventDefault();
+        const Message = document.getElementById('message_inputChat');
+        const message = Message.value;
+
+        socket.emit('MESSAGE_CHAT', { message });
+        Message.value = '';
+    });
+
+    socket.on('NEW_MESSAGE_CHAT', (data) => {
+        if(data.type == 1){
+            // Ekrana bas karşı mesaj
+            $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${data.message}</a></div>`);
+        }
+    });
+    socket.on('NEW_MESSAGE_FIRST_CHAT', (data) => {
+        if(data.type == 0){
+            // Ekrana bas kendi mesajın
+            $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+        }
     });
 });

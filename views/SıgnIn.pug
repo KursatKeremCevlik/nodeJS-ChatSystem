@@ -3,16 +3,16 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    style
+      include style.css
     script(src='http://localhost:3000/socket.io/socket.io.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    title SıgnIn
-    style
-        include style.css
     script
-        include SıgnIn.js
-  body
+      include SıgnIn.js
+    title Document
+  body#body
     h1.hero-title Sıgn In
-    form(id='SıgnInForm')
+    form#SignInForm
       table.table
         tbody
           tr
@@ -31,5 +31,16 @@ html(lang='en')
       .WAIT-1 Doğrulanıyor.
       .WAIT-2 Doğrulanıyor..
       .WAIT-3 Doğrulanıyor...
+      .WRONG_ACCOUNT Kullanıcı adı veya şifreniz hatalı
     .LINKHOME
-      a.LINK(href='/Chat') Siteye geçiş yapabilirsin
+      button.LINK Siteye geçiş yapabilirsin
+    .CHAT
+      .heroChat
+        .countsChat
+          .onlineCountsChat Online Kişiler
+        .messages-sizeChat
+          // Messages
+        .inputChat
+          form#formChat
+            input#message_inputChat(type='text', size='95px')
+            input#butonChat(type='submit')

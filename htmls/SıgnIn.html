@@ -19,6 +19,8 @@
                 $('.WAIT-2').hide();
                 $('.WAIT-3').hide();
                 $('.LINK').hide();
+                $('.CHAT').hide();
+                $('.WRONG_ACCOUNT').hide();
             }
             invis();
             
@@ -71,10 +73,55 @@
                 $('.LINKHOME').show();
                 $('.LINK').show();
             });
+            socket.on('WRONG_ACCOUNT_VALUES', () => {
+                console.log('hesap bilgileri yanlış');
+                invis();
+                $('.WRONG_ACCOUNT').show();
+            });
+            $('.LINK').on('click', () => {
+                invis();
+                $('.hero-title').hide();
+                $('.messages').hide();
+                $('#SıgnInForm').hide();
+                $('.LINKHOME').hide();
+                const Body = document.getElementById('body');
+                Body.style.background = 'lightgreen';
+                $('.CHAT').show();
+                socket.emit('IAM_ONLINE');
+            });
+
+            socket.on('WRONG_ACCOUNT', () => {
+                $('.CHAT').hide();
+            });
+
+            const FormChat = document.getElementById('formChat');
+            const ButonChat = document.getElementById('butonChat');
+
+            FormChat.addEventListener('submit', e => {
+                e.preventDefault();
+                const Message = document.getElementById('message_ınputChat');
+                const message = Message.value;
+
+                socket.emit('MESSAGE_CHAT', { message });
+                Message.value = '';
+            });
+
+            socket.on('NEW_MESSAGE_CHAT', (data) => {
+                if(data.type == 1){
+                    // Ekrana bas karşı mesaj
+                    $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${data.message}</a></div>`);
+                }
+            });
+            socket.on('NEW_MESSAGE_FIRST_CHAT', (data) => {
+                if(data.type == 0){
+                    // Ekrana bas kendi mesajın
+                    $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+                }
+            });
         });
     </script>
 </head>
-<body>
+<body id="body">
     <h1 class="hero-title">Sıgn In</h1>
     <form id="SıgnInForm">
         <table class="table">
@@ -96,9 +143,26 @@
         <div class="WAIT-1">Doğrulanıyor.</div>
         <div class="WAIT-2">Doğrulanıyor..</div>
         <div class="WAIT-3">Doğrulanıyor...</div>
+        <div class="WRONG_ACCOUNT">Kullanıcı adı veya şifreniz hatalı</div>
     </div>
     <div class="LINKHOME">
-        <a href="/Chat" class="LINK">Siteye geçiş yapabilirsin</a>
+        <button class="LINK">Siteye geçiş yapabilirsin</button>
+    </div>
+    <div class="CHAT">
+        <div class="heroChat">
+            <div class="countsChat">
+                <div class="onlineCountsChat">Online Kişiler</div>
+            </div>
+            <div class="messages-sizeChat">
+                <!-- Messages -->
+            </div>
+            <div class="ınputChat">
+                <form id="formChat">
+                    <input type="text" size="95px" id="message_ınputChat">
+                    <input type="submit" id="butonChat">
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

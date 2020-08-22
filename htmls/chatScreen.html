@@ -11,7 +11,7 @@
         $(() => {
             const socket = io.connect('http://localhost:3000');
             const Form = document.getElementById('form');
-            const Buton = document.getElementById('buton');
+            const Buton = document.getElementById('buton-1');
 
             Form.addEventListener('submit', e => {
                 e.preventDefault();
@@ -48,7 +48,7 @@
         <div class="ınput">
             <form id="form">
                 <input type="text" size="95px" id="message_ınput">
-                <input type="submit" id="buton">
+                <input type="submit" id="buton-1">
             </form>
         </div>
     </div>

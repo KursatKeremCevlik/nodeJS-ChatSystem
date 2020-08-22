@@ -1,3 +1,6 @@
+.CHAT{
+    display: none;
+}
 .hero-title{
     text-align: center;
     color: blue;
@@ -30,13 +33,15 @@
     margin-left: 32px;
     text-decoration: none;
     color: blue;
-}#SıgnInForm{
+}#SignInForm{
     border: 1px solid green;
 }.name{
     color: blue;
 }
 
-.TRUE-VALUES{
+.WRONG_ACCOUNT{
+    display: none;
+}.TRUE-VALUES{
     display: none;
 }.WRONG-NAME{
     display: none;
@@ -77,4 +82,48 @@
     margin-top: 32px;
     font-size: 20px;
     text-align: center;
+}
+
+
+
+
+.heroChat{
+    background-color: white;
+    min-height: 450px;
+    margin-top: 5%;
+    min-width: 800px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}.onlineCountsChat{
+    margin-top: 36px;
+    font-size: 20px;
+}.countsChat{
+    border: 1px solid red;
+    height: 100px;
+}.messages-sizeChat{
+    height: 350px;
+    font-size: 17px;
+    overflow-y: auto;
+    background-color: green;
+}.messages-1Chat{
+    background-color: lightgreen;
+    max-width: 200px;
+    margin-left: 580px;
+    margin-top: 5px;
+    border-radius: 10px;
+}.messages_allChat{
+    color: black;
+    margin-left: 6px;
+}
+.messages-2Chat{
+    background-color: grey;
+    max-width: 200px;
+    margin-top: 5px;
+    margin-left: 15px;
+    border-radius: 10px;
+}#butonChat{
+    padding: 1px 21px;
+}#formChat{
+    background-color: green;
 }

@@ -2,12 +2,16 @@ const socketio = require('socket.io');
 const io = socketio();
 
 // Models
+const Messages = require('../models/Messages');
 const Account = require('../models/Account');
 
 const socketApi = {  };
 socketApi.io = io;
 
+
 io.on('connection', (socket) => {
+  let id;
+  let YourName;
   socket.on('VARIABLES_LOGIN', (data) => {
     if(!data.name){
       socket.emit('WRONG_NAME_LOGIN');
@@ -50,9 +54,15 @@ io.on('connection', (socket) => {
           socket.emit('CLEAR_SIGNIN-3');
         }, 1000);
         setTimeout(() => {
-          const name = veri.name;
-          const surname = veri.surname;
-          socket.emit('FIND_SIGNIN', { name, surname });
+          if(veri){
+            id = socket.id;
+            const name = veri.name;
+            const surname = veri.surname;
+            socket.emit('FIND_SIGNIN', { name, surname });
+            YourName = name;
+          }else{
+            socket.emit('WRONG_ACCOUNT_VALUES');
+          }
         }, 1500);
       });
     }
@@ -68,6 +78,19 @@ io.on('connection', (socket) => {
       }
       socket.broadcast.emit('NEW_MESSAGE_CHAT', defaultData);
       socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message });
+      const messageData = new Messages({
+        name: YourName,
+        message: data.message
+      });
+      messageData.save();
+    }
+  });
+
+  socket.on('IAM_ONLINE', () => {
+    if(!socket.id == id){
+      socket.emit('WRONG_ACCOUNT');
+    }else{
+      // True account
     }
   });
 });
