@@ -29,7 +29,8 @@ io.on('connection', (socket) => {
         surname: data.surname,
         username: data.username,
         password: data.password,
-        year: data.year
+        year: data.year,
+        isomline: 0
       });
       account.save();
       socket.emit('TRUE_VALUES_LOGIN');
