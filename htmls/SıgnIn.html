@@ -9,6 +9,7 @@
     <title>Document</title>
     <script>
         $(() => {
+            let my_name;
             const socket = io.connect('http://localhost:3000');
             
             const invis = () => {
@@ -72,6 +73,7 @@
                 $('.TRUE_SIGNIN').html(`Hoş geldin <a class="name">${data.name} ${data.surname}</a> <br>`);
                 $('.LINKHOME').show();
                 $('.LINK').show();
+                my_name = data.name;
             });
             socket.on('WRONG_ACCOUNT_VALUES', () => {
                 console.log('hesap bilgileri yanlış');
@@ -87,6 +89,7 @@
                 const Body = document.getElementById('body');
                 Body.style.background = 'lightgreen';
                 $('.CHAT').show();
+                socket.emit('CHAT_ONLINE', { my_name });
             });
 
             const FormChat = document.getElementById('formChat');
@@ -111,6 +114,14 @@
                 if(data.type == 0){
                     // Ekrana bas kendi mesajın
                     $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+                }
+            });
+
+            socket.on('SOMEONE_ONLINE', (data) => {
+                $('.onlineCountsChat').html('');
+                for(var i = 0; i < data.length; i++){
+                    let veri = data[i]
+                    $('.onlineCountsChat').append(`<div class="OnlinePeople">${veri.OnlineName}</div>`);
                 }
             });
         });
@@ -146,7 +157,9 @@
     <div class="CHAT">
         <div class="heroChat">
             <div class="countsChat">
-                <div class="onlineCountsChat">Online Kişiler</div>
+                <div class="onlineCountsChat">
+                    <!-- Online People -->
+                </div>
             </div>
             <div class="messages-sizeChat">
                 <!-- Messages -->

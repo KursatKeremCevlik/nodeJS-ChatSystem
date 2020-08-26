@@ -3,16 +3,16 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    style
-      include style.css
     script(src='http://localhost:3000/socket.io/socket.io.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    script
-      include SıgnIn.js
     title Document
+    style
+      include style.css
+    script
+      include Chat.js
   body#body
     h1.hero-title Sıgn In
-    form#SignInForm
+    form(id='SıgnInForm')
       table.table
         tbody
           tr
@@ -37,10 +37,11 @@ html(lang='en')
     .CHAT
       .heroChat
         .countsChat
-          .onlineCountsChat Online Kişiler
+          .onlineCountsChat
+            // Online People
         .messages-sizeChat
           // Messages
         .inputChat
           form#formChat
-            input#message_inputChat(type='text', size='95px')
+            input(type='text', size='95px', id='message_ınputChat')
             input#butonChat(type='submit')

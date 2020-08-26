@@ -126,4 +126,7 @@
     padding: 1px 21px;
 }#formChat{
     background-color: green;
+}.OnlinePeople{
+    width: 130px;
+    border: 1px solid red;
 }

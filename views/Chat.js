@@ -1,4 +1,5 @@
 $(() => {
+    let my_name;
     const socket = io.connect('http://localhost:3000');
     
     const invis = () => {
@@ -14,7 +15,7 @@ $(() => {
     }
     invis();
     
-    const Form = document.getElementById('SignInForm');
+    const Form = document.getElementById('SıgnInForm');
     const Buton = document.getElementById('Buton');
     Buton.value = 'Giriş yapmak için doğrula';
 
@@ -62,8 +63,10 @@ $(() => {
         $('.TRUE_SIGNIN').html(`Hoş geldin <a class="name">${data.name} ${data.surname}</a> <br>`);
         $('.LINKHOME').show();
         $('.LINK').show();
+        my_name = data.name;
     });
     socket.on('WRONG_ACCOUNT_VALUES', () => {
+        console.log('hesap bilgileri yanlış');
         invis();
         $('.WRONG_ACCOUNT').show();
     });
@@ -71,16 +74,12 @@ $(() => {
         invis();
         $('.hero-title').hide();
         $('.messages').hide();
-        $('#SignInForm').hide();
+        $('#SıgnInForm').hide();
         $('.LINKHOME').hide();
         const Body = document.getElementById('body');
         Body.style.background = 'lightgreen';
         $('.CHAT').show();
-        socket.emit('IAM_ONLINE');
-    });
-
-    socket.on('WRONG_ACCOUNT', () => {
-        $('.CHAT').hide();
+        socket.emit('CHAT_ONLINE', { my_name });
     });
 
     const FormChat = document.getElementById('formChat');
@@ -88,7 +87,7 @@ $(() => {
 
     FormChat.addEventListener('submit', e => {
         e.preventDefault();
-        const Message = document.getElementById('message_inputChat');
+        const Message = document.getElementById('message_ınputChat');
         const message = Message.value;
 
         socket.emit('MESSAGE_CHAT', { message });
@@ -105,6 +104,14 @@ $(() => {
         if(data.type == 0){
             // Ekrana bas kendi mesajın
             $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+        }
+    });
+
+    socket.on('SOMEONE_ONLINE', (data) => {
+        $('.onlineCountsChat').html('');
+        for(var i = 0; i < data.length; i++){
+            let veri = data[i]
+            $('.onlineCountsChat').append(`<div class="OnlinePeople">${veri.OnlineName}</div>`);
         }
     });
 });

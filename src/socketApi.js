@@ -8,10 +8,12 @@ const Account = require('../models/Account');
 const socketApi = {  };
 socketApi.io = io;
 
+let OnlineCounts = [ ]
 
 io.on('connection', (socket) => {
   let id;
   let YourName;
+  let OnlineSurname;
   socket.on('VARIABLES_LOGIN', (data) => {
     if(!data.name){
       socket.emit('WRONG_NAME_LOGIN');
@@ -55,7 +57,6 @@ io.on('connection', (socket) => {
         }, 1000);
         setTimeout(() => {
           if(veri){
-            id = socket.id;
             const name = veri.name;
             const surname = veri.surname;
             socket.emit('FIND_SIGNIN', { name, surname });
@@ -83,6 +84,29 @@ io.on('connection', (socket) => {
         message: data.message
       });
       messageData.save();
+    }
+  });
+
+  socket.on('CHAT_ONLINE', (data) => {
+    id = socket.id;
+    OnlineName = data.my_name;
+    OnlineCounts.push({id, OnlineName});
+    console.log(OnlineCounts);
+    io.emit('SOMEONE_ONLINE', OnlineCounts);
+  });
+
+  // Disconnect
+  socket.on('disconnect', () => {
+    console.log(OnlineCounts.length);
+    if(!OnlineCounts.length == 1){
+      for(var i=0; i < OnlineCounts.length; i++){
+        let veri = OnlineCounts[i]
+        if(veri.id == socket.id){
+          delete OnlineCounts[i];
+          console.log(OnlineCounts);
+          io.emit('SOMEONE_ONLINE', OnlineCounts);
+        }
+      }
     }
   });
 });
