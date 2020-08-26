@@ -30,7 +30,6 @@ io.on('connection', (socket) => {
         username: data.username,
         password: data.password,
         year: data.year,
-        isomline: 0
       });
       account.save();
       socket.emit('TRUE_VALUES_LOGIN');
@@ -84,14 +83,6 @@ io.on('connection', (socket) => {
         message: data.message
       });
       messageData.save();
-    }
-  });
-
-  socket.on('IAM_ONLINE', () => {
-    if(!socket.id == id){
-      socket.emit('WRONG_ACCOUNT');
-    }else{
-      // True account
     }
   });
 });

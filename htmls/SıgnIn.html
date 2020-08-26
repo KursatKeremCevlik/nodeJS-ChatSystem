@@ -87,11 +87,6 @@
                 const Body = document.getElementById('body');
                 Body.style.background = 'lightgreen';
                 $('.CHAT').show();
-                socket.emit('IAM_ONLINE');
-            });
-
-            socket.on('WRONG_ACCOUNT', () => {
-                $('.CHAT').hide();
             });
 
             const FormChat = document.getElementById('formChat');

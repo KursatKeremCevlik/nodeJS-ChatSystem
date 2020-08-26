@@ -7,7 +7,6 @@ const Account = new Schema({
     username: String,
     password: String,
     year: Number,
-    isOnline: Number
 });
 
 module.exports = mongoose.model('Account', Account);
