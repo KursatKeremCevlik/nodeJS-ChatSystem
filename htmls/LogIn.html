@@ -17,6 +17,7 @@
                 $('.WRONG-YEAR').hide();
                 $('.WRONG-USERNAME').hide();
                 $('.WRONG-PASSWORD').hide();
+                $('.WRONG-NAME-LENGTH').hide();
             }
             invis();
 
@@ -73,6 +74,11 @@
                 invis();
                 $('.WRONG-PASSWORD').show();
             });
+            socket.on('WRONG_NAMELENGTH_LOGIN', (data) => {
+                invis();
+                $('.WRONG-NAME-LENGTH').show();
+                $('.WRONG-NAME-LENGTH').html(`${data.text}`);
+            });
         });
     </script>
 </head>
@@ -113,6 +119,7 @@
         <div class="WRONG-YEAR">Yaş girmediniz !</div>
         <div class="WRONG-USERNAME">Kullanıcı adı girmediniz !</div>
         <div class="WRONG-PASSWORD">Şifre girmediniz !</div>
+        <div class="WRONG-NAME-LENGTH"></div>
     </div>
     <div class="GO-SIGNIN">
         <a href="file:///C:/Users/kerem/Desktop/Kerem/nodejsChatSystem/htmls/SıgnIn.html" class="LINK">Giriş yap</a>

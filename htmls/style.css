@@ -57,6 +57,8 @@
     display: none;
 }.WRONG_PASSWORD{
     display: none;
+}.WRONG-NAME-LENGTH{
+    display: none;
 }.WAIT-1{
     display: none;
 }.WAIT-2{
@@ -127,6 +129,8 @@
 }#formChat{
     background-color: green;
 }.OnlinePeople{
-    width: 130px;
+    max-width: 150px;
+    height: 100px;
     border: 1px solid red;
+    margin-left: 10px;
 }

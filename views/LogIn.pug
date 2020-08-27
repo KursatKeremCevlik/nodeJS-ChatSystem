@@ -5,11 +5,11 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='http://localhost:3000/socket.io/socket.io.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    title Document
     style
-        include style.css
-    title LogIn
+      include style.css
     script
-        include LogIn.js
+      include LogIn.js
   body
     .hero
       h1.hero-title Kayıt Formu
@@ -45,5 +45,6 @@ html(lang='en')
       .WRONG-YEAR Yaş girmediniz !
       .WRONG-USERNAME Kullanıcı adı girmediniz !
       .WRONG-PASSWORD Şifre girmediniz !
+      .WRONG-NAME-LENGTH
     .GO-SIGNIN
       a.LINK(href='/SignIn') Giriş yap

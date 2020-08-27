@@ -17,6 +17,8 @@ io.on('connection', (socket) => {
   socket.on('VARIABLES_LOGIN', (data) => {
     if(!data.name){
       socket.emit('WRONG_NAME_LOGIN');
+    }else if(data.name.length > 12){
+      socket.emit('WRONG_NAMELENGTH_LOGIN', { text: 'İsminizin karakter sayısı 12 den küçük olmalıdır.' });
     }else if(!data.surname){
       socket.emit('WRONG_SURNAME_LOGIN');
     }else if(!data.year){
@@ -88,10 +90,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('CHAT_ONLINE', (data) => {
-    id = socket.id;
-    OnlineName = data.my_name;
-    OnlineCounts.push({id, OnlineName});
-    io.emit('SOMEONE_ONLINE', OnlineCounts);
+    if(data){
+      id = socket.id;
+      OnlineName = data.my_name;
+      OnlineCounts.push({id, OnlineName});
+      io.emit('SOMEONE_ONLINE', OnlineCounts);
+    }
   });
 
   // Disconnect
@@ -100,7 +104,7 @@ io.on('connection', (socket) => {
       let veri = OnlineCounts[i]
       if(veri){
         if(veri.id == socket.id){
-          delete OnlineCounts[i];
+          OnlineCounts.splice(i);
           io.emit('SOMEONE_ONLINE', OnlineCounts);
         }
       }

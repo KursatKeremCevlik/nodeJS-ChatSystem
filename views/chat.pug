@@ -12,7 +12,7 @@ html(lang='en')
       include Chat.js
   body#body
     h1.hero-title Sıgn In
-    form(id='SıgnInForm')
+    form#SignInForm
       table.table
         tbody
           tr
@@ -43,5 +43,5 @@ html(lang='en')
           // Messages
         .inputChat
           form#formChat
-            input(type='text', size='95px', id='message_ınputChat')
+            input#message_inputChat(type='text', size='95px')
             input#butonChat(type='submit')

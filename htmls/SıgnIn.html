@@ -121,7 +121,7 @@
                 $('.onlineCountsChat').html('');
                 for(var i = 0; i < data.length; i++){
                     let veri = data[i]
-                    $('.onlineCountsChat').append(`<div class="OnlinePeople">${veri.OnlineName}</div>`);
+                    $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
                 }
             });
         });

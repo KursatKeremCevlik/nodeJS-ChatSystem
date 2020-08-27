@@ -15,7 +15,7 @@ $(() => {
     }
     invis();
     
-    const Form = document.getElementById('SıgnInForm');
+    const Form = document.getElementById('SignInForm');
     const Buton = document.getElementById('Buton');
     Buton.value = 'Giriş yapmak için doğrula';
 
@@ -74,7 +74,7 @@ $(() => {
         invis();
         $('.hero-title').hide();
         $('.messages').hide();
-        $('#SıgnInForm').hide();
+        $('#SignInForm').hide();
         $('.LINKHOME').hide();
         const Body = document.getElementById('body');
         Body.style.background = 'lightgreen';
@@ -87,7 +87,7 @@ $(() => {
 
     FormChat.addEventListener('submit', e => {
         e.preventDefault();
-        const Message = document.getElementById('message_ınputChat');
+        const Message = document.getElementById('message_inputChat');
         const message = Message.value;
 
         socket.emit('MESSAGE_CHAT', { message });
@@ -111,7 +111,7 @@ $(() => {
         $('.onlineCountsChat').html('');
         for(var i = 0; i < data.length; i++){
             let veri = data[i]
-            $('.onlineCountsChat').append(`<div class="OnlinePeople">${veri.OnlineName}</div>`);
+            $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
         }
     });
 });

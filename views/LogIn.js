@@ -7,6 +7,7 @@ $(() => {
         $('.WRONG-YEAR').hide();
         $('.WRONG-USERNAME').hide();
         $('.WRONG-PASSWORD').hide();
+        $('.WRONG-NAME-LENGTH').hide();
     }
     invis();
 
@@ -62,5 +63,10 @@ $(() => {
     socket.on('WRONG_PASSWORD_LOGIN', () => {
         invis();
         $('.WRONG-PASSWORD').show();
+    });
+    socket.on('WRONG_NAMELENGTH_LOGIN', (data) => {
+        invis();
+        $('.WRONG-NAME-LENGTH').show();
+        $('.WRONG-NAME-LENGTH').html(`${data.text}`);
     });
 });
