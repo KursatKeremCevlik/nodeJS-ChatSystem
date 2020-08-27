@@ -91,19 +91,16 @@ io.on('connection', (socket) => {
     id = socket.id;
     OnlineName = data.my_name;
     OnlineCounts.push({id, OnlineName});
-    console.log(OnlineCounts);
     io.emit('SOMEONE_ONLINE', OnlineCounts);
   });
 
   // Disconnect
   socket.on('disconnect', () => {
-    console.log(OnlineCounts.length);
-    if(!OnlineCounts.length == 1){
-      for(var i=0; i < OnlineCounts.length; i++){
-        let veri = OnlineCounts[i]
+    for(var i=0; i < OnlineCounts.length; i++){
+      let veri = OnlineCounts[i]
+      if(veri){
         if(veri.id == socket.id){
           delete OnlineCounts[i];
-          console.log(OnlineCounts);
           io.emit('SOMEONE_ONLINE', OnlineCounts);
         }
       }
