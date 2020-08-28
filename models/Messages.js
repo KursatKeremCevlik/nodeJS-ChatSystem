@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const Messages = new Schema({
     name: String,
-    toWho: String,
-    message: String
+    message: String,
+    published: Boolean
 });
 
 module.exports = mongoose.model('Messages', Messages);

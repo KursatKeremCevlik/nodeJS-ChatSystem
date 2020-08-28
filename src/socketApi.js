@@ -47,6 +47,7 @@ io.on('connection', (socket) => {
       socket.emit('WRONG_PASSWORD_SIGNIN');
     }else{
       Account.find({ username: data.username, password: data.password }, (err, data) => {
+        // Find account and send account
         const veri = data[0];
         
         socket.emit('CLEAR_SIGNIN');
@@ -75,6 +76,7 @@ io.on('connection', (socket) => {
     if(!data.message){
       // Empty message
     }else{
+      // Send message and save message
       const defaultData = {
         message: data.message,
         type: 1
@@ -83,7 +85,8 @@ io.on('connection', (socket) => {
       socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message });
       const messageData = new Messages({
         name: YourName,
-        message: data.message
+        message: data.message,
+        published: true
       });
       messageData.save();
     }
@@ -95,6 +98,17 @@ io.on('connection', (socket) => {
       OnlineName = data.my_name;
       OnlineCounts.push({id, OnlineName});
       io.emit('SOMEONE_ONLINE', OnlineCounts);
+
+      // Find messages from database
+      Messages.find({ published: true }, (err, data) => {
+        const veri = data;
+
+        if(veri){
+          for(var i = 0; i < veri.length; i++){
+            socket.emit('FROM_DATABASE', veri[i]);
+          }
+        }
+      });
     }
   });
 
@@ -104,6 +118,7 @@ io.on('connection', (socket) => {
       let veri = OnlineCounts[i]
       if(veri){
         if(veri.id == socket.id){
+          // Delete online user
           OnlineCounts.splice(i);
           io.emit('SOMEONE_ONLINE', OnlineCounts);
         }

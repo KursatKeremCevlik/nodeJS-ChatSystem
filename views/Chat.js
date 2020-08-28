@@ -66,7 +66,6 @@ $(() => {
         my_name = data.name;
     });
     socket.on('WRONG_ACCOUNT_VALUES', () => {
-        console.log('hesap bilgileri yanlış');
         invis();
         $('.WRONG_ACCOUNT').show();
     });
@@ -112,6 +111,13 @@ $(() => {
         for(var i = 0; i < data.length; i++){
             let veri = data[i]
             $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
+        }
+    });
+    socket.on('FROM_DATABASE', (veri) => {
+        if(veri.name == my_name){
+            $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+        }else{
+            $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${veri.message}</a></div>`);
         }
     });
 });

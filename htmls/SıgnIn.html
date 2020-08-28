@@ -25,7 +25,7 @@
             }
             invis();
             
-            const Form = document.getElementById('SıgnInForm');
+            const Form = document.getElementById('SignInForm');
             const Buton = document.getElementById('Buton');
             Buton.value = 'Giriş yapmak için doğrula';
 
@@ -76,7 +76,6 @@
                 my_name = data.name;
             });
             socket.on('WRONG_ACCOUNT_VALUES', () => {
-                console.log('hesap bilgileri yanlış');
                 invis();
                 $('.WRONG_ACCOUNT').show();
             });
@@ -97,7 +96,7 @@
 
             FormChat.addEventListener('submit', e => {
                 e.preventDefault();
-                const Message = document.getElementById('message_ınputChat');
+                const Message = document.getElementById('message_inputChat');
                 const message = Message.value;
 
                 socket.emit('MESSAGE_CHAT', { message });
@@ -124,12 +123,19 @@
                     $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
                 }
             });
+            socket.on('FROM_DATABASE', (veri) => {
+                if(veri.name == my_name){
+                    $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+                }else{
+                    $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+                }
+            });
         });
     </script>
 </head>
 <body id="body">
     <h1 class="hero-title">Sıgn In</h1>
-    <form id="SıgnInForm">
+    <form id="SignInForm">
         <table class="table">
             <tr>
                 <td><input type="text" id="username"></td>
@@ -164,9 +170,9 @@
             <div class="messages-sizeChat">
                 <!-- Messages -->
             </div>
-            <div class="ınputChat">
+            <div class="inputChat">
                 <form id="formChat">
-                    <input type="text" size="95px" id="message_ınputChat">
+                    <input type="text" size="95px" id="message_inputChat">
                     <input type="submit" id="butonChat">
                 </form>
             </div>
