@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title>Document</title>
+    <title id="title">Document</title>
     <script>
         $(() => {
             let my_name;
@@ -74,12 +74,13 @@
                 $('.LINKHOME').show();
                 $('.LINK').show();
                 my_name = data.name;
+                socket.emit('CONTINUE');
             });
             socket.on('WRONG_ACCOUNT_VALUES', () => {
                 invis();
                 $('.WRONG_ACCOUNT').show();
             });
-            $('.LINK').on('click', () => {
+            socket.on('OK_CONTINUE', () => {
                 invis();
                 $('.hero-title').hide();
                 $('.messages').hide();
@@ -156,9 +157,6 @@
         <div class="WAIT-2">Doğrulanıyor..</div>
         <div class="WAIT-3">Doğrulanıyor...</div>
         <div class="WRONG_ACCOUNT">Kullanıcı adı veya şifreniz hatalı</div>
-    </div>
-    <div class="LINKHOME">
-        <button class="LINK">Siteye geçiş yapabilirsin</button>
     </div>
     <div class="CHAT">
         <div class="heroChat">

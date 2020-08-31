@@ -72,6 +72,10 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('CONTINUE', () => {
+    socket.emit('OK_CONTINUE');
+  });
+
   socket.on('MESSAGE_CHAT', (data) => {
     if(!data.message){
       // Empty message

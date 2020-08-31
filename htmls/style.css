@@ -68,11 +68,6 @@
 }.LINK{
     display: none;
     color: blue;
-}.LINKHOME{
-    display: none;
-    font-size: 18px;
-    text-align: center;
-    margin-top: 24px;
 }.GO-SIGNIN{
     display: none;
     font-size: 18px;

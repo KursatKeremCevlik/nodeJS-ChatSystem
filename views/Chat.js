@@ -64,12 +64,13 @@ $(() => {
         $('.LINKHOME').show();
         $('.LINK').show();
         my_name = data.name;
+        socket.emit('CONTINUE');
     });
     socket.on('WRONG_ACCOUNT_VALUES', () => {
         invis();
         $('.WRONG_ACCOUNT').show();
     });
-    $('.LINK').on('click', () => {
+    socket.on('OK_CONTINUE', () => {
         invis();
         $('.hero-title').hide();
         $('.messages').hide();
