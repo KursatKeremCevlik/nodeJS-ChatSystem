@@ -69,8 +69,6 @@
             });
             socket.on('FIND_SIGNIN', (data) => {
                 invis();
-                $('.TRUE_SIGNIN').show();
-                $('.TRUE_SIGNIN').html(`Hoş geldin <a class="name">${data.name} ${data.surname}</a> <br>`);
                 $('.LINKHOME').show();
                 $('.LINK').show();
                 my_name = data.name;
@@ -87,7 +85,7 @@
                 $('#SignInForm').hide();
                 $('.LINKHOME').hide();
                 const Body = document.getElementById('body');
-                Body.style.background = 'lightgreen';
+                Body.style.background = '#262d31';
                 $('.CHAT').show();
                 socket.emit('CHAT_ONLINE', { my_name });
             });
@@ -120,8 +118,10 @@
             socket.on('SOMEONE_ONLINE', (data) => {
                 $('.onlineCountsChat').html('');
                 for(var i = 0; i < data.length; i++){
-                    let veri = data[i]
-                    $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
+                    if(data[i]){
+                        let veri = data[i]
+                        $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
+                    }
                 }
             });
             socket.on('FROM_DATABASE', (veri) => {
@@ -152,7 +152,6 @@
     <div class="messages">
         <div class="WRONG_USERNAME">Kullanıcı adınızı girmediniz !</div>
         <div class="WRONG_PASSWORD">Şifrenizi girmediniz !</div>
-        <div class="TRUE_SIGNIN"></div>
         <div class="WAIT-1">Doğrulanıyor.</div>
         <div class="WAIT-2">Doğrulanıyor..</div>
         <div class="WAIT-3">Doğrulanıyor...</div>

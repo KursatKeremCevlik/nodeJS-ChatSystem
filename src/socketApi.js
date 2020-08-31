@@ -5,30 +5,30 @@ const io = socketio();
 const Messages = require('../models/Messages');
 const Account = require('../models/Account');
 
-const socketApi = {  };
+const socketApi = {};
 socketApi.io = io;
 
-let OnlineCounts = [ ]
+let OnlineCounts = []
 
 io.on('connection', (socket) => {
   let id;
   let YourName;
   let OnlineSurname;
   socket.on('VARIABLES_LOGIN', (data) => {
-    if(!data.name){
+    if (!data.name) {
       socket.emit('WRONG_NAME_LOGIN');
-    }else if(data.name.length > 12){
+    } else if (data.name.length > 12) {
       socket.emit('WRONG_NAMELENGTH_LOGIN', { text: 'İsminizin karakter sayısı 12 den küçük olmalıdır.' });
-    }else if(!data.surname){
+    } else if (!data.surname) {
       socket.emit('WRONG_SURNAME_LOGIN');
-    }else if(!data.year){
+    } else if (!data.year) {
       socket.emit('WRONG_YEAR_LOGIN');
-    }else if(!data.username){
+    } else if (!data.username) {
       socket.emit('WRONG_USERNAME_LOGIN');
-    }else if(!data.password){
+    } else if (!data.password) {
       socket.emit('WRONG_PASSWORD_LOGIN');
-    }else{
-      const account =  new Account({
+    } else {
+      const account = new Account({
         name: data.name,
         surname: data.surname,
         username: data.username,
@@ -41,15 +41,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('VARIABLES_SIGNIN', (data) => {
-    if(!data.username){
+    if (!data.username) {
       socket.emit('WRONG_USERNAME_SIGNIN');
-    }else if(!data.password){
+    } else if (!data.password) {
       socket.emit('WRONG_PASSWORD_SIGNIN');
-    }else{
+    } else {
       Account.find({ username: data.username, password: data.password }, (err, data) => {
         // Find account and send account
         const veri = data[0];
-        
+
         socket.emit('CLEAR_SIGNIN');
         socket.emit('CLEAR_SIGNIN-1');
         setTimeout(() => {
@@ -59,12 +59,12 @@ io.on('connection', (socket) => {
           socket.emit('CLEAR_SIGNIN-3');
         }, 1000);
         setTimeout(() => {
-          if(veri){
+          if (veri) {
             const name = veri.name;
             const surname = veri.surname;
             socket.emit('FIND_SIGNIN', { name, surname });
             YourName = name;
-          }else{
+          } else {
             socket.emit('WRONG_ACCOUNT_VALUES');
           }
         }, 1500);
@@ -77,9 +77,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('MESSAGE_CHAT', (data) => {
-    if(!data.message){
+    if (!data.message) {
       // Empty message
-    }else{
+    } else {
       // Send message and save message
       const defaultData = {
         message: data.message,
@@ -97,18 +97,18 @@ io.on('connection', (socket) => {
   });
 
   socket.on('CHAT_ONLINE', (data) => {
-    if(data){
+    if (data) {
       id = socket.id;
       OnlineName = data.my_name;
-      OnlineCounts.push({id, OnlineName});
+      OnlineCounts.push({ id, OnlineName });
       io.emit('SOMEONE_ONLINE', OnlineCounts);
 
       // Find messages from database
       Messages.find({ published: true }, (err, data) => {
         const veri = data;
 
-        if(veri){
-          for(var i = 0; i < veri.length; i++){
+        if (veri) {
+          for (var i = 0; i < veri.length; i++) {
             socket.emit('FROM_DATABASE', veri[i]);
           }
         }
@@ -118,12 +118,12 @@ io.on('connection', (socket) => {
 
   // Disconnect
   socket.on('disconnect', () => {
-    for(var i=0; i < OnlineCounts.length; i++){
+    for (var i = 0; i < OnlineCounts.length; i++) {
       let veri = OnlineCounts[i]
-      if(veri){
-        if(veri.id == socket.id){
+      if (veri) {
+        if (veri.id == socket.id) {
           // Delete online user
-          OnlineCounts.splice(i);
+          delete OnlineCounts[i];
           io.emit('SOMEONE_ONLINE', OnlineCounts);
         }
       }
