@@ -59,8 +59,6 @@ $(() => {
     });
     socket.on('FIND_SIGNIN', (data) => {
         invis();
-        $('.TRUE_SIGNIN').show();
-        $('.TRUE_SIGNIN').html(`Hoş geldin <a class="name">${data.name} ${data.surname}</a> <br>`);
         $('.LINKHOME').show();
         $('.LINK').show();
         my_name = data.name;
@@ -77,7 +75,7 @@ $(() => {
         $('#SignInForm').hide();
         $('.LINKHOME').hide();
         const Body = document.getElementById('body');
-        Body.style.background = 'lightgreen';
+        Body.style.background = '#262d31';
         $('.CHAT').show();
         socket.emit('CHAT_ONLINE', { my_name });
     });
@@ -90,35 +88,62 @@ $(() => {
         const Message = document.getElementById('message_inputChat');
         const message = Message.value;
 
-        socket.emit('MESSAGE_CHAT', { message });
+        socket.emit('MESSAGE_CHAT', { message, my_name });
         Message.value = '';
     });
 
     socket.on('NEW_MESSAGE_CHAT', (data) => {
         if(data.type == 1){
             // Ekrana bas karşı mesaj
-            $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${data.message}</a></div>`);
+            $('.messages-sizeChat').append(`<div class="messages-2Chat">
+                <a class="messages_allChat">${data.message}</a>
+                <br />
+                <div class="borderHome">
+                    <a class="border">${data.name}</a>
+                </div>
+            </div>`);
         }
     });
     socket.on('NEW_MESSAGE_FIRST_CHAT', (data) => {
         if(data.type == 0){
             // Ekrana bas kendi mesajın
-            $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+            // Mesaj 25 karakterden fazlaysa aşağı satıra in
+            $('.messages-sizeChat').append(`<div class="messages-1Chat">
+                <a class="messages_allChat">${data.message}</a>
+                <br />
+                <div class="borderHome">
+                    <a class="border">${data.name}</a>
+                </div>
+            </div>`);
         }
     });
 
     socket.on('SOMEONE_ONLINE', (data) => {
         $('.onlineCountsChat').html('');
         for(var i = 0; i < data.length; i++){
-            let veri = data[i]
-            $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
+            if(data[i]){
+                let veri = data[i]
+                $('.onlineCountsChat').append(`<a class="OnlinePeople">${veri.OnlineName}</a>`);
+            }
         }
     });
     socket.on('FROM_DATABASE', (veri) => {
         if(veri.name == my_name){
-            $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+            $('.messages-sizeChat').append(`<div class="messages-1Chat">
+                <a class="messages_allChat">${veri.message}</a>
+                <br />
+                <div class="borderHome">
+                    <a class="border">${veri.name}</a>
+                </div>
+            </div>`);
         }else{
-            $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+            $('.messages-sizeChat').append(`<div class="messages-2Chat">
+                <a class="messages_allChat">${veri.message}</a>
+                <br />
+                <div class="borderHome">
+                    <a class="border">${veri.name}</a>
+                </div>
+            </div>`);
         }
     });
 });

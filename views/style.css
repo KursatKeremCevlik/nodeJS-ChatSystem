@@ -102,30 +102,49 @@
     height: 350px;
     font-size: 17px;
     overflow-y: auto;
-    background-color: green;
+    background-color: #171a1b;
 }.messages-1Chat{
-    background-color: lightgreen;
+    background-color: #1d5852;
     max-width: 200px;
     margin-left: 580px;
     margin-top: 5px;
     border-radius: 10px;
 }.messages_allChat{
-    color: black;
+    color: #F1F1F2F2;
     margin-left: 6px;
 }
 .messages-2Chat{
-    background-color: grey;
+    background-color: #424950;
     max-width: 200px;
     margin-top: 5px;
     margin-left: 15px;
     border-radius: 10px;
 }#butonChat{
     padding: 1px 21px;
+    height: 30px;
+    background-color: #1d5852;
+    border-radius: 20px;
+    color: white;
+    margin-left: 5px;
 }#formChat{
-    background-color: green;
+    background-color: #171a1b;
+}.inputChat{
+    height: 40px;
+    background-color: #171a1b;
 }.OnlinePeople{
     max-width: 150px;
     height: 100px;
     border: 1px solid red;
     margin-left: 10px;
+}#message_inputChat{
+    background-color: #262d31;
+    color: white;
+    border-radius: 20px;
+    height: 30px;
+    border: 1px solid #1d5852;
+}
+.borderHome{
+    text-align: center;
+    font-size: 14px;
+    color: #a8a8a8f2;
 }

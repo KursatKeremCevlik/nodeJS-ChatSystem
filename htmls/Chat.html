@@ -98,20 +98,33 @@
                 const Message = document.getElementById('message_inputChat');
                 const message = Message.value;
 
-                socket.emit('MESSAGE_CHAT', { message });
+                socket.emit('MESSAGE_CHAT', { message, my_name });
                 Message.value = '';
             });
 
             socket.on('NEW_MESSAGE_CHAT', (data) => {
                 if(data.type == 1){
                     // Ekrana bas karşı mesaj
-                    $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${data.message}</a></div>`);
+                    $('.messages-sizeChat').append(`<div class="messages-2Chat">
+                        <a class="messages_allChat">${data.message}</a>
+                        <br />
+                        <div class="borderHome">
+                            <a class="border">${data.name}</a>
+                        </div>
+                    </div>`);
                 }
             });
             socket.on('NEW_MESSAGE_FIRST_CHAT', (data) => {
                 if(data.type == 0){
                     // Ekrana bas kendi mesajın
-                    $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${data.message}</a></div>`);
+                    // Mesaj 25 karakterden fazlaysa aşağı satıra in
+                    $('.messages-sizeChat').append(`<div class="messages-1Chat">
+                        <a class="messages_allChat">${data.message}</a>
+                        <br />
+                        <div class="borderHome">
+                            <a class="border">${data.name}</a>
+                        </div>
+                    </div>`);
                 }
             });
 
@@ -126,9 +139,21 @@
             });
             socket.on('FROM_DATABASE', (veri) => {
                 if(veri.name == my_name){
-                    $('.messages-sizeChat').append(`<div class="messages-1Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+                    $('.messages-sizeChat').append(`<div class="messages-1Chat">
+                        <a class="messages_allChat">${veri.message}</a>
+                        <br />
+                        <div class="borderHome">
+                            <a class="border">${veri.name}</a>
+                        </div>
+                    </div>`);
                 }else{
-                    $('.messages-sizeChat').append(`<div class="messages-2Chat"><a class="messages_allChat">${veri.message}</a></div>`);
+                    $('.messages-sizeChat').append(`<div class="messages-2Chat">
+                        <a class="messages_allChat">${veri.message}</a>
+                        <br />
+                        <div class="borderHome">
+                            <a class="border">${veri.name}</a>
+                        </div>
+                    </div>`);
                 }
             });
         });
@@ -139,11 +164,11 @@
     <form id="SignInForm">
         <table class="table">
             <tr>
-                <td><input type="text" id="username"></td>
+                <td><input type="text" id="username" autocomplete="off"></td>
                 <td>Kullanıcı adınız ?</td>
             </tr>
             <tr>
-                <td><input type="password" id="password"></td>
+                <td><input type="password" id="password" autocomplete="off"></td>
                 <td>Şifreniz ?</td>
             </tr>
         </table>
@@ -169,7 +194,7 @@
             </div>
             <div class="inputChat">
                 <form id="formChat">
-                    <input type="text" size="95px" id="message_inputChat">
+                    <input type="text" size="95px" id="message_inputChat" autocomplete="off">
                     <input type="submit" id="butonChat">
                 </form>
             </div>

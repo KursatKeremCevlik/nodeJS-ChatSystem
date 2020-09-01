@@ -5,7 +5,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='http://localhost:3000/socket.io/socket.io.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    title Document
+    title#title Document
     style
       include style.css
     script
@@ -17,17 +17,16 @@ html(lang='en')
         tbody
           tr
             td
-              input#username(type='text')
+              input#username(type='text', autocomplete='off')
             td Kullanıcı adınız ?
           tr
             td
-              input#password(type='password')
+              input#password(type='password', autocomplete='off')
             td Şifreniz ?
       input#Buton(type='submit')
     .messages
       .WRONG_USERNAME Kullanıcı adınızı girmediniz !
       .WRONG_PASSWORD Şifrenizi girmediniz !
-      .TRUE_SIGNIN
       .WAIT-1 Doğrulanıyor.
       .WAIT-2 Doğrulanıyor..
       .WAIT-3 Doğrulanıyor...
@@ -41,5 +40,5 @@ html(lang='en')
           // Messages
         .inputChat
           form#formChat
-            input#message_inputChat(type='text', size='95px')
+            input#message_inputChat(type='text', size='95px', autocomplete='off')
             input#butonChat(type='submit')

@@ -81,12 +81,14 @@ io.on('connection', (socket) => {
       // Empty message
     } else {
       // Send message and save message
+      let name = YourName;
       const defaultData = {
+        name: data.my_name,
         message: data.message,
         type: 1
       }
       socket.broadcast.emit('NEW_MESSAGE_CHAT', defaultData);
-      socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message });
+      socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message, name });
       const messageData = new Messages({
         name: YourName,
         message: data.message,
