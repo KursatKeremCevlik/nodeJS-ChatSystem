@@ -131,6 +131,43 @@ io.on('connection', (socket) => {
       }
     }
   });
+
+  /* FIND DATA AND CHANGE */
+  // Account.findOne((err, foundObject) => {
+  //   if(!err){
+  //     if(foundObject){
+  //       foundObject.year = 15;
+  //       foundObject.username = "Kerem01";
+  //     }
+
+  //     foundObject.save((err, updateObject) => {
+  //       if(!err){
+  //        console.log(updateObject);
+  //       }
+  //     });
+  //   }
+  // });
+
+  socket.on('ADD_FRIEND', (data) => {
+    if(data){
+      if(data.friendName){
+        Account.findOne((err, foundObject) => {
+          if(!err){
+            foundObject.friends.push(friendName);
+            foundObject.save((err, updateObject) => {
+              if(!err){
+                let message = 'Data has been saved successfully !';
+                socket.emit('SUCCESS_SAVE', { message });
+              }else{
+                let message = 'Something wrong !';
+                socket.emit('WRONG_SAVE', { message });
+              }
+            });
+          }
+        });
+      }
+    }
+  });
 });
 
 module.exports = socketApi;

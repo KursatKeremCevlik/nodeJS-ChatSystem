@@ -146,4 +146,13 @@
     text-align: center;
     font-size: 14px;
     color: #a8a8a8f2;
+}.butonHome{
+    text-align: center;
+    margin-top: 24px;
+}.logOutButon{
+    color: white;
+    background-color: #171a1b;
+    width: 80px;
+    border-radius: 7px;
+    padding: 7px;
 }

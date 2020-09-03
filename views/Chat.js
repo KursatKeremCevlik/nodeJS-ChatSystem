@@ -1,7 +1,7 @@
 $(() => {
     let my_name;
     const socket = io.connect('http://localhost:3000');
-    
+
     const invis = () => {
         $('.WRONG_USERNAME').hide();
         $('.WRONG_PASSWORD').hide();
@@ -14,7 +14,7 @@ $(() => {
         $('.WRONG_ACCOUNT').hide();
     }
     invis();
-    
+
     const Form = document.getElementById('SignInForm');
     const Buton = document.getElementById('Buton');
     Buton.value = 'Giriş yapmak için doğrula';
@@ -24,11 +24,11 @@ $(() => {
         const Username = document.getElementById('username');
         const Password = document.getElementById('password');
 
-        const username = Username.value; 
-        const password = Password.value; 
-        
+        const username = Username.value;
+        const password = Password.value;
+
         socket.emit('VARIABLES_SIGNIN', { username, password });
-        
+
         Username.value =    '';
         Password.value = '';
     });

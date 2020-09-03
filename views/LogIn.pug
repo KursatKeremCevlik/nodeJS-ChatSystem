@@ -5,7 +5,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='http://localhost:3000/socket.io/socket.io.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    title Document
+    title LogIn
     style
       include style.css
     script
@@ -18,23 +18,23 @@ html(lang='en')
         tbody
           tr
             td
-              input#name(type='text')
+              input#name(type='text', autocomplete='off')
             td İsim ?
           tr
             td
-              input#surname(type='text')
+              input#surname(type='text', autocomplete='off')
             td Soyisim ?
           tr
             td
-              input#year(type='number')
+              input#year(type='number', autocomplete='off')
             td Yaş ?
           tr
             td
-              input#username(type='text')
+              input#username(type='text', autocomplete='off')
             td Kullanıcı adı ?
           tr
             td
-              input#password(type='password')
+              input#password(type='password', autocomplete='off')
             td Şifre ?
       br
       input#buton(type='submit')

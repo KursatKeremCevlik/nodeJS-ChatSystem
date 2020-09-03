@@ -6,12 +6,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title id="title">Document</title>
+    <title>ChatScreen</title>
     <script>
         $(() => {
             let my_name;
             const socket = io.connect('http://localhost:3000');
-            
+
             const invis = () => {
                 $('.WRONG_USERNAME').hide();
                 $('.WRONG_PASSWORD').hide();
@@ -24,7 +24,7 @@
                 $('.WRONG_ACCOUNT').hide();
             }
             invis();
-            
+
             const Form = document.getElementById('SignInForm');
             const Buton = document.getElementById('Buton');
             Buton.value = 'Giriş yapmak için doğrula';
@@ -34,11 +34,11 @@
                 const Username = document.getElementById('username');
                 const Password = document.getElementById('password');
 
-                const username = Username.value; 
-                const password = Password.value; 
-                
+                const username = Username.value;
+                const password = Password.value;
+
                 socket.emit('VARIABLES_SIGNIN', { username, password });
-                
+
                 Username.value =    '';
                 Password.value = '';
             });
@@ -199,6 +199,10 @@
                 </form>
             </div>
         </div>
+                                                    <!-- YAPIMDA ! -->
+        <!-- <div class="butonHome">
+            <button class="logOutButon">Çıkış yap</button>
+        </div> -->
     </div>
 </body>
 </html>
