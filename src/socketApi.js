@@ -5,6 +5,9 @@ const io = socketio();
 const Messages = require('../models/Messages');
 const Account = require('../models/Account');
 
+// Helper functions
+const functions = require('../dataBaseFunctions/functions');
+
 const socketApi = {};
 socketApi.io = io;
 
@@ -13,31 +16,9 @@ let OnlineCounts = []
 io.on('connection', (socket) => {
   let id;
   let YourName;
-  let OnlineSurname;
   socket.on('VARIABLES_LOGIN', (data) => {
-    if (!data.name) {
-      socket.emit('WRONG_NAME_LOGIN');
-    } else if (data.name.length > 12) {
-      socket.emit('WRONG_NAMELENGTH_LOGIN', { text: 'İsminizin karakter sayısı 12 den küçük olmalıdır.' });
-    } else if (!data.surname) {
-      socket.emit('WRONG_SURNAME_LOGIN');
-    } else if (!data.year) {
-      socket.emit('WRONG_YEAR_LOGIN');
-    } else if (!data.username) {
-      socket.emit('WRONG_USERNAME_LOGIN');
-    } else if (!data.password) {
-      socket.emit('WRONG_PASSWORD_LOGIN');
-    } else {
-      const account = new Account({
-        name: data.name,
-        surname: data.surname,
-        username: data.username,
-        password: data.password,
-        year: data.year,
-      });
-      account.save();
-      socket.emit('TRUE_VALUES_LOGIN');
-    }
+    let PRM = 'add_new_account';
+    functions(PRM, socket, data, Account);
   });
 
   socket.on('VARIABLES_SIGNIN', (data) => {
@@ -133,8 +114,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('ADD_FRIEND', (data) => {
-    let PRM = 'add_friend';
-    const add_friend = require('../dataBaseFunctions/functions')(PRM, socket, data, Account);
+    let PRM = 'add_new_friend';
+    functions(PRM, socket, data, Account);
   });
 
   // Argument ordering for Database operations
