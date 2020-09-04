@@ -1,3 +1,7 @@
+// MongoDB user data
+const username = '123';
+const password = '123';
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,15 +11,19 @@ const indexRouter = require('./routes/index');
 const app = express();
 
 // DB Connection
-const mongoDB = require('./helper/db')();
+const mongoDB = require('./helper/db')(username, password);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 // Express Operations
-const expressOprt = require('./operations.js/expressOprt')(app, express, logger, cookieParser, path);
+const expressOprt = require('./operations/expressOprt')(app, express, logger, cookieParser, path);
+
 // Route setting
 app.use('/', indexRouter);
+
 // Errors
-const Errors = require('./operations.js/errors')(app, createError);
+const Errors = require('./operations/errors')(app, createError);
 
 module.exports = app;
