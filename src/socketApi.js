@@ -17,6 +17,7 @@ io.on('connection', (socket) => {
   let id;
   let YourName;
   socket.on('VARIABLES_LOGIN', (data) => {
+    // Adding a new account
     let PRM = 'add_new_account';
     functions(PRM, socket, data, Account);
   });
@@ -27,29 +28,9 @@ io.on('connection', (socket) => {
     } else if (!data.password) {
       socket.emit('WRONG_PASSWORD_SIGNIN');
     } else {
-      Account.find({ username: data.username, password: data.password }, (err, data) => {
-        // Find account and send account
-        const veri = data[0];
-
-        socket.emit('CLEAR_SIGNIN');
-        socket.emit('CLEAR_SIGNIN-1');
-        setTimeout(() => {
-          socket.emit('CLEAR_SIGNIN-2');
-        }, 500);
-        setTimeout(() => {
-          socket.emit('CLEAR_SIGNIN-3');
-        }, 1000);
-        setTimeout(() => {
-          if (veri) {
-            const name = veri.name;
-            const surname = veri.surname;
-            socket.emit('FIND_SIGNIN', { name, surname });
-            YourName = name;
-          } else {
-            socket.emit('WRONG_ACCOUNT_VALUES');
-          }
-        }, 1500);
-      });
+      // Find account and send
+      let PRM = 'find_account';
+      functions(PRM, socket, data, Account, Messages, YourName);
     }
   });
 
@@ -61,7 +42,7 @@ io.on('connection', (socket) => {
     if (!data.message) {
       // Empty message
     } else {
-      // Send message and save message
+      // Send message
       let name = YourName;
       const defaultData = {
         name: data.my_name,
@@ -70,12 +51,10 @@ io.on('connection', (socket) => {
       }
       socket.broadcast.emit('NEW_MESSAGE_CHAT', defaultData);
       socket.emit('NEW_MESSAGE_FIRST_CHAT', { type: 0, message: data.message, name });
-      const messageData = new Messages({
-        name: YourName,
-        message: data.message,
-        published: true
-      });
-      messageData.save();
+
+      // Save message
+      let PRM = 'save_message';
+      functions(PRM, socket, data, Account, Messages, YourName);
     }
   });
 
@@ -86,16 +65,8 @@ io.on('connection', (socket) => {
       OnlineCounts.push({ id, OnlineName });
       io.emit('SOMEONE_ONLINE', OnlineCounts);
 
-      // Find messages from database
-      Messages.find({ published: true }, (err, data) => {
-        const veri = data;
-
-        if (veri) {
-          for (var i = 0; i < veri.length; i++) {
-            socket.emit('FROM_DATABASE', veri[i]);
-          }
-        }
-      });
+      let PRM = 'find_message';
+      functions(PRM, socket, data, Account, Messages);
     }
   });
 
