@@ -1,3 +1,5 @@
+const Admin = require('../models/Admin');
+
 module.exports = (PRM, socket, data, Account, Messages, YourName) => {
   // 1 -- Adding a new friends
   if(PRM == 'add_new_friend'){
@@ -122,13 +124,16 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
             });
           }else{
             // Wrong admin data
+            socket.emit('CLEAR_TEXT');
             socket.emit('WRONG_ADMIN_DATA');
           }
         }, 1500);
       }else{
+        socket.emit('CLEAR_TEXT');
         socket.emit('WRONG_PASSWORD_ADMIN');
       }
     }else{
+      socket.emit('CLEAR_TEXT');
       socket.emit('WRONG_USERNAME_ADMIN');
     }
   }

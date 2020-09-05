@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title>Document</title>
+    <title>Admin Page</title>
     <link rel="stylesheet" href="adminPage.css">
     <script>
         $(() => {
@@ -22,7 +22,6 @@
                             <a class="home yearHome">Year: <a class="year">${veri.year}</a></a>
                             <a class="home usernameHome">Username: <a class="username">${veri.username}</a></a>
                             <a class="home passwordHome">Password: <a class="password">${veri.password}</a></a>
-                            <button class="button">Delete</button>
                         </div>
                     </div>`
                     );
@@ -48,7 +47,7 @@
 
             socket.on('TRUE_ADMIN_DATA', () => {
                 $('.form').hide();
-                $('.DataBase').show();
+                $('.DATAS').show();
             });
             socket.on('CLEAR_TEXT', () => {
                 $('.form-text').html('');
@@ -61,6 +60,19 @@
             });
             socket.on('CONTROL-3', () => {
                 $('.form-text').html('Kontrol ediliyor...');
+            });
+            socket.on('WRONG_USERNAME_ADMIN', () => {
+                $('.form-text').html('Kullanıcı adı girmediniz !');
+            });
+            socket.on('WRONG_PASSWORD_ADMIN', () => {
+                $('.form-text').html('Şifrenizi girmediniz !');
+            });
+            socket.on('WRONG_ADMIN_DATA', () => {
+                $('.form-text').html('Kullanıcı adı veya şifreniz hatalı !');
+            });
+
+            $('.addAdmin').on('click', () => {
+                console.log('yarın devam etçem');
             });
         });
     </script>
@@ -86,8 +98,15 @@
             </div>
         </form>
     </div>
-    <div class="DataBase">
-        <!-- User datas -->
+    <div class="DATAS">
+        <div class="DataBase">
+            <!-- User datas -->
+        </div>
+        <div class="addAdminHome">
+            Yapımda
+            <br>
+            <button class="addAdmin">Admin ekle</button>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,39 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    script(src='http://localhost:3000/socket.io/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    title Admin Page
+    style
+      include admin.css
+    script
+      include admin.js
+  body
+    .hero
+      h1.hero-title Admin Page
+    hr.privateHR-1
+    .DataBaseHome
+      h3.text Veri tabanına kayıtlı kullanıcılar
+      hr.privateHR-2
+    .form
+      .form-text Lütfen alanı doldurunuz
+      form#form
+        input#username(type='text', autocomplete='off')
+        |  Kullanıcı adı? 
+        br
+        br
+        input#password(type='password', autocomplete='off')
+        |  Şifre? 
+        br
+        br
+        .butonHome
+          input#buton(type='submit')
+    .DATAS
+      .DataBase
+        // User datas
+      .addAdminHome
+        | Yapımda
+        br
+        button.addAdmin Admin ekle

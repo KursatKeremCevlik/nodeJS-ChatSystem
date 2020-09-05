@@ -14,4 +14,8 @@ router.get('/SignIn', (req, res, next) => {
   res.render('chat');
 });
 
+router.get('/AdminPage', (req, res, next) => {
+  res.render('admin');
+});
+
 module.exports = router;
