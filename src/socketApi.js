@@ -89,6 +89,11 @@ io.on('connection', (socket) => {
     functions(PRM, socket, data, Account);
   });
 
+  socket.on('IM_ADMIN', (data) => {
+    let PRM = 'admin_page_data';
+    functions(PRM, socket, data, Account);
+  });
+
   // Argument ordering for Database operations
   /**
    * 1 -- PRM (PRM for the what is wanted)

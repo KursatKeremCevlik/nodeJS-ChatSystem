@@ -96,4 +96,40 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
       }, 1500);
     });
   }
+
+  // 6 -- For admin page
+  if(PRM == 'admin_page_data'){
+    if(data.username){
+      if(data.password){
+        socket.emit('CLEAR_TEXT');
+        socket.emit('CONTROL-1');
+        setTimeout(() => {
+          socket.emit('CLEAR_TEXT');
+          socket.emit('CONTROL-2');
+        }, 500);
+        setTimeout(() => {
+          socket.emit('CLEAR_TEXT');
+          socket.emit('CONTROL-3');
+        }, 1000);
+        setTimeout(() => {
+          if(data.username == 'Kerem01' && data.password == 'Kerem2005.'){
+            // True admin data
+            socket.emit('TRUE_ADMIN_DATA');
+            Account.find((err, data) => {
+              if(!err){
+                socket.emit('ADMIN_DATAS', data);
+              }
+            });
+          }else{
+            // Wrong admin data
+            socket.emit('WRONG_ADMIN_DATA');
+          }
+        }, 1500);
+      }else{
+        socket.emit('WRONG_PASSWORD_ADMIN');
+      }
+    }else{
+      socket.emit('WRONG_USERNAME_ADMIN');
+    }
+  }
 }

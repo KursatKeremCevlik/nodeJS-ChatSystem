@@ -1,5 +1,5 @@
 // MongoDB user data
-const username = '123';
+const username = 'Kerem01';
 const password = '123';
 
 const createError = require('http-errors');
@@ -11,7 +11,7 @@ const indexRouter = require('./routes/index');
 const app = express();
 
 // DB Connection
-const mongoDB = require('./helper/db')(username, password);
+const middlewareDB = require('./helper/middlewareDB')(username, password);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
