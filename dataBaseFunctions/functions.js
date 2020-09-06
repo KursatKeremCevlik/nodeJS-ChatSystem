@@ -114,19 +114,22 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
           socket.emit('CONTROL-3');
         }, 1000);
         setTimeout(() => {
-          if(data.username == 'Kerem01' && data.password == 'Kerem2005.'){
-            // True admin data
-            socket.emit('TRUE_ADMIN_DATA');
-            Account.find((err, data) => {
-              if(!err){
-                socket.emit('ADMIN_DATAS', data);
-              }
-            });
-          }else{
-            // Wrong admin data
-            socket.emit('CLEAR_TEXT');
-            socket.emit('WRONG_ADMIN_DATA');
-          }
+          Admin.find({ username: data.username, password: data.password }, (err, dataBaseData) => {
+            let veri = dataBaseData[0];
+            if(data.username == veri.username && data.password == veri.password){
+              // True admin data
+              socket.emit('TRUE_ADMIN_DATA');
+              Account.find((err, data) => {
+                if(!err){
+                  socket.emit('ADMIN_DATAS', data);
+                }
+              });
+            }else{
+              // Wrong admin data
+              socket.emit('CLEAR_TEXT');
+              socket.emit('WRONG_ADMIN_DATA');
+            }
+          });
         }, 1500);
       }else{
         socket.emit('CLEAR_TEXT');
