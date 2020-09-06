@@ -4,6 +4,7 @@ const io = socketio();
 // Models
 const Messages = require('../models/Messages');
 const Account = require('../models/Account');
+const Admin = require('../models/Admin');
 
 // Helper functions
 const functions = require('../dataBaseFunctions/functions');
@@ -92,6 +93,12 @@ io.on('connection', (socket) => {
   socket.on('IM_ADMIN', (data) => {
     let PRM = 'admin_page_data';
     functions(PRM, socket, data, Account);
+  });
+
+  socket.on('ADD_ADMIN', (data) => {
+    // Add new admin
+    let PRM = 'add_new_admin';
+    functions(PRM, socket, data);
   });
 
   // Argument ordering for Database operations

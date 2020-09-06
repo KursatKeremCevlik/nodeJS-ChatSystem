@@ -137,4 +137,30 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
       socket.emit('WRONG_USERNAME_ADMIN');
     }
   }
+
+  // 7 -- Add new admin
+  if(PRM == 'add_new_admin'){
+    if(!data.name_admin){
+      socket.emit('WRONG_NAME_ADMIN_ADD');
+    }else if(!data.surname_admin){
+      socket.emit('WRONG_SURNAME_ADMIN_ADD');
+    }else if(!data.year_admin){
+      socket.emit('WRONG_YEAR_ADMIN_ADD');
+    }else if(!data.username_admin){
+      socket.emit('WRONG_USERNAME_ADMIN_ADD');
+    }else if(!data.password_admin){
+      socket.emit('WRONG_PASSWORD_ADMIN_ADD');
+    }else{
+      // Add new admin
+      const adminData = new Admin({
+        name: data.name_admin,
+        surname: data.surname_admin,
+        year: data.year_admin,
+        username: data.username_admin,
+        password: data.password_admin,
+      });
+      adminData.save();
+      socket.emit('TRUE_SAVE_ADMIN');
+    }
+  }
 }
