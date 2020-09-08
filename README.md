@@ -12,6 +12,8 @@ Yapmanız gerekenler:
  - Ardından komut satırı üzerinden klonlanan dizine gidip "npm install" komutunu çalıştırmak
  - Son olarak da sunucuyu açmak için "npm start" komutunu çalıştırmak
  - Projeniz http://localhost:3000 adresinde hazır olucak
- 
- 
-Unutmayın hala projeye devam ediyoruz. Bu sadece bir taslak.
+
+
+Şu anda örnek proje https://example-chat-system.herokuapp.com sitesinde hazır
+
+Unutmayın hala projeye devam ediyoruz.
