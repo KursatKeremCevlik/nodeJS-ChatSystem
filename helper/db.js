@@ -1,5 +1,5 @@
-module.exports = (mongoose) => {
-    mongoose.connect('mongodb://localhost/ChatSystem', { useNewUrlParser: true, useUnifiedTopology: true });
+module.exports = (mongoose, URL) => {
+    mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
     mongoose.connection.on('open', () => {
         console.log('MongoDB: Connected');
     });
@@ -7,3 +7,5 @@ module.exports = (mongoose) => {
         console.log('MongoDB Connection error:', err);
     });
 }
+
+// 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat'

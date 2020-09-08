@@ -4,7 +4,6 @@ const io = socketio();
 // Models
 const Messages = require('../models/Messages');
 const Account = require('../models/Account');
-const Admin = require('../models/Admin');
 
 // Helper functions
 const functions = require('../dataBaseFunctions/functions');
@@ -44,7 +43,7 @@ io.on('connection', (socket) => {
       // Empty message
     } else {
       // Send message
-      let name = YourName;
+      let name = data.my_name;
       const defaultData = {
         name: data.my_name,
         message: data.message,
@@ -55,7 +54,7 @@ io.on('connection', (socket) => {
 
       // Save message
       let PRM = 'save_message';
-      functions(PRM, socket, data, Account, Messages, YourName);
+      functions(PRM, socket, data, undefined, Messages);
     }
   });
 

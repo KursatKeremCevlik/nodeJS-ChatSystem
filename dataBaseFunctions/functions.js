@@ -1,7 +1,7 @@
 const Admin = require('../models/Admin');
 
-module.exports = (PRM, socket, data, Account, Messages, YourName) => {
-  // 1 -- Adding a new friends
+module.exports = (PRM, socket, data, Account, Messages) => {
+  // 1 -- Adding a new friend
   if(PRM == 'add_new_friend'){
     if(data){
       if(data.friendName){
@@ -45,7 +45,13 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
         password: data.password,
         year: data.year,
       });
-      account.save();
+      account.save((err, data) => {
+        if(err){
+          console.log(err);
+        }else{
+          console.log(data)
+        }
+      });
       socket.emit('TRUE_VALUES_LOGIN');
     }
   }
@@ -66,7 +72,7 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
   // 4 -- Save messages
   if(PRM == 'save_message'){
     const messageData = new Messages({
-      name: YourName,
+      name: data.my_name,
       message: data.message,
       published: true
     });
@@ -91,7 +97,6 @@ module.exports = (PRM, socket, data, Account, Messages, YourName) => {
           const name = veri.name;
           const surname = veri.surname;
           socket.emit('FIND_SIGNIN', { name, surname });
-          YourName = name;
         } else {
           socket.emit('WRONG_ACCOUNT_VALUES');
         }

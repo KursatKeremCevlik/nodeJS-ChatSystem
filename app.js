@@ -1,6 +1,12 @@
 // MongoDB user data
 const username = 'Kerem01';
 const password = '123';
+// DataBase connection URL
+const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
+
+/* Data base connection URL for localhost */
+//    mongodb://localhost/ChatSystem
+
 
 const createError = require('http-errors');
 const express = require('express');
@@ -11,7 +17,7 @@ const indexRouter = require('./routes/index');
 const app = express();
 
 // DB Connection
-const middlewareDB = require('./helper/middlewareDB')(username, password);
+const middlewareDB = require('./helper/middlewareDB')(username, password, URL);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

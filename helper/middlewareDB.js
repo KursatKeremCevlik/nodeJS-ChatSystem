@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const mongoDBConnectionFunction = require('./db');
 
-module.exports = (username, password) => {
+module.exports = (username, password, URL) => {
     for(var i = 0; i < ADMINS.length; i++){
         let veri = ADMINS[i];
         if(veri.username == username && veri.password == password){
             // DB connection on
-            mongoDBConnectionFunction(mongoose);
+            mongoDBConnectionFunction(mongoose, URL);
         }
         else if(i == ADMINS.length - 1){
             console.log('MongoDB Connection error: Username or password wrong');
