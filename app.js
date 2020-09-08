@@ -5,7 +5,7 @@ const password = '123';
 const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
 
 /* Data base connection URL for localhost */
-//    mongodb://localhost/ChatSystem
+// const URL = 'mongodb://localhost/ChatSystem'
 
 
 const createError = require('http-errors');

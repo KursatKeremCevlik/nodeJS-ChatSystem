@@ -34,6 +34,36 @@ html(lang='en')
       .DataBase
         // User datas
       .addAdminHome
-        | Yapımda
-        br
         button.addAdmin Admin ekle
+    .ADD_ADMIN_PAGE
+      form#AdminForm
+        input#name_admin.add_input(type='text', autocomplete='off')
+        |  İsim 
+        br
+        br
+        input#surname_admin.add_input(type='text', autocomplete='off')
+        |  Soyisim 
+        br
+        br
+        input#year_admin.add_input(type='number', autocomplete='off')
+        |  Yaş 
+        br
+        br
+        input#username_admin.add_input(type='text', autocomplete='off')
+        |  Kullanıcı adı 
+        br
+        br
+        input#password_admin.add_input(type='password', autocomplete='off')
+        |  Şifre 
+        br
+        br
+        .addingButonHome
+          input#addingButton(type='submit')
+          button.goBackAdminPage Geri dön
+      .messages
+        .WRONG_NAME_ADD İsim girmediniz
+        .WRONG_SURNAME_ADD Soyisim girmediniz
+        .WRONG_YEAR_ADD Yaş girmediniz
+        .WRONG_USERNAME_ADD Kullanıcı adı girmediniz
+        .WRONG_PASSWORD_ADD Şifre girmediniz
+        .TRUE_SAVE_ADMIN Başarıyla kayıt olundu
