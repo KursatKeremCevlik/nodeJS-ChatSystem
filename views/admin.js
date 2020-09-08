@@ -1,5 +1,5 @@
 $(() => {
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('https://example-chat-system.herokuapp.com/');
 
     socket.on('ADMIN_DATAS', (data) => {
         for(var i = 0; i < data.length; i++){

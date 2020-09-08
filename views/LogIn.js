@@ -11,7 +11,7 @@ $(() => {
     }
     invis();
 
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('https://example-chat-system.herokuapp.com/');
 
     const Form = document.getElementById('form');
     const Buton = document.getElementById('buton');
