@@ -2,10 +2,10 @@
 const username = 'Kerem01';
 const password = '123';
 // DataBase connection URL
-const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
+// const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
 
 /* Data base connection URL for localhost */
-// const URL = 'mongodb://localhost/ChatSystem'
+const URL = 'mongodb://localhost/ChatSystem'
 
 
 const createError = require('http-errors');

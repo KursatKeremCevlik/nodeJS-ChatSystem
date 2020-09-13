@@ -7,6 +7,7 @@ const Account = require('../models/Account');
 
 // Helper functions
 const functions = require('../dataBaseFunctions/functions');
+const socketController = require('./socketController/socketController');
 
 const socketApi = {};
 socketApi.io = io;
