@@ -13,11 +13,6 @@
     background-color: green;
     margin-left: 24px;
     margin-top: 32px;
-}#Buton{
-    padding: 16px;
-    color: white;
-    background-color: green;
-    margin-top: 32px;
 }#form{
     border: 1px solid green;
     margin-left: 64px;
@@ -149,10 +144,4 @@
 }.butonHome{
     text-align: center;
     margin-top: 24px;
-}.logOutButon{
-    color: white;
-    background-color: #171a1b;
-    width: 80px;
-    border-radius: 7px;
-    padding: 7px;
 }

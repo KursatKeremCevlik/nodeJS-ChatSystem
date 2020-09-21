@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/LogIn">
+    <script src="/js/LogIn"></script>
+    <title>LogIn</title>
+</head>
+<body>
+    <div class="hero">
+        <h1 class="hero-title">Kayıt Formu</h1>
+    </div>
+    <form id="form">
+        <table class="table">
+            <tr>
+                <td><input type="text" id="name" autocomplete="off"></td>
+                <td>İsim ?</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="surname" autocomplete="off"></td>
+                <td>Soyisim ?</td>
+            </tr>
+            <tr>
+                <td><input type="number" id="year" autocomplete="off"></td>
+                <td>Yaş ?</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="username" autocomplete="off"></td>
+                <td>Kullanıcı adı ?</td>
+            </tr>
+            <tr>
+                <td><input type="password" id="password" autocomplete="off"></td>
+                <td>Şifre ?</td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" id="buton">
+    </form>
+    <div class="messages">
+        <div class="TRUE-VALUES">Başarıyla kayıt olundu.</div>
+        <div class="WRONG-NAME">İsim girmediniz !</div>
+        <div class="WRONG-SURNAME">Soyisim girmediniz !</div>
+        <div class="WRONG-YEAR">Yaş girmediniz !</div>
+        <div class="WRONG-USERNAME">Kullanıcı adı girmediniz !</div>
+        <div class="WRONG-PASSWORD">Şifre girmediniz !</div>
+        <div class="WRONG-NAME-LENGTH"></div>
+    </div>
+    <div class="GO-SIGNIN">
+        <a href="file:///C:/Users/kerem/Desktop/Kerem/nodejsChatSystem/htmls/SıgnIn.html" class="LINK">Giriş yap</a>
+    </div>
+</body>
+</html>

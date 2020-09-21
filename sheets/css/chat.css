@@ -1,63 +1,20 @@
-.CHAT{
-    display: none;
-}
 .hero-title{
     text-align: center;
     color: blue;
     font-size: 50px;
     border: 1px solid red;
     height: 200px;
-}#buton{
+}#SignInForm{
+    border: 1px solid green;
+}#Buton{
     padding: 16px;
     color: white;
     background-color: green;
     margin-left: 24px;
     margin-top: 32px;
-}#Buton{
-    padding: 16px;
-    color: white;
-    background-color: green;
-    margin-top: 32px;
-}#form{
-    border: 1px solid green;
-    margin-left: 64px;
-    margin-right: 64px;
-}.links{
-    text-align: center;
-    font-size: 20px;
-}.LogIn{
-    margin-right: 32px;
-    text-decoration: none;
-    color: blue;
-}.SignIn{
-    margin-left: 32px;
-    text-decoration: none;
-    color: blue;
-}#SignInForm{
-    border: 1px solid green;
-}.name{
-    color: blue;
-}
-
-.WRONG_ACCOUNT{
-    display: none;
-}.TRUE-VALUES{
-    display: none;
-}.WRONG-NAME{
-    display: none;
-}.WRONG-SURNAME{
-    display: none;
-}.WRONG-YEAR{
-    display: none;
-}.WRONG-USERNAME{
-    display: none;
-}.WRONG-PASSWORD{
-    display: none;
 }.WRONG_USERNAME{
     display: none;
 }.WRONG_PASSWORD{
-    display: none;
-}.WRONG-NAME-LENGTH{
     display: none;
 }.WAIT-1{
     display: none;
@@ -65,26 +22,11 @@
     display: none;
 }.WAIT-3{
     display: none;
-}.LINK{
+}.WRONG_ACCOUNT{
     display: none;
-    color: blue;
-}.GO-SIGNIN{
+}.CHAT{
     display: none;
-    font-size: 18px;
-    text-align: center;
-    margin-top: 24px;
-}
-
-.messages{
-    margin-top: 32px;
-    font-size: 20px;
-    text-align: center;
-}
-
-
-
-
-.heroChat{
+}.heroChat{
     background-color: white;
     min-height: 450px;
     margin-top: 5%;
@@ -92,12 +34,12 @@
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-}.onlineCountsChat{
-    margin-top: 36px;
-    font-size: 20px;
 }.countsChat{
     border: 1px solid red;
     height: 100px;
+}.onlineCountsChat{
+    margin-top: 36px;
+    font-size: 20px;
 }.messages-sizeChat{
     height: 350px;
     font-size: 17px;
@@ -125,7 +67,6 @@
     background-color: #1d5852;
     border-radius: 20px;
     color: white;
-    margin-left: 5px;
 }#formChat{
     background-color: #171a1b;
 }.inputChat{
@@ -142,8 +83,11 @@
     border-radius: 20px;
     height: 30px;
     border: 1px solid #1d5852;
-}
-.borderHome{
+}.messages{
+    margin-top: 32px;
+    font-size: 20px;
+    text-align: center;
+}.borderHome{
     text-align: center;
     font-size: 14px;
     color: #a8a8a8f2;

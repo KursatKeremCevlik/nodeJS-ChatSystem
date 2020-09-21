@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/adminPage">
+    <script src="/js/adminPage"></script>
+    <title>Admin Page</title>
+</head>
+<body>
+    <div class="hero">
+        <h1 class="hero-title">Admin Page</h1>
+    </div>
+    <hr class="privateHR-1">
+    <div class="DataBaseHome">
+        <h3 class="text">Veri tabanına kayıtlı kullanıcılar</h3>
+        <hr class="privateHR-2">
+    </div>
+    <div class="form">
+        <div class="form-text">Lütfen alanı doldurunuz</div>
+        <form id="form">
+            <input type="text" id="username" autocomplete="off"> Kullanıcı adı? <br>
+            <br>
+            <input type="password" id="password" autocomplete="off"> Şifre? <br>
+            <br>
+            <div class="butonHome">
+                <input type="submit" id="buton">
+            </div>
+        </form>
+    </div>
+    <div class="DATAS">
+        <div class="DataBase">
+            <!-- User datas -->
+        </div>
+        <div class="addAdminHome">
+            <button class="addAdmin">Admin ekle</button>
+        </div>
+    </div>
+    <div class="ADD_ADMIN_PAGE">
+        <form id="AdminForm">
+            <input type="text" id="name_admin" class="add_input" autocomplete="off"> İsim <br>
+            <br>
+            <input type="text" id="surname_admin" class="add_input" autocomplete="off"> Soyisim <br>
+            <br>
+            <input type="number" id="year_admin" class="add_input" autocomplete="off"> Yaş <br>
+            <br>
+            <input type="text" id="username_admin" class="add_input" autocomplete="off"> Kullanıcı adı <br>
+            <br>
+            <input type="password" id="password_admin" class="add_input" autocomplete="off"> Şifre <br>
+            <br>
+            <div class="addingButonHome">
+                <input type="submit" id="addingButton">
+                <button class="goBackAdminPage">Geri dön</button>
+            </div>
+        </form>
+        <div class="messages">
+            <div class="WRONG_NAME_ADD">İsim girmediniz</div>
+            <div class="WRONG_SURNAME_ADD">Soyisim girmediniz</div>
+            <div class="WRONG_YEAR_ADD">Yaş girmediniz</div>
+            <div class="WRONG_USERNAME_ADD">Kullanıcı adı girmediniz</div>
+            <div class="WRONG_PASSWORD_ADD">Şifre girmediniz</div>
+            <div class="TRUE_SAVE_ADMIN">Başarıyla kayıt olundu</div>
+        </div>
+    </div>
+</body>
+</html>
