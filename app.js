@@ -2,8 +2,8 @@
 const username = 'Kerem01';
 const password = '123';
 // DataBase connection URL
-const URL = 'mongodb://localhost/ChatSystem'
-// const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
+// const URL = 'mongodb://localhost/ChatSystem'
+const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
 
 const createError = require('http-errors');
 const express = require('express');
