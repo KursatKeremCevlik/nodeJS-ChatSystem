@@ -6,7 +6,7 @@ const Admin = new Schema({
     surname: String,
     username: String,
     password: String,
-    year: Number,
+    secretID: Number
 });
 
 module.exports = mongoose.model('Admin', Admin);

@@ -8,6 +8,7 @@ const Account = new Schema({
     password: String,
     year: Number,
     friends: Array,
+    secretID: Number
 });
 
 module.exports = mongoose.model('Account', Account);
