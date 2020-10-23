@@ -6,7 +6,6 @@ const Account = new Schema({
     surname: String,
     username: String,
     password: String,
-    year: Number,
     friends: Array,
     secretID: Number
 });

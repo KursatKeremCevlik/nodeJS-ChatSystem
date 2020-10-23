@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/signupPage"></script>
+  <link rel="stylesheet" href="/css/signupPage">
+  <title>Sign Up</title>
+</head>
+<body>
+  <div class="inputs_home_box">
+    <div class="messages">
+      <div class="message">Lütfen tüm alanları doldurun</div>
+    </div>
+    <div class="inputs_home">
+      <form id="form">
+        <div class="text name-text">İsim</div>
+        <input type="text" class="input" id="name" autocomplete="off"> <br>
+        <div class="text">Soyisim</div>
+        <input type="text" class="input" id="surname" autocomplete="off"> <br>
+        <div class="text">Kullanıcı adı</div>
+        <input type="text" class="input" id="username" autocomplete="off"> <br>
+        <div class="text">Şifre</div>
+        <input type="password" class="input" id="password" autocomplete="off"> <br>
+        <input type="submit" id="button">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

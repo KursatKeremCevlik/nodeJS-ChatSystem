@@ -9,14 +9,14 @@ const app = express();
 const URL = 'mongodb://localhost/ChatSystem'
 const middlewareDB = require('./helper/db')(mongoose, URL);
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/sheets/htmls/homePage.html');
-});
+app.get('/', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/homePage.html');});
+app.get('/signup', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/signupPage.html');});
 
-// app.use('/css/homePage', express.static(path.join(__dirname, '/sheets/css/homePage.css')));
+app.use('/css/homePage', express.static(path.join(__dirname, '/sheets/css/homePage.css')));
+app.use('/css/signupPage', express.static(path.join(__dirname, '/sheets/css/signupPage.css')));
+app.use('/js/signupPage', express.static(path.join(__dirname, '/sheets/js/signupPage.js')));
 
 const expressOprt = require('./operations/expressOprt')(app, express, logger, cookieParser, path);
-app.use(function (req, res, next) {
-    res.sendFile(__dirname + '/sheets/htmls/errorPage.html');
-});
+app.use(function (req, res, next) {res.sendFile(__dirname + '/sheets/htmls/errorPage.html');});
+
 module.exports = app;

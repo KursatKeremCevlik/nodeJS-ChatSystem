@@ -1,0 +1,39 @@
+body{
+    background-color: black;
+    color: white;
+}
+.top-box{
+    border: 1px solid red;
+    height: 200px;
+    text-align: center;
+    transition: 0.3s;
+}.hero-title{
+    margin-top: 80px;
+}
+.buttons{text-align: center; margin-top: 32px;}
+.logın_button{margin-left: 48px;}
+.signup_button{margin-right: 48px;}
+.buton{
+    background-color: black;
+    color: white;
+    outline: none;
+    border: 2px solid white;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    transition: 0.3s;
+}.buton:hover{
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    width: 170px;
+    height: 50px;
+    font-size: 16px;
+}.buton:focus{
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    width: 170px;
+    height: 50px;
+    font-size: 16px;
+}
