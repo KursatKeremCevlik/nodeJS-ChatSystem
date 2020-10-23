@@ -25,12 +25,12 @@ body{
     background-color: black;
     transition: 0.3s;
     text-align: center;
-}.input:focus{
+}.input:hover{
     color: black;
     background-color: white;
     height: 25px;
     width: 300px;
-}.input:hover{
+}.input:focus{
     color: black;
     background-color: white;
     height: 25px;
@@ -60,6 +60,6 @@ body{
     text-align: center;
     margin-top: 32px;
 }.message{
-    font-size: 20px;
+    font-size: 22px;
     transition: 0.3s;
 }

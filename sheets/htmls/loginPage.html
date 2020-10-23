@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/loginPage"></script>
+  <link rel="stylesheet" href="/css/loginPage">
+  <title>Login Page</title>
+</head>
+<body>
+  <div class="firstPage">
+    <div class="text-align">
+      <div class="message">Lütfen kullanıcı adı ve şifrenizi giriniz</div>
+    </div>
+    <div class="container">
+      <form id="form">
+        <div class="text">Kullanıcı adı</div>
+        <input type="text" id="username" class="input" autocomplete="off">
+        <div class="text">Şifre</div>
+        <input type="password" id="password" class="input" autocomplete="off"> <br>
+        <input type="submit" id="button"> <br>
+        <div class="remember-me-home">
+          <label class="private-text">Beni hatırla</label>
+          <input type="checkbox" id="remember-me">
+        </div>
+      </form>
+      <div class="info-pharagraph text">
+      </div>
+    </div>
+  </div>
+  <div class="secondPage">
+      <div class="error-text">Bu siteyi kullanmak için localstroga'a ihtiyacımız var. Görünüşe göre sen localstorage özelliğini kapatmışsın. Özelliği açana kadar bu siteyi kullanamazsın</div>
+    </div>
+  </div>
+</body>
+</html>
