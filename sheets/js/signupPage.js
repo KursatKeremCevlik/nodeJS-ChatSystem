@@ -1,5 +1,6 @@
 $(() => {
-  const socket = io.connect('http://localhost:3000');
+  const socket = io.connect('https://example-chat-system.herokuapp.com/');
+  // const socket = io.connect('http://localhost:3000');
 
   const Form = document.getElementById('form');
   const Button = document.getElementById('button');

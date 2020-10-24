@@ -37,10 +37,6 @@ body{
     color: black;
     outline: none;
     transition: 0.3s;
-}.input:hover{
-    color: black;
-    background-color: white;
-    width: 250px;
 }.input:focus{
     color: black;
     background-color: white;

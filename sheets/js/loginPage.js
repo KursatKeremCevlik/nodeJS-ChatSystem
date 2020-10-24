@@ -1,6 +1,8 @@
 $(() => {
+  const socket = io.connect('https://example-chat-system.herokuapp.com/');
+  // let socket = io.connect('http://localhost:3000');
+  
   $('.secondPage').hide();
-  let socket = io.connect('http://localhost:3000');
   let remember_me_value = false;
 
   localStorage.setItem('test', 'test');
@@ -10,7 +12,7 @@ $(() => {
     $('.secondPage').show();
     socket = false;
   }else{
-    $('.info-pharagraph').html(`Bu siteyi kullanamk için localstroga'a ihtiyacımız var. Görünüşe göre sen localstorage özelliğini açmışsın. Sen siteyi kullanabilirsin.`);
+    $('.info-pharagraph').html(`Bu siteyi kullanmak için localstroga'a ihtiyacımız var. Görünüşe göre sen localstorage özelliğini açmışsın. Sen siteyi kullanabilirsin.`);
     localStorage.removeItem('test');
   }
   
@@ -32,10 +34,13 @@ $(() => {
       // True account datas
       $('.message').html(`${data.text}`);
       localStorage.setItem('kursatkerem-chat-system-username', Username.value);
-      localStorage.setItem('kursatkerem-chat-system-password', Password.value);
       localStorage.setItem('kursatkerem-chat-system-remember-me-value', remember_me_value);
+      localStorage.setItem('kursatkerem-chat-system-account-id', data.id);
       Username.value = '';
       Password.value = '';
+      setTimeout(() => {
+        location.href = '/chat';
+      }, 1000);
     }else if(data.permission == 2){
       // Wrong account datas
       $('.message').html(`${data.text}`);

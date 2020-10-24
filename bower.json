@@ -1,0 +1,21 @@
+{
+  "name": "chatsystem",
+  "description": "",
+  "main": "",
+  "authors": [
+    "KursatKeremCevlik <62382982+KursatKeremCevlik@users.noreply.github.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/KursatKeremCevlik/nodeJS-ChatSystem",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic": "^2.4.1",
+    "jquery": "^3.5.1"
+  }
+}

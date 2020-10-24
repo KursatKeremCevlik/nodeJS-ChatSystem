@@ -26,14 +26,8 @@ body{
     background-color: white;
     color: black;
     border-radius: 10px;
-    width: 170px;
-    height: 50px;
-    font-size: 16px;
 }.buton:focus{
     background-color: white;
     color: black;
     border-radius: 10px;
-    width: 170px;
-    height: 50px;
-    font-size: 16px;
 }

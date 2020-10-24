@@ -28,13 +28,11 @@ body{
 }.input:hover{
     color: black;
     background-color: white;
-    height: 25px;
-    width: 300px;
+    width: 250px;
 }.input:focus{
     color: black;
     background-color: white;
-    height: 25px;
-    width: 300px;
+    width: 250px;
 }
 #button{
     width: 150px;

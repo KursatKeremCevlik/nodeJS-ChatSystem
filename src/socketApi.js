@@ -43,7 +43,8 @@ io.on('connection', (socket) => {
         if(!err && object[0]){
           const text = 'Yönlendiriliyorsunuz'
           const permission = 1;
-          socket.emit('LOGIN_INFO_TEXT', { text, permission });
+          const id = object[0]._id;
+          socket.emit('LOGIN_INFO_TEXT', { text, permission, id });
         }else{
           const text = 'Kullanıcı adı veya şifreniz yanlış'
           const permission = 2;
@@ -51,6 +52,17 @@ io.on('connection', (socket) => {
         }
       });
     }
+  });
+
+  socket.on('PERMISSION_ACCOUNT', (data) => {
+    Account.find({_id: data.id, username: data.username}, (err, object) => {
+      if(!err, object[0]){
+        const id = object[0].secretID
+        socket.emit('TRUE_ACCOUNT', {id});
+      }else{
+        socket.emit('WRONG_ACCOUNT');
+      }
+    });
   });
 });
 
