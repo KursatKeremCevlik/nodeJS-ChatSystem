@@ -77,7 +77,54 @@ body{
 }.buton:hover{
     color: black;
     background-color: white;
+}.setting{
+    height: 150px;
+    text-align: center;
+}.setting_input{
+    outline: none;
+    text-align: center;
+    width: 150px;
+    margin-top: 5px;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    height: 25px;
+}.setting_buton{
+    margin-top: 10px;
+    outline: none;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+}.setting-info-home{
+    display: flex;
+    align-items: center;
+    height: 60px;
+    justify-content: center;
+}.close_buton_home{
+    text-align: center;
+    display: none;
+}.close_setting{
+    outline: none;
+    border: 1px solid white;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 17px;
+    text-align: center;
+}.info-message-delete-home{
+    min-width: 150px;
+    max-width: 150px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+
 .add_friend{margin-right: 7px;}
 .delete_friend{margin-left: 7px;}
 .HR{border: 1px solid white;}
+.setting{display: none;}

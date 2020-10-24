@@ -64,6 +64,17 @@ io.on('connection', (socket) => {
       }
     });
   });
+
+  socket.on('PLEASE_PROFILE_DATAS', (data) => {
+    Account.find({_id: data.id}, (err, object) => {
+      if(!err && object[0]){
+        for(var i = 0; i < object[0].friends.length; i++){
+          const friend = object[0].friends[i];
+          socket.emit('FRIEND_DATAS', { friend });
+        }
+      }
+    });
+  });
 });
 
 module.exports = socketApi;
