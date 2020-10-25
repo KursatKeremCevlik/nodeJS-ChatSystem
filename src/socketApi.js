@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
       socket.emit('INFO_DATA', { text });
     }else{
       const text = 'Kayıt ediliyor'
-      socket.emit('INFI_DATA', { text });
+      socket.emit('INFO_DATA', { text });
       const name = data.name;
       const surname = data.surname;
       const username = data.username;
@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('PERMISSION_ACCOUNT', (data) => {
+    console.log(data);
     Account.find({_id: data.id, username: data.username}, (err, object) => {
       if(!err, object[0]){
         const id = object[0].secretID

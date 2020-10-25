@@ -4,6 +4,7 @@ $(() => {
 
   const id = localStorage.getItem('kursatkerem-chat-system-account-id');
   const username = localStorage.getItem('kursatkerem-chat-system-username');
+  console.log(id, username);
 
   socket.emit('PERMISSION_ACCOUNT', { id, username });
   socket.on('TRUE_ACCOUNT', (data) => {open_chat_screen(data);});
@@ -21,7 +22,9 @@ $(() => {
     $('.wrong_account').show();
   }
   const add_friend_home = document.getElementById('add_friend_home');
+  const add_friend_input_home = document.getElementById('add-friend-input-home');
   const delete_friend_home = document.getElementById('delete_friend_home');
+  const delete_friend_input_home = document.getElementById('delete-friend-input-home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
 
@@ -44,21 +47,71 @@ $(() => {
   });
   peopleColumn.appendChild(person);
   $('.example').html('example');
+  let counter = 'empty';
 
   $('.add_friend').on('click', () => {
+    peopleColumn.className = 'people-column people-column-animation-up';
+    add_friend_home.className = 'add_friend_home setting add-friend-animation';
     peopleColumn.style.height = '270px';
-    $('.setting').hide();
-    $('.close_buton_home').show();
-    $('.add_friend_home').show();
+    if(counter == 'empty'){
+      $('.setting').hide();
+      $('.close_buton_home').show();
+      setTimeout(() => {
+        $('.add_friend_home').show();
+        add_friend_home.className = 'add_friend_home setting setting-animation-up';
+      }, 500);
+      counter = 'add-friend-now';
+    }
+    if(counter == 'delete-friend-now'){
+      delete_friend_home.className = 'delete_friend_home setting setting-animation-blackout';
+      counter = 'add-friend-now';
+      setTimeout(() => {
+        $('.delete_friend_home').hide();
+        add_friend_home.className = 'add_friend_home setting setting-animation-lighting';
+        $('.add_friend_home').show();
+      }, 500);
+    }
   });
   $('.delete_friend').on('click', () => {
-    peopleColumn.style.height = '270px';
-    $('.setting').hide();
-    $('.close_buton_home').show();
-    $('.delete_friend_home').show();
+    if(counter == 'empty'){
+      peopleColumn.className = 'people-column people-column-animation-up';
+      peopleColumn.style.height = '270px';
+      counter = 'delete-friend-now';
+      $('.setting').hide();
+      $('.close_buton_home').show();
+      setTimeout(() => {
+        $('.delete_friend_home').show();
+        delete_friend_home.className = 'delete_friend_home setting setting-animation-up'
+      }, 500);
+    }
+    if(counter == 'add-friend-now'){
+      add_friend_home.className = 'add_friend_home setting setting-animation-blackout';
+      counter = 'delete-friend-now';
+      setTimeout(() => {
+        $('.add_friend_home').hide();
+        delete_friend_home.className = 'delete_friend_home setting setting-animation-lighting';
+        $('.delete_friend_home').show();
+      }, 500);
+    }
   });
   $('.close_setting').on('click', () => {
-    $('.setting').hide();
-    peopleColumn.style.height = '420px';
+    if(counter == 'add-friend-now'){
+      counter = 'empty';
+      add_friend_home.className = 'add_friend_home setting setting-animation-blackout';
+      setTimeout(() => {
+        $('.setting').hide();
+        peopleColumn.className = 'people-column people-column-animation-down';
+        peopleColumn.style.height = '420px';
+      }, 500);
+    }
+    if(counter == 'delete-friend-now'){
+      counter = 'empty';
+      delete_friend_home.className = 'delete_friend_home setting setting-animation-blackout';
+      setTimeout(() => {
+        peopleColumn.style.height = '420px';
+        peopleColumn.className = 'people-column people-column-animation-down';
+        $('.setting').hide();
+      }, 500);
+    }
   });
 });
