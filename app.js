@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 const URL = 'mongodb+srv://ortakUser:12345@cluster0.vzpif.mongodb.net/chat';
-// const URL = 'mongodb://localhost/ChatSystem'
+// const URL = 'mongodb://localhost/ChatSystem';
 const middlewareDB = require('./helper/db')(mongoose, URL);
 
 app.get('/', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/homePage.html');});

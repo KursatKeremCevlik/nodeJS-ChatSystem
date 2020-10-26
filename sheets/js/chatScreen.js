@@ -1,15 +1,14 @@
 $(() => {
   const socket = io.connect('https://example-chat-system.herokuapp.com/');
   // const socket = io.connect('http://localhost:3000');
-
+  
   const id = localStorage.getItem('kursatkerem-chat-system-account-id');
   const username = localStorage.getItem('kursatkerem-chat-system-username');
-  console.log(id, username);
-
+  
   socket.emit('PERMISSION_ACCOUNT', { id, username });
   socket.on('TRUE_ACCOUNT', (data) => {open_chat_screen(data);});
   socket.on('WRONG_ACCOUNT', () => {close_chat_screen();});
-
+  
   const open_chat_screen = (data) => {
     $('.waiting_room').hide();
     $('.wrong_account').hide();
@@ -27,7 +26,7 @@ $(() => {
   const delete_friend_input_home = document.getElementById('delete-friend-input-home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
-
+  
   socket.emit('PLEASE_PROFILE_DATAS', { id });
   socket.on('FRIEND_DATAS', (data) => {
     person.className = 'person';
@@ -43,12 +42,17 @@ $(() => {
     people_name.appendChild(node);
     people.appendChild(people_name);
     person.appendChild(people_hr);
-  
-  });
+  });  
   peopleColumn.appendChild(person);
-  $('.example').html('example');
   let counter = 'empty';
-
+  socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').hide();});
+  socket.on('SOMETHING_WRONG_ADD_FRIEND', (data) => {
+    $('.info-message-add').html(`${data.text}`);
+  });
+  socket.on('SOMETHING_WRONG_DELETE_FRIEND', (data) => {
+    $('.info-message-delete').html(`${data.text}`);
+  });
+  
   $('.add_friend').on('click', () => {
     peopleColumn.className = 'people-column people-column-animation-up';
     add_friend_home.className = 'add_friend_home setting add-friend-animation';
@@ -59,17 +63,17 @@ $(() => {
       setTimeout(() => {
         $('.add_friend_home').show();
         add_friend_home.className = 'add_friend_home setting setting-animation-up';
-      }, 500);
+      }, 490);
       counter = 'add-friend-now';
     }
     if(counter == 'delete-friend-now'){
       delete_friend_home.className = 'delete_friend_home setting setting-animation-blackout';
-      counter = 'add-friend-now';
       setTimeout(() => {
         $('.delete_friend_home').hide();
         add_friend_home.className = 'add_friend_home setting setting-animation-lighting';
         $('.add_friend_home').show();
-      }, 500);
+      }, 490);
+      counter = 'add-friend-now';
     }
   });
   $('.delete_friend').on('click', () => {
@@ -82,7 +86,7 @@ $(() => {
       setTimeout(() => {
         $('.delete_friend_home').show();
         delete_friend_home.className = 'delete_friend_home setting setting-animation-up'
-      }, 500);
+      }, 490);
     }
     if(counter == 'add-friend-now'){
       add_friend_home.className = 'add_friend_home setting setting-animation-blackout';
@@ -91,7 +95,7 @@ $(() => {
         $('.add_friend_home').hide();
         delete_friend_home.className = 'delete_friend_home setting setting-animation-lighting';
         $('.delete_friend_home').show();
-      }, 500);
+      }, 490);
     }
   });
   $('.close_setting').on('click', () => {
@@ -102,7 +106,7 @@ $(() => {
         $('.setting').hide();
         peopleColumn.className = 'people-column people-column-animation-down';
         peopleColumn.style.height = '420px';
-      }, 500);
+      }, 490);
     }
     if(counter == 'delete-friend-now'){
       counter = 'empty';
@@ -111,7 +115,20 @@ $(() => {
         peopleColumn.style.height = '420px';
         peopleColumn.className = 'people-column people-column-animation-down';
         $('.setting').hide();
-      }, 500);
+      }, 490);
     }
   });
+
+  const add_friend_input = document.getElementById('add-friend-input');
+  $('.permiss_add_friend').on('click', () => {
+    const add_friend_value = add_friend_input.value;
+    socket.emit('ADD_NEW_FRIEND', { add_friend_value, id, username });
+  });
+
+  const delete_friend_input = document.getElementById('delete-friend-input');
+  $('.permiss_delete_friend').on('click', () => {
+    const delete_friend_value = delete_friend_input.value;
+    socket.emit('DELETE_FRIEND', { delete_friend_value, id, username });
+  });
+
 });
