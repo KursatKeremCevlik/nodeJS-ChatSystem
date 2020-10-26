@@ -89,9 +89,11 @@ io.on('connection', (socket) => {
               }
             }
             if(!finish){
+              friendAccount[0].friends.push(foundObject[0].username);
               foundObject[0].friends.push(friendAccount[0].username);
               socket.emit('CLEAR-PEOPLE-COLUMN');
               foundObject[0].save();
+              friendAccount[0].save();
               for(var j = 0; j < foundObject[0].friends.length; j++){
                 const friend = foundObject[0].friends[j];
                 socket.emit('FRIEND_DATAS', { friend });
@@ -120,11 +122,11 @@ io.on('connection', (socket) => {
         let finish = false;
         Account.find({secretID: data.delete_friend_value}, (err, friendAccount) => {
           if(!err, friendAccount[0]){
-            // Question: Friend location in friends array?
+            // Question: Friend location in array?
             if(friendAccount[0].secretID == data.delete_friend_value){
-              username = friendAccount[0].username;
+              delete_username = friendAccount[0].username;
               for(var i = 0; i < foundObject[0].friends.length; i++){
-                if(username == foundObject[0].friends[i]){
+                if(delete_username == foundObject[0].friends[i]){
                   foundObject[0].friends.splice(i, 1);
                   finish = true;
                 }
@@ -141,6 +143,12 @@ io.on('connection', (socket) => {
                   const friend = foundObject[0].friends[i];
                   socket.emit('FRIEND_DATAS', { friend });
                 }
+                for(var i = 0; i < friendAccount[0].friends.length; i++){
+                  if(friendAccount[0].friends[i] == foundObject[0].username){
+                    friendAccount[0].friends.splice(i, 1);
+                    friendAccount[0].save();
+                  }
+                }
               }
             }else{
               socket.emit('SOMETHIN_WRONG_DELETE_FRIEND', { text });
@@ -151,6 +159,19 @@ io.on('connection', (socket) => {
         });
       }else{
         socket.emit('SOMETHIN_WRONG_DELETE_FRIEND', { text });
+      }
+    });
+  });
+
+  // FRIEND_DATAS
+  socket.on('UPDATE-MY-FRIEND-LIST', (data) => {
+    Account.find({_id: data.id, username: data.username}, (err, object) => {
+      if(!err && object[0]){
+        socket.emit('CLEAR-PEOPLE-COLUMN');
+        for(var i = 0; i < object[0].friends.length; i++){
+          const friend = object[0].friends[i];
+          socket.emit('FRIEND_DATAS', { friend });
+        }
       }
     });
   });

@@ -131,4 +131,7 @@ $(() => {
     socket.emit('DELETE_FRIEND', { delete_friend_value, id, username });
   });
 
+  setInterval(() => {
+    socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
+  }, 3000);
 });
