@@ -21,15 +21,12 @@ $(() => {
     $('.wrong_account').show();
   }
   const add_friend_home = document.getElementById('add_friend_home');
-  const add_friend_input_home = document.getElementById('add-friend-input-home');
   const delete_friend_home = document.getElementById('delete_friend_home');
-  const delete_friend_input_home = document.getElementById('delete-friend-input-home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
   
   socket.emit('PLEASE_PROFILE_DATAS', { id });
   socket.on('FRIEND_DATAS', (data) => {
-    $('.person').show();
     person.className = 'person';
     const people_hr = document.createElement('div');
     people_hr.className = 'people_hr';
@@ -46,7 +43,7 @@ $(() => {
   });  
   peopleColumn.appendChild(person);
   let counter = 'empty';
-  socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').hide();});
+  socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').html('');});
   socket.on('SOMETHING_WRONG_ADD_FRIEND', (data) => {
     $('.info-message-add').html(`${data.text}`);
   });
@@ -121,15 +118,73 @@ $(() => {
   });
 
   const add_friend_input = document.getElementById('add-friend-input');
+  const numbers = [0,1,2,3,4,5,6,7,8,9]
   $('.permiss_add_friend').on('click', () => {
-    const add_friend_value = add_friend_input.value;
-    socket.emit('ADD_NEW_FRIEND', { add_friend_value, id, username });
+    setTimeout(() => {
+      const add_friend_value = add_friend_input.value;
+      if(add_friend_value){
+        let steps = false;
+        var chars = [];
+        for(var i = 0; i < add_friend_value.length; i++){
+          chars.push(add_friend_value.charAt(i));
+        }
+        for(var i = 0; i < chars.length; i++){
+          for(var j = 0; j < numbers.length; j++){
+            if(chars[i] == numbers[j]){
+              if(chars.length == 6){
+                steps = true;
+              }
+            }
+          }
+          if(!steps){
+            $('.info-message-add').html(`Lütfen <b>6</b> haneli bir <b>sayı</b> giriniz`);
+            return false;
+          }else{
+            finish = true;
+          }
+        }
+        if(finish){
+          socket.emit('ADD_NEW_FRIEND', { add_friend_value, id, username });
+        }
+      }else{
+        $('.info-message-add').html('Herhangi bir karakter girmediniz');
+      }
+    }, 100);
   });
 
   const delete_friend_input = document.getElementById('delete-friend-input');
   $('.permiss_delete_friend').on('click', () => {
-    const delete_friend_value = delete_friend_input.value;
-    socket.emit('DELETE_FRIEND', { delete_friend_value, id, username });
+    setTimeout(() => {
+      const delete_friend_value = delete_friend_input.value;
+      if(delete_friend_value){
+        let finish = false;
+        let steps = false;
+        var chars = [];
+        for(var i = 0; i < delete_friend_value.length; i++){
+          chars.push(delete_friend_value.charAt(i));
+        }
+        for(var i = 0; i < chars.length; i++){
+          for(var j = 0; j < numbers.length; j++){
+            if(chars[i] == numbers[j]){
+              if(chars.length == 6){
+                steps = true;
+              }
+            }
+          }
+          if(!steps){
+            $('.info-message-delete').html(`Lütfen <b>6</b> haneli bir <b>sayı</b> giriniz`);
+            return false;
+          }else{
+            finish = true;
+          }
+        }
+        if(finish){
+          socket.emit('DELETE_FRIEND', { delete_friend_value, id, username });
+        }
+      }else{
+        $('.info-message-delete').html('Herhangi bir karakter girmediniz');
+      }
+    }, 100);
   });
 
   setInterval(() => {
