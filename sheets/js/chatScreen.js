@@ -29,6 +29,7 @@ $(() => {
   
   socket.emit('PLEASE_PROFILE_DATAS', { id });
   socket.on('FRIEND_DATAS', (data) => {
+    $('.person').show();
     person.className = 'person';
     const people_hr = document.createElement('div');
     people_hr.className = 'people_hr';
