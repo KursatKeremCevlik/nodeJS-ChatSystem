@@ -1,6 +1,6 @@
 $(() => {
-  // const socket = io.connect('https://example-chat-system.herokuapp.com/');
-  const socket = io.connect('http://localhost:3000');
+  const socket = io.connect('https://example-chat-system.herokuapp.com/');
+  // const socket = io.connect('http://localhost:3000');
   
   const id = localStorage.getItem('kursatkerem-chat-system-account-id');
   const username = localStorage.getItem('kursatkerem-chat-system-username');
