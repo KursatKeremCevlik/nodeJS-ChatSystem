@@ -19,28 +19,54 @@ $(() => {
     $('.waiting_room').hide();
     $('.chat_screen').hide();
     $('.wrong_account').show();
+    return false;
   }
   const add_friend_home = document.getElementById('add_friend_home');
   const delete_friend_home = document.getElementById('delete_friend_home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
   
-  socket.emit('PLEASE_PROFILE_DATAS', { id });
+  let peoples = [];
+  let exampleCounter = 0;
+  socket.emit('PLEASE_PROFILE_DATAS', { id, username });
   socket.on('FRIEND_DATAS', (data) => {
-    person.className = 'person';
-    const people_hr = document.createElement('div');
-    people_hr.className = 'people_hr';
-    person.appendChild(people_hr);
-    const people = document.createElement('div');
-    people.className = 'people';
-    person.appendChild(people);
-    const people_name = document.createElement('div');
-    people_name.className = 'people_name';
-    const node = document.createTextNode(`${data.friend}`);
-    people_name.appendChild(node);
-    people.appendChild(people_name);
-    person.appendChild(people_hr);
-  });  
+    peoples.push({friendName: data.friendName, friendID: data.friendID});
+  });
+  socket.on('FRIEND_COUNTER_DONE', () => {
+    if(exampleCounter){
+      $('.loading').hide();
+      $('.person').html('');
+      peopleColumn.className = 'people-column';
+      for(var j = 0; j < peoples.length; j++){
+        person.className = 'person';
+        const people_hr = document.createElement('div');
+        people_hr.className = 'people_hr';
+        person.appendChild(people_hr);
+        const people = document.createElement('div');
+        people.className = `people ${peoples[j].friendID}`;
+        person.appendChild(people);
+        const people_name = document.createElement('div');
+        people_name.className = 'people_name';
+        const node = document.createTextNode(`${peoples[j].friendName}`);
+        people_name.appendChild(node);
+        people.appendChild(people_name);
+        person.appendChild(people_hr);
+      }
+    }else{
+      $('.loading').html('Yükleniyor.');
+      setTimeout(() => {
+        $('.loading').html('Yükleniyor..');
+      }, 300);
+      setTimeout(() => {
+        $('.loading').html('Yükleniyor...');
+      }, 600);
+    }
+    exampleCounter++;
+    peoples = [];
+    setTimeout(() => {
+      socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
+    }, 1000);
+  });
   peopleColumn.appendChild(person);
   let counter = 'empty';
   socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').html('');});
@@ -186,8 +212,4 @@ $(() => {
       }
     }, 100);
   });
-
-  setInterval(() => {
-    socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
-  }, 3000);
 });

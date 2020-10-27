@@ -29,6 +29,7 @@ module.exports = (prm, data, socket) => {
         password: data.password,
         secretID: ID
       });
+      console.log(accountData);
       accountData.save((err) => {
         if(!err){
           const text = 'Başarıyla kayıt olundu'

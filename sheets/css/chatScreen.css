@@ -184,3 +184,4 @@ body{
 .delete_friend{margin-left: 7px;}
 .HR{border: 1px solid white;}
 .setting{display: none;}
+.align{display: flex; align-items: center; justify-content: center;}
