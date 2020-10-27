@@ -20,14 +20,24 @@ io.on('connection', (socket) => {
     }else if(!data.password){
       const text = 'Şifre girmediniz'
       socket.emit('INFO_DATA', { text });
-    }else{
-      const text = 'Kayıt ediliyor'
+    }else if(data.username.length > 15){
+      const text = 'Karakter sayısı 15 den fazla olamaz';
       socket.emit('INFO_DATA', { text });
-      const name = data.name;
-      const surname = data.surname;
-      const username = data.username;
-      const password = data.password;
-      generator('Account', {name, surname, username, password}, socket);
+    }else{
+      Account.find((err, object) => {
+        if(!err && object[0]){
+          const text = 'Bu kullanıcı adı kullanımda';
+          socket.emit('INFO_DATA', { text });
+        }else{
+          const text = 'Kayıt ediliyor'
+          socket.emit('INFO_DATA', { text });
+          const name = data.name;
+          const surname = data.surname;
+          const username = data.username;
+          const password = data.password;
+          generator('Account', {name, surname, username, password}, socket);
+        }
+      });
     }
   });
 
