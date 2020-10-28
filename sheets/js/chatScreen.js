@@ -26,48 +26,27 @@ $(() => {
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
   
-  let peoples = [];
-  let exampleCounter = 0;
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
   socket.on('FRIEND_DATAS', (data) => {
-    peoples.push({friendName: data.friendName, friendID: data.friendID});
-  });
-  socket.on('FRIEND_COUNTER_DONE', () => {
-    if(exampleCounter){
-      $('.loading').hide();
-      $('.person').html('');
-      peopleColumn.className = 'people-column';
-      for(var j = 0; j < peoples.length; j++){
-        person.className = 'person';
-        const people_hr = document.createElement('div');
-        people_hr.className = 'people_hr';
-        person.appendChild(people_hr);
-        const people = document.createElement('div');
-        people.className = `people ${peoples[j].friendID}`;
-        person.appendChild(people);
-        const people_name = document.createElement('div');
-        people_name.className = 'people_name';
-        const node = document.createTextNode(`${peoples[j].friendName}`);
-        people_name.appendChild(node);
-        people.appendChild(people_name);
-        person.appendChild(people_hr);
-      }
-    }else{
-      $('.loading').html('Yükleniyor.');
-      setTimeout(() => {
-        $('.loading').html('Yükleniyor..');
-      }, 300);
-      setTimeout(() => {
-        $('.loading').html('Yükleniyor...');
-      }, 600);
-    }
-    exampleCounter++;
-    peoples = [];
-    setTimeout(() => {
-      socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
-    }, 1000);
+    peopleColumn.className = 'people-column';
+    person.className = 'person';
+    const people_hr = document.createElement('div');
+    people_hr.className = 'people_hr';
+    person.appendChild(people_hr);
+    const people = document.createElement('div');
+    people.className = `people ${data.friendID}`;
+    person.appendChild(people);
+    const people_name = document.createElement('div');
+    people_name.className = 'people_name';
+    const node = document.createTextNode(`${data.friendName}`);
+    people_name.appendChild(node);
+    people.appendChild(people_name);
+    person.appendChild(people_hr);
   });
   peopleColumn.appendChild(person);
+  // setInterval(() => {
+  //   socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
+  // }, 2000);
   let counter = 'empty';
   socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').html('');});
   socket.on('SOMETHING_WRONG_ADD_FRIEND', (data) => {
@@ -78,10 +57,10 @@ $(() => {
   });
   
   $('.add_friend').on('click', () => {
-    peopleColumn.className = 'people-column people-column-animation-up';
-    add_friend_home.className = 'add_friend_home setting add-friend-animation';
-    peopleColumn.style.height = '270px';
     if(counter == 'empty'){
+      peopleColumn.className = 'people-column people-column-animation-up';
+      add_friend_home.className = 'add_friend_home setting add-friend-animation';
+      peopleColumn.style.height = '270px';
       $('.setting').hide();
       $('.close_buton_home').show();
       setTimeout(() => {

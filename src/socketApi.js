@@ -167,6 +167,7 @@ io.on('connection', (socket) => {
 const update_friend_list = (socket, data) => {
   Account.find({_id: data.id, username: data.username}, (err, object) => {
     if(!err && object[0]){
+      socket.emit('CLEAR-PEOPLE-COLUMN');
       for(var i = 0; i < object[0].friends.length; i++){
         const friendName = object[0].friends[i];
         let friendID;
