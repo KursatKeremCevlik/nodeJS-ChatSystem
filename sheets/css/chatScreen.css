@@ -45,10 +45,10 @@ body{
     height: 420px;
     overflow-y: auto;
 }
-.person{
-    margin-top: 12px;
-    margin-bottom: 12px;
-}.people{
+.people:hover{
+    background-color: grey;
+}
+.people{
     height: 50px;
     display: flex;
     align-items: center;

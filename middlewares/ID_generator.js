@@ -1,7 +1,6 @@
 const Accounts = require('../models/Account');
 
 module.exports = (prm, data, socket) => {
-  console.log('111');
   if(prm == 'Account'){
     let a = true;
     let ID;
@@ -29,7 +28,6 @@ module.exports = (prm, data, socket) => {
         password: data.password,
         secretID: ID
       });
-      console.log(accountData);
       accountData.save((err) => {
         if(!err){
           const text = 'Başarıyla kayıt olundu'
@@ -40,5 +38,3 @@ module.exports = (prm, data, socket) => {
     });
   }
 }
-
-// console.log(ID);

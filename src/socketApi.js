@@ -96,7 +96,9 @@ io.on('connection', (socket) => {
               foundObject[0].friends.push(friendAccount[0].username);
               foundObject[0].save();
               friendAccount[0].save();
-              update_friend_list(socket, data);
+              setTimeout(() => {
+                update_friend_list(socket, data);
+              }, 100);
               const text = 'Başarıyla eklendi';
               socket.emit('SOMETHING_WRONG_ADD_FRIEND', { text });
             }else{
@@ -115,7 +117,6 @@ io.on('connection', (socket) => {
 
   socket.on('DELETE_FRIEND', (data) => {
     Account.find({_id: data.id, username: data.username}, (err, foundObject) => {
-      let username;
       const text = 'Bir şeyler ters gitti';
       if(!err, foundObject[0]){
         let finish = false;
@@ -137,13 +138,15 @@ io.on('connection', (socket) => {
                 const text = 'Başarıyla silindi';
                 foundObject[0].save();
                 socket.emit('SOMETHING_WRONG_DELETE_FRIEND', { text });
-                update_friend_list(socket, data);
                 for(var i = 0; i < friendAccount[0].friends.length; i++){
                   if(friendAccount[0].friends[i] == foundObject[0].username){
                     friendAccount[0].friends.splice(i, 1);
                     friendAccount[0].save();
                   }
                 }
+                setTimeout(() => {
+                  update_friend_list(socket, data);
+                }, 100);
               }
             }else{
               socket.emit('SOMETHIN_WRONG_DELETE_FRIEND', { text });
@@ -157,29 +160,52 @@ io.on('connection', (socket) => {
       }
     });
   });
-
-  // FRIEND_DATAS
-  socket.on('UPDATE-MY-FRIEND-LIST', (data) => {
-    update_friend_list(socket, data);
-  });
 });
 
 const update_friend_list = (socket, data) => {
+  // User account
   Account.find({_id: data.id, username: data.username}, (err, object) => {
     if(!err && object[0]){
-      socket.emit('CLEAR-PEOPLE-COLUMN');
+      const usernameValue = data.username;
+      io.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
       for(var i = 0; i < object[0].friends.length; i++){
         const friendName = object[0].friends[i];
         let friendID;
         Account.find({username: friendName}, (err, foundObject) => {
           if(!err && foundObject[0]){
             friendID = foundObject[0].secretID;
-            socket.emit('FRIEND_DATAS', { friendName, friendID });
+            const username = data.username;
+            setTimeout(() => {
+              io.emit('FRIEND_DATAS', { friendName, friendID, username });
+            }, 10);
           }
         });
       }
-      socket.emit('FRIEND_COUNTER_DONE');
     }
+    // Another account
+    let prm;
+    if(data.delete_friend_value){prm = data.delete_friend_value;}
+    if(data.add_friend_value){prm = data.add_friend_value}
+
+    Account.find({secretID: prm}, (err, foundObject) => {
+      if(!err && foundObject[0]){
+        const usernameValue = foundObject[0].username;
+        io.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
+        for(var i = 0; i < foundObject[0].friends.length; i++){
+          const friendName = foundObject[0].friends[i];
+          let friendID;
+          Account.find({username: friendName}, (err, friendAccount) => {
+            if(!err && friendAccount[0]){
+              friendID = friendAccount[0].secretID;
+              const username = data.username;
+              setTimeout(() => {
+                io.emit('FRIEND_DATAS', { friendName, friendID, username });
+              }, 10);
+            }
+          });
+        }
+      }
+    });
   });
   return;
 }

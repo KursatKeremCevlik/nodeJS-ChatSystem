@@ -25,30 +25,38 @@ $(() => {
   const delete_friend_home = document.getElementById('delete_friend_home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
-  
+
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
   socket.on('FRIEND_DATAS', (data) => {
-    peopleColumn.className = 'people-column';
-    person.className = 'person';
-    const people_hr = document.createElement('div');
-    people_hr.className = 'people_hr';
-    person.appendChild(people_hr);
-    const people = document.createElement('div');
-    people.className = `people ${data.friendID}`;
-    person.appendChild(people);
-    const people_name = document.createElement('div');
-    people_name.className = 'people_name';
-    const node = document.createTextNode(`${data.friendName}`);
-    people_name.appendChild(node);
-    people.appendChild(people_name);
-    person.appendChild(people_hr);
+    if(data.username == username){
+      person.className = 'person';
+      const people_hr = document.createElement('div');
+      people_hr.className = 'people_hr';
+      person.appendChild(people_hr);
+      const people = document.createElement('div');
+      people.className = `people ${data.friendID}`;
+      people.id = 'people';
+      person.appendChild(people);
+      const people_name = document.createElement('div');
+      people_name.className = 'people_name';
+      const node = document.createTextNode(`${data.friendName}`);
+      people_name.appendChild(node);
+      people.appendChild(people_name);
+      person.appendChild(people_hr);
+
+      people.onclick = () => {
+        console.log(people.className);
+      }
+    }
   });
   peopleColumn.appendChild(person);
-  // setInterval(() => {
-  //   socket.emit('UPDATE-MY-FRIEND-LIST', { id, username });
-  // }, 2000);
+
   let counter = 'empty';
-  socket.on('CLEAR-PEOPLE-COLUMN', () => {$('.person').html('');});
+  socket.on('CLEAR-PEOPLE-COLUMN', (data) => {
+    if(data.usernameValue == username){
+      $('.person').html('');
+    }
+  });
   socket.on('SOMETHING_WRONG_ADD_FRIEND', (data) => {
     $('.info-message-add').html(`${data.text}`);
   });
