@@ -7,6 +7,7 @@ const Account = new Schema({
     username: String,
     password: String,
     friends: Array,
+    isOnline: Boolean,
     secretID: Number
 });
 

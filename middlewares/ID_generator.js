@@ -15,6 +15,9 @@ module.exports = (prm, data, socket) => {
               finish = 0;
             }
           }
+          if(secretID < 100000){
+            finish = 0;
+          }
           if(finish){
             ID = secretID;
             a = false
@@ -26,6 +29,7 @@ module.exports = (prm, data, socket) => {
         surname: data.surname,
         username: data.username,
         password: data.password,
+        isOnline: data.isOnline,
         secretID: ID
       });
       accountData.save((err) => {

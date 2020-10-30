@@ -27,7 +27,7 @@ $(() => {
   const person = document.createElement('div');
 
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
-  socket.on('FRIEND_DATAS', (data) => {
+  socket.on('FRIEND_NAME_DATAS', (data) => {
     if(data.toWho == username){
       person.className = 'person';
       const people_hr = document.createElement('div');
@@ -45,11 +45,39 @@ $(() => {
       person.appendChild(people_hr);
 
       people.onclick = () => {
-        console.log(people.className);
+        $('.page').hide();
+        $('.clientPage').show();
+        $('.clientPage').html('');
+        const friendID = people.classList[1];
+        socket.emit('PLEASE_FRIEND_DATAS', { friendID });
       }
     }
   });
   peopleColumn.appendChild(person);
+  const onlinePeoples = [];
+  socket.on('FRIEND_DATA', (data) => {
+    $('.clientPage').append(`
+    <div class="top-user-information">
+      <div class="friendName">${data.friendName}</div>
+    </div>
+    <div class="private-chat-HR"></div>
+    <div class="messages-container">Messages Are Here</div> 
+    <div class="private-chat-HR-down"></div>
+    <div class="message-form-container">
+      <div class="message-form-home">
+        <form id="message-form">
+          <input type="text" class="input-element message-input" autocomplete="off">
+          <input type="submit" class="input-element message-input-buton" value="Send">
+        </form>
+      </div>
+    </div>
+    `);
+    if(data.isOnline == true){
+      $('.onlineCounter').html('Çevrimiçi');
+    }else{
+      $('.onlineCounter').html('Çevrimdışı');
+    }
+  });
 
   let counter = 'empty';
   socket.on('CLEAR-PEOPLE-COLUMN', (data) => {

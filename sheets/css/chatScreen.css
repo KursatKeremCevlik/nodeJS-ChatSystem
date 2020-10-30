@@ -1,8 +1,9 @@
 body{
     background-color: black;
     color: white;
-}.page{text-align: center; display: none;}
+}.page{display: none;}
 .chat_screen{display: none;}
+.mainPage{min-height: 620px; max-height: 620px; display: flex; align-items: center;}
 
 /* CHAT SCREEN */
 .container{
@@ -26,7 +27,7 @@ body{
     min-width: 200px;
     max-width: 200px;
     float: left;
-    height: 550px;
+    height: 548px;
 }.profile{
     background-color: green;
     height: 80px;
@@ -46,13 +47,15 @@ body{
     overflow-y: auto;
 }
 .people:hover{
-    background-color: grey;
+    background-color: rgb(161, 159, 159);
 }
 .people{
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.3s;
+    cursor: pointer;
 }.people_hr{
     border: 1px solid white;
     width: 150px;
@@ -75,6 +78,9 @@ body{
     border-radius: 5px;
     transition: 0.3s;
 }.buton:hover{
+    color: black;
+    background-color: white;
+}.buton:focus{
     color: black;
     background-color: white;
 }.setting{
@@ -185,3 +191,75 @@ body{
 .HR{border: 1px solid white;}
 .setting{display: none;}
 .align{display: flex; align-items: center; justify-content: center;}
+
+
+.homeScreen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 548px;
+    max-height: 548px;
+}.homeScreen-message{font-size: 30px;}
+.private-chat-HR{
+    border: 1px solid white;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}.private-chat-HR-down{
+    border: 1px solid white;
+    width: 870px;
+    margin-left: auto;
+    margin-right: auto;
+}.clientPage{
+    display: none;
+    min-height: 548px;
+    max-height: 548px;
+    width: 900px;
+    float: right;
+}.top-user-information{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    font-size: 25px;
+}.messages-container{
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}.message-form-container{
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}.input-element{outline: none;}
+.message-input{
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    width: 688px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-right: 6px;
+    transition: 0.3s;
+}.message-input:focus{
+    color: black;
+    background-color: white;
+}.message-input-buton{
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 10px;
+    height: 30px;
+    margin-left: 6px;
+    width: 100px;
+    transition: 0.3s;
+}.message-input-buton:focus{
+    background-color: white;
+    color: black;
+}.message-input-buton:hover{
+    background-color: white;
+    color: black;
+}

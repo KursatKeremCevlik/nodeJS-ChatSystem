@@ -35,7 +35,8 @@ io.on('connection', (socket) => {
           const surname = data.surname;
           const username = data.username;
           const password = data.password;
-          generator('Account', {name, surname, username, password}, socket);
+          const isOnline = false;
+          generator('Account', {name, surname, username, password, isOnline}, socket);
         }
       });
     }
@@ -162,6 +163,16 @@ io.on('connection', (socket) => {
       }
     });
   });
+
+  socket.on('PLEASE_FRIEND_DATAS', (data) => {
+    Account.find({secretID: data.friendID}, (err, object) => {
+      if(!err && object[0]){
+        const friendName = object[0].username;
+        const isOnline = object[0].isOnline;
+        socket.emit('FRIEND_DATA', { friendName, isOnline });
+      }
+    })
+  });
 });
 
 const update_friend_list = (socket, data, prm) => {
@@ -178,7 +189,7 @@ const update_friend_list = (socket, data, prm) => {
             friendID = foundObject[0].secretID;
             const toWho = data.username;
             setTimeout(() => {
-              socket.emit('FRIEND_DATAS', { friendName, friendID, toWho });
+              socket.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho });
             }, 10);
           }
         });
@@ -197,7 +208,7 @@ const update_friend_list = (socket, data, prm) => {
             const toWho = object[0].username;
             friendID = foundObject[0].secretID;
             setTimeout(() => {
-              socket.broadcast.emit('FRIEND_DATAS', { friendName, friendID, toWho });
+              socket.broadcast.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho });
             }, 10);
           }
         });
