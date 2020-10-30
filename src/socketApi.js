@@ -96,8 +96,9 @@ io.on('connection', (socket) => {
               foundObject[0].friends.push(friendAccount[0].username);
               foundObject[0].save();
               friendAccount[0].save();
+              const prm = friendAccount[0].username;
               setTimeout(() => {
-                update_friend_list(socket, data);
+                update_friend_list(socket, data, prm);
               }, 100);
               const text = 'Başarıyla eklendi';
               socket.emit('SOMETHING_WRONG_ADD_FRIEND', { text });
@@ -162,7 +163,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const update_friend_list = (socket, data) => {
+const update_friend_list = (socket, data, prm) => {
   // User account
   Account.find({_id: data.id, username: data.username}, (err, object) => {
     if(!err && object[0]){
@@ -183,21 +184,17 @@ const update_friend_list = (socket, data) => {
       }
     }
     // Another account
-    let prm;
-    if(data.delete_friend_value){prm = data.delete_friend_value;}
-    if(data.add_friend_value){prm = data.add_friend_value}
-
-    Account.find({secretID: prm}, (err, foundObject) => {
-      if(!err && foundObject[0]){
-        const usernameValue = foundObject[0].username;
+    Account.find({username: prm}, (err, object) => {
+      if(!err && object[0]){
+        const usernameValue = object[0].username;
         io.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
-        for(var i = 0; i < foundObject[0].friends.length; i++){
-          const friendName = foundObject[0].friends[i];
+        for(var i = 0; i < object[0].friends.length; i++){
+          const friendName = object[0].friends[i];
           let friendID;
-          Account.find({username: friendName}, (err, friendAccount) => {
-            if(!err && friendAccount[0]){
-              friendID = friendAccount[0].secretID;
-              const username = data.username;
+          Account.find({username: friendName}, (err, foundObject) => {
+            if(!err && foundObject[0]){
+              friendID = foundObject[0].secretID;
+              const username = foundObject[0].username;
               setTimeout(() => {
                 io.emit('FRIEND_DATAS', { friendName, friendID, username });
               }, 10);
