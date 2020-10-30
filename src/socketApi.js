@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
               foundObject[0].friends.push(friendAccount[0].username);
               foundObject[0].save();
               friendAccount[0].save();
-              const prm = friendAccount[0].username;
+              const prm = data.add_friend_value;
               setTimeout(() => {
                 update_friend_list(socket, data, prm);
               }, 100);
@@ -142,11 +142,12 @@ io.on('connection', (socket) => {
                 for(var i = 0; i < friendAccount[0].friends.length; i++){
                   if(friendAccount[0].friends[i] == foundObject[0].username){
                     friendAccount[0].friends.splice(i, 1);
-                    friendAccount[0].save();
                   }
                 }
+                friendAccount[0].save();
+                const prm = data.delete_friend_value;
                 setTimeout(() => {
-                  update_friend_list(socket, data);
+                  update_friend_list(socket, data, prm);
                 }, 100);
               }
             }else{
@@ -168,41 +169,40 @@ const update_friend_list = (socket, data, prm) => {
   Account.find({_id: data.id, username: data.username}, (err, object) => {
     if(!err && object[0]){
       const usernameValue = data.username;
-      io.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
+      socket.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
       for(var i = 0; i < object[0].friends.length; i++){
-        const friendName = object[0].friends[i];
         let friendID;
+        const friendName = object[0].friends[i];
         Account.find({username: friendName}, (err, foundObject) => {
           if(!err && foundObject[0]){
             friendID = foundObject[0].secretID;
-            const username = data.username;
+            const toWho = data.username;
             setTimeout(() => {
-              io.emit('FRIEND_DATAS', { friendName, friendID, username });
+              socket.emit('FRIEND_DATAS', { friendName, friendID, toWho });
             }, 10);
           }
         });
       }
     }
-    // Another account
-    Account.find({username: prm}, (err, object) => {
-      if(!err && object[0]){
-        const usernameValue = object[0].username;
-        io.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
-        for(var i = 0; i < object[0].friends.length; i++){
-          const friendName = object[0].friends[i];
-          let friendID;
-          Account.find({username: friendName}, (err, foundObject) => {
-            if(!err && foundObject[0]){
-              friendID = foundObject[0].secretID;
-              const username = foundObject[0].username;
-              setTimeout(() => {
-                io.emit('FRIEND_DATAS', { friendName, friendID, username });
-              }, 10);
-            }
-          });
-        }
+  });
+  Account.find({secretID: prm}, (err, object) => {
+    if(!err && object[0]){
+      const usernameValue = object[0].username;
+      socket.broadcast.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
+      for(var i = 0; i < object[0].friends.length; i++){
+        let friendID;
+        const friendName = object[0].friends[i];
+        Account.find({username: friendName}, (err, foundObject) => {
+          if(!err && foundObject[0]){
+            const toWho = object[0].username;
+            friendID = foundObject[0].secretID;
+            setTimeout(() => {
+              socket.broadcast.emit('FRIEND_DATAS', { friendName, friendID, toWho });
+            }, 10);
+          }
+        });
       }
-    });
+    }
   });
   return;
 }

@@ -28,7 +28,7 @@ $(() => {
 
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
   socket.on('FRIEND_DATAS', (data) => {
-    if(data.username == username){
+    if(data.toWho == username){
       person.className = 'person';
       const people_hr = document.createElement('div');
       people_hr.className = 'people_hr';
