@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Messages = new Schema({
-    username: String,
+    fromWho: String,
+    toWho: String,
     message: String,
+    line: Number,
     secretID: Number
 });
 

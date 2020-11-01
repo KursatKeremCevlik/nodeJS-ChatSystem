@@ -6,7 +6,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="/js/chatScreen"></script>
-  <script src="/jquery/dist/jquery.min.js"></script>
+  <!-- <script src="/jquery/dist/jquery.min.js"></script> -->
   <link rel="stylesheet" href="/semantic/dist/semantic.min.css">
   <link rel="stylesheet" href="/css/chatScreen">
   <title>Chat</title>
@@ -71,15 +71,26 @@
         <div class="clientPage page" id="clientPage">
           <!-- <div class="top-user-information">About This User</div>
           <div class="private-chat-HR"></div>
-          <div class="messages-container">Messages Are Here</div> 
+          <div class="messages-container">
+            <div class="message-container">
+              <div class="message-home my-message-home">
+                <div class="message my-message">Example message. This is a first message in this system</div>
+              </div>
+            </div>
+            <div class="message-container">
+              <div class="message-home another-message-home">
+                <div class="message another-message">This message writing  by another people</div>
+              </div>
+            </div>
+          </div>
           <div class="private-chat-HR-down"></div>
           <div class="message-form-container">
-            <div class="message-form-home">
-              <form id="message-form">
-                <input type="text" class="input-element message-input" autocomplete="off">
-                <input type="submit" class="input-element message-input-buton" value="Send">
-              </form>
-            </div>
+          </div> -->
+          <!-- <div class="message-form-home">
+            <form id="message-form">
+              <input type="text" class="input-element message-input" id="message-input" autocomplete="off">
+              <input type="submit" class="input-element message-input-buton" id="message-input-buton">
+            </form>
           </div> -->
         </div>
       </div>

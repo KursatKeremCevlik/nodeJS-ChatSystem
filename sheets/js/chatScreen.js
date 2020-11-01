@@ -27,6 +27,7 @@ $(() => {
   const person = document.createElement('div');
 
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
+  let friendID;
   socket.on('FRIEND_NAME_DATAS', (data) => {
     if(data.toWho == username){
       person.className = 'person';
@@ -48,37 +49,132 @@ $(() => {
         $('.page').hide();
         $('.clientPage').show();
         $('.clientPage').html('');
-        const friendID = people.classList[1];
+        friendID = people.classList[1];
         socket.emit('PLEASE_FRIEND_DATAS', { friendID });
       }
     }
   });
   peopleColumn.appendChild(person);
-  const onlinePeoples = [];
+  /* CHAT SCRIPTS */
+  let friendName;
   socket.on('FRIEND_DATA', (data) => {
-    $('.clientPage').append(`
-    <div class="top-user-information">
-      <div class="friendName">${data.friendName}</div>
-    </div>
-    <div class="private-chat-HR"></div>
-    <div class="messages-container">Messages Are Here</div> 
-    <div class="private-chat-HR-down"></div>
-    <div class="message-form-container">
-      <div class="message-form-home">
-        <form id="message-form">
-          <input type="text" class="input-element message-input" autocomplete="off">
-          <input type="submit" class="input-element message-input-buton" value="Send">
-        </form>
-      </div>
-    </div>
-    `);
-    if(data.isOnline == true){
-      $('.onlineCounter').html('Çevrimiçi');
-    }else{
-      $('.onlineCounter').html('Çevrimdışı');
+    const clientPage = document.getElementById('clientPage');
+    const topUserInformation = document.createElement('div');
+    topUserInformation.className = 'top-user-information';
+    const topUserInformationName = document.createTextNode(data.friendName);
+    topUserInformation.appendChild(topUserInformationName);
+    const privateChatHR = document.createElement('div');
+    privateChatHR.className = 'private-chat-HR';
+    const messagesContainer = document.createElement('div');
+    messagesContainer.className = 'messages-container';
+    messagesContainer.id = 'messages-container';
+    const privateChatHRDown = document.createElement('div');
+    privateChatHRDown.className = 'private-chat-HR-down';
+    const messageFormContainer = document.createElement('div');
+    messageFormContainer.className = 'message-form-container';
+    const messageFormHome = document.createElement('div');
+    messageFormHome.className = 'message-form-home';
+    const messageForm = document.createElement('form');
+    messageForm.className = 'message-form';
+    const messageInput = document.createElement('input');
+    messageInput.type = 'text';
+    messageInput.className = 'input-element message-input';
+    messageInput.id = 'message-input';
+    messageInput.autocomplete = 'off';
+    const messageInputButon = document.createElement('input');
+    messageInputButon.type = 'submit';
+    messageInputButon.className = 'input-element message-input-buton';
+    messageInputButon.id = 'message-input-buton';
+
+    messageForm.appendChild(messageInput);
+    messageForm.appendChild(messageInputButon);
+    messageFormHome.appendChild(messageForm);
+    messageFormContainer.appendChild(messageFormHome);
+    clientPage.appendChild(topUserInformation);
+    clientPage.appendChild(privateChatHR);
+    clientPage.appendChild(messagesContainer);
+    clientPage.appendChild(privateChatHRDown);
+    clientPage.appendChild(messageFormContainer);
+    messageForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if(messageInput.value){
+        const message = messageInput.value;
+        socket.emit('NEW_MESSAGE', {message, username, friendID});
+        messageInput.value = '';
+      }
+    });
+    friendName = data.friendName;
+    socket.emit('PLEASE_MESSAGE_DATAS', {username, friendName});
+  });
+  let messages = [];
+  socket.on('CREATE_LOADING_EVENT', () => {
+    messages = [];
+    const element = document.getElementById('messages-container');
+    element.className = 'messages-container messages-container-align';
+    $('.messages-container').html('Yükleniyor');
+  });
+  socket.on('ACCOUNT_MESSAGE_DATAS', (data) => {messages.push(data);});
+  socket.on('ACCOUNT_MESSAGES_DATAS_DONE', () => {
+    const element = document.getElementById('messages-container');
+    element.className = 'messages-container';
+    $('.messages-container').html('');
+    for(var i = 0; i < messages.length; i++){
+      if(messages[i].fromWho == username){
+        $('.messages-container').append(`
+        <div class="message-container">
+          <div class="message-home my-message-home">
+            <div class="message my-message">${messages[i].message}</div>
+          </div>
+        </div>
+        `);
+      }else{
+        $('.messages-container').append(`
+        <div class="message-container">
+          <div class="message-home another-message-home">
+            <div class="message another-message">${messages[i].message}</div>
+          </div>
+        </div>
+        `);
+      }
+      setTimeout(() => {
+        const element = document.getElementById('messages-container');
+        element.scrollTop = element.scrollHeight;
+      });
     }
   });
 
+  socket.on('NEW_MESSAGE_DATA', (data) => {
+    createMessage(data);
+    setTimeout(() => {
+      const element = document.getElementById('messages-container');
+      element.scrollTop = element.scrollHeight;
+    });
+  });
+
+  const createMessage = (data) => {
+    console.log(username);
+    if(data.fromWho == username){
+      // My message
+      $('.messages-container').append(`
+      <div class="message-container">
+        <div class="message-home my-message-home">
+          <div class="message my-message">${data.message}</div>
+        </div>
+      </div>
+      `);
+    }else{
+      // Another people message
+      $('.messages-container').append(`
+      <div class="message-container">
+        <div class="message-home another-message-home">
+          <div class="message another-message">${data.message}</div>
+        </div>
+      </div>
+      `);
+    }
+  }
+
+  // Animations
   let counter = 'empty';
   socket.on('CLEAR-PEOPLE-COLUMN', (data) => {
     if(data.usernameValue == username){

@@ -5,6 +5,7 @@ socketApi.io = io;
 
 const generator = require('../middlewares/ID_generator');
 const Account = require('../models/Account');
+const Messages = require('../models/Messages');
 
 io.on('connection', (socket) => {
   socket.on('SIGNUP_DATAS', (data) => {
@@ -172,6 +173,37 @@ io.on('connection', (socket) => {
         socket.emit('FRIEND_DATA', { friendName, isOnline });
       }
     })
+  });
+
+  // Messages
+  socket.on('NEW_MESSAGE', (data) => {
+    if(data.message && data.friendID){
+      Account.find({secretID: data.friendID}, (err, object) => {
+        if(!err && object[0]){
+          const message = data.message;
+          const toWho = object[0].username;
+          const fromWho = data.username;
+          generator('Message', {message, toWho, fromWho}, socket);
+        }
+      });
+    }
+  });
+
+  socket.on('PLEASE_MESSAGE_DATAS', (data) => {
+    Messages.find((err, object) => {
+      if(!err){
+        socket.emit('CREATE_LOADING_EVENT');
+        for(var i = 0; i < object.length; i++){
+          if((object[i].fromWho==data.username && object[i].toWho==data.friendName)||(object[i].toWho==data.username&&object[i].fromWho==data.friendName)){
+            const veri = object[i];
+            socket.emit('ACCOUNT_MESSAGE_DATAS', veri);
+          }
+        }
+        setTimeout(() => {
+          socket.emit('ACCOUNT_MESSAGES_DATAS_DONE');
+        }, 1000);
+      }
+    });
   });
 });
 

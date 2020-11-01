@@ -1,5 +1,5 @@
 $(() => {
-  const socket = io.connect('https://example-chat-system.herokuapp.com/');
+  let socket = io.connect('https://example-chat-system.herokuapp.com/');
   // let socket = io.connect('http://localhost:3000');
   
   $('.secondPage').hide();
