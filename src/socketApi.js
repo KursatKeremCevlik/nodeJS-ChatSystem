@@ -199,9 +199,7 @@ io.on('connection', (socket) => {
             socket.emit('ACCOUNT_MESSAGE_DATAS', veri);
           }
         }
-        setTimeout(() => {
-          socket.emit('ACCOUNT_MESSAGES_DATAS_DONE');
-        }, 1000);
+        socket.emit('ACCOUNT_MESSAGES_DATAS_DONE');
       }
     });
   });
