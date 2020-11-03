@@ -292,7 +292,6 @@ body{
     color: black;
 }
 
-
 body ::-webkit-scrollbar-thumb{
     cursor: pointer;
     border-radius: 5px;

@@ -108,39 +108,43 @@ $(() => {
   });
   let messages = [];
   socket.on('CREATE_LOADING_EVENT', () => {
+    // Loading animation
     messages = [];
+    console.log('111');
     const element = document.getElementById('messages-container');
     element.className = 'messages-container messages-container-align';
     $('.messages-container').html('Yükleniyor');
   });
   socket.on('ACCOUNT_MESSAGE_DATAS', (data) => {messages.push(data);});
   socket.on('ACCOUNT_MESSAGES_DATAS_DONE', () => {
-    const element = document.getElementById('messages-container');
-    element.className = 'messages-container';
-    $('.messages-container').html('');
-    for(var i = 0; i < messages.length; i++){
-      if(messages[i].fromWho == username){
-        $('.messages-container').append(`
-        <div class="message-container">
-          <div class="message-home my-message-home">
-            <div class="message my-message">${messages[i].message}</div>
+    setTimeout(() => {
+      const element = document.getElementById('messages-container');
+      element.className = 'messages-container';
+      $('.messages-container').html('');
+      for(var i = 0; i < messages.length; i++){
+        if(messages[i].fromWho == username){
+          $('.messages-container').append(`
+          <div class="message-container">
+            <div class="message-home my-message-home">
+              <div class="message my-message">${messages[i].message}</div>
+            </div>
           </div>
-        </div>
-        `);
-      }else{
-        $('.messages-container').append(`
-        <div class="message-container">
-          <div class="message-home another-message-home">
-            <div class="message another-message">${messages[i].message}</div>
+          `);
+        }else{
+          $('.messages-container').append(`
+          <div class="message-container">
+            <div class="message-home another-message-home">
+              <div class="message another-message">${messages[i].message}</div>
+            </div>
           </div>
-        </div>
-        `);
+          `);
+        }
+        setTimeout(() => {
+          const element = document.getElementById('messages-container');
+          element.scrollTop = element.scrollHeight;
+        });
       }
-      setTimeout(() => {
-        const element = document.getElementById('messages-container');
-        element.scrollTop = element.scrollHeight;
-      });
-    }
+    }, 500);
   });
 
   socket.on('NEW_MESSAGE_DATA', (data) => {
