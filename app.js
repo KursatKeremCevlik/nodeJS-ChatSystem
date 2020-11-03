@@ -24,6 +24,7 @@ app.use('/js/chatScreen', express.static(path.join(__dirname, '/sheets/js/chatSc
 
 app.use('/jquery/dist/jquery.min.js', express.static(path.join(__dirname, '/bower_components/jquery/dist/jquery.min.js')));
 app.use('/semantic/dist/semantic.min.css', express.static(path.join(__dirname, '/bower_components/semantic/dist/semantic.min.css')));
+app.use('/css/errorPage', express.static(path.join(__dirname, '/sheets/css/errorPage.css')));
 
 const expressOprt = require('./operations/expressOprt')(app, express, logger, cookieParser, path);
 app.use(function (req, res, next) {res.sendFile(__dirname + '/sheets/htmls/errorPage.html');});
