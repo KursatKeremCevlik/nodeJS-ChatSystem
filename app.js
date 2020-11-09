@@ -14,6 +14,7 @@ app.get('/signup', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/signup
 app.get('/login', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/loginPage.html');});
 app.get('/chat', (req, res) => {res.sendFile(__dirname + '/sheets/htmls/chatScreen.html');});
 
+// Css and Js files
 app.use('/css/homePage', express.static(path.join(__dirname, '/sheets/css/homePage.css')));
 app.use('/css/signupPage', express.static(path.join(__dirname, '/sheets/css/signupPage.css')));
 app.use('/css/loginPage', express.static(path.join(__dirname, '/sheets/css/loginPage.css')));

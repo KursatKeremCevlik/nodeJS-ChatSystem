@@ -8,17 +8,30 @@
   <script src="/js/chatScreen"></script>
   <!-- <script src="/jquery/dist/jquery.min.js"></script> -->
   <link rel="stylesheet" href="/semantic/dist/semantic.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/chatScreen">
   <title>Chat</title>
 </head>
-<body>
+<body class="body">
   <div class="waiting_room page"><h1>Loading</h1></div>
   <div class="chat_screen mainPage">
     <div class="container">
       <div class="row">
         <div class="column">
           <div class="profile">
-            <a class="profile-id"></a>
+            <div class="top-settings-home">
+              <div class="dropdown">
+                <button class="btn"><i class="fa fa-bars"></i></button>
+                <div class="dropdown-content">
+                  <a class="create-group-buton">Grup oluştur (İşlevsiz)</a>
+                  <a class="add-friend-buton">Arkadaş ekle</a>
+                  <a class="delete-friend-buton">Arkadaş sil</a>
+                </div>
+              </div>
+            </div>
+            <div class="ID-home">
+              <a class="profile-id"></a>
+            </div>
           </div>
           <div class="HR"></div>
           <div class="people-column" id="people-column">

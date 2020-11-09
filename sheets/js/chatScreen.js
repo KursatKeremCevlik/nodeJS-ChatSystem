@@ -21,6 +21,53 @@ $(() => {
     $('.wrong_account').show();
     return false;
   }
+
+  $('.add-friend-buton').on('click', () => {
+    if(counter == 'empty'){
+      peopleColumn.className = 'people-column people-column-animation-up';
+      add_friend_home.className = 'add_friend_home setting add-friend-animation';
+      peopleColumn.style.height = '270px';
+      $('.setting').hide();
+      $('.close_buton_home').show();
+      setTimeout(() => {
+        $('.add_friend_home').show();
+        add_friend_home.className = 'add_friend_home setting setting-animation-up';
+      }, 490);
+      counter = 'add-friend-now';
+    }
+    if(counter == 'delete-friend-now'){
+      delete_friend_home.className = 'delete_friend_home setting setting-animation-blackout';
+      setTimeout(() => {
+        $('.delete_friend_home').hide();
+        add_friend_home.className = 'add_friend_home setting setting-animation-lighting';
+        $('.add_friend_home').show();
+      }, 490);
+      counter = 'add-friend-now';
+    }
+  });
+  $('.delete-friend-buton').on('click', () => {
+    if(counter == 'empty'){
+      peopleColumn.className = 'people-column people-column-animation-up';
+      peopleColumn.style.height = '270px';
+      counter = 'delete-friend-now';
+      $('.setting').hide();
+      $('.close_buton_home').show();
+      setTimeout(() => {
+        $('.delete_friend_home').show();
+        delete_friend_home.className = 'delete_friend_home setting setting-animation-up'
+      }, 490);
+    }
+    if(counter == 'add-friend-now'){
+      add_friend_home.className = 'add_friend_home setting setting-animation-blackout';
+      counter = 'delete-friend-now';
+      setTimeout(() => {
+        $('.add_friend_home').hide();
+        delete_friend_home.className = 'delete_friend_home setting setting-animation-lighting';
+        $('.delete_friend_home').show();
+      }, 490);
+    }
+  });
+
   const add_friend_home = document.getElementById('add_friend_home');
   const delete_friend_home = document.getElementById('delete_friend_home');
   const peopleColumn = document.getElementById('people-column');
