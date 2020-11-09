@@ -110,7 +110,6 @@ $(() => {
   socket.on('CREATE_LOADING_EVENT', () => {
     // Loading animation
     messages = [];
-    console.log('111');
     const element = document.getElementById('messages-container');
     element.className = 'messages-container messages-container-align';
     $('.messages-container').html('Yükleniyor');
@@ -122,59 +121,133 @@ $(() => {
       element.className = 'messages-container';
       $('.messages-container').html('');
       for(var i = 0; i < messages.length; i++){
-        if(messages[i].fromWho == username){
-          $('.messages-container').append(`
-          <div class="message-container">
-            <div class="message-home my-message-home">
-              <div class="message my-message">${messages[i].message}</div>
+        if(!messages[i].haveLink){
+          if(messages[i].fromWho == username){
+            $('.messages-container').append(`
+            <div class="message-container">
+              <div class="message-home my-message-home">
+                <div class="message my-message">${messages[i].message}</div>
+              </div>
             </div>
-          </div>
-          `);
+            `);
+          }else{
+            $('.messages-container').append(`
+            <div class="message-container">
+              <div class="message-home another-message-home">
+                <div class="message another-message">${messages[i].message}</div>
+              </div>
+            </div>
+            `);
+          }
+          setTimeout(() => {
+            const element = document.getElementById('messages-container');
+            element.scrollTop = element.scrollHeight;
+          });
         }else{
-          $('.messages-container').append(`
-          <div class="message-container">
-            <div class="message-home another-message-home">
-              <div class="message another-message">${messages[i].message}</div>
-            </div>
-          </div>
-          `);
+          const data = {
+            fromWho: messages[i].fromWho,
+            toWho: messages[i].toWho,
+            line: messages[i].line,
+            haveLink: true,
+            secretID: messages[i].secretID,
+            beforeLink: messages[i].beforeLink,
+            afterLink: messages[i].afterLink,
+            link: messages[i].link
+          }
+          createMessage(data);
         }
-        setTimeout(() => {
-          const element = document.getElementById('messages-container');
-          element.scrollTop = element.scrollHeight;
-        });
       }
     }, 500);
   });
 
-  socket.on('NEW_MESSAGE_DATA', (data) => {
-    createMessage(data);
+  socket.on('NEW_MESSAGE_DATA', (data) => {createMessage(data);});
+
+  const messageWithLink = (data) => {setTimeout(() => {
+    if(data.beforeLink[0]){
+      for(var i = 0; i < data.beforeLink.length; i++){
+        $(`.${data.secretID}`).append(`${data.beforeLink[i]} `);
+      }
+      setTimeout(() => {
+        $(`.${data.secretID}`).append(`
+        <b><a class="message-link" href="${data.link}" target="_blank">${data.link} </a></b>
+        `);
+        setTimeout(() => {
+          if(data.afterLink[1]){
+            for(var i = 0; i < data.afterLink.length-1; i++){
+              $(`.${data.secretID}`).append(`${data.afterLink[i+1]} `);
+            }
+          }
+        });
+      });
+    }else{
+      $(`.${data.secretID}`).append(`
+      <b><a class="message-link" href="${data.link}" target="_blank">${data.link} </a></b>
+      `);
+      setTimeout(() => {
+        if(data.afterLink[1]){
+          for(var i = 0; i < data.afterLink.length-1; i++){
+            $(`.${data.secretID}`).append(`${data.afterLink[i+1]} `);
+          }
+        }
+      });
+    }
     setTimeout(() => {
       const element = document.getElementById('messages-container');
       element.scrollTop = element.scrollHeight;
     });
-  });
+  });}
 
   const createMessage = (data) => {
-    console.log(username);
-    if(data.fromWho == username){
-      // My message
-      $('.messages-container').append(`
-      <div class="message-container">
-        <div class="message-home my-message-home">
-          <div class="message my-message">${data.message}</div>
+    if(!data.haveLink){
+      if(data.fromWho == username){
+        // My message
+        $('.messages-container').append(`
+        <div class="message-container">
+          <div class="message-home my-message-home">
+            <div class="message my-message ${data.secretID}">${data.message}</div>
+          </div>
         </div>
-      </div>
-      `);
+        `);
+      }else{
+        if(data.fromWho == friendName && data.toWho == username){
+          // Another people message
+          $('.messages-container').append(`
+          <div class="message-container">
+            <div class="message-home another-message-home">
+              <div class="message another-message ${data.secretID}">${data.message}</div>
+            </div>
+          </div>
+          `);
+        }
+      }
+      setTimeout(() => {
+        const element = document.getElementById('messages-container');
+        element.scrollTop = element.scrollHeight;
+      });
     }else{
-      // Another people message
-      $('.messages-container').append(`
-      <div class="message-container">
-        <div class="message-home another-message-home">
-          <div class="message another-message">${data.message}</div>
+      if(data.fromWho == username){
+        // My message with link
+        $('.messages-container').append(`
+        <div class="message-container">
+          <div class="message-home my-message-home">
+            <div class="message my-message  ${data.secretID}"></div>
+          </div>
         </div>
-      </div>
-      `);
+        `);
+        messageWithLink(data);
+      }else{
+        if(data.fromWho == friendName && data.toWho == username){
+          // Another people message with link
+          $('.messages-container').append(`
+          <div class="message-container">
+            <div class="message-home another-message-home">
+              <div class="message another-message ${data.secretID}"></div>
+            </div>
+          </div>
+          `);
+        }
+        messageWithLink(data);
+      }
     }
   }
 

@@ -297,3 +297,6 @@ body ::-webkit-scrollbar-thumb{
     border-radius: 5px;
     background-color: red;
 }
+
+.message-link{color: rgb(37, 33, 33);}
+.message-link:hover{color: rgb(37, 33, 33); text-decoration-line: underline;}

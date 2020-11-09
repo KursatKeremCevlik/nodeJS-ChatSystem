@@ -1,3 +1,5 @@
+const Account = require('../models/Account');
+const { bulkWrite } = require('../models/Account');
 const Accounts = require('../models/Account');
 const Messages = require('../models/Messages');
 
@@ -75,25 +77,98 @@ module.exports = (prm, data, socket) => {
           }
         }
       }
-      const messageData = new Messages({
-        fromWho: data.fromWho,
-        toWho: data.toWho,
-        message: data.message,
-        line: lineCounter,
-        secretID: ID
-      });
-      messageData.save((err) => {
-        if(!err){
-          const messageData = {
-            message: data.message,
-            fromWho: data.fromWho,
-            line: lineCounter,
-            toWho: data.toWho
+      // const messageData = new Messages({
+      //   fromWho: data.fromWho,
+      //   toWho: data.toWho,
+      //   message: data.message,
+      //   line: lineCounter,
+      //   secretID: ID
+      // });
+      // messageData.save((err) => {
+      //   if(!err){
+      //   }
+      // });
+      var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+      let isUrl = false;
+      let URL;
+      data.message.replace(urlRegex, (url) => {
+        if(url){
+          let linkOrder;
+          const words = data.message.split(' ');
+          for(var i = 0; i < words.length; i++){
+            if(words[i] == url){
+              linkOrder = i;
+              isUrl = true;
+              URL = url;
+            }
           }
-          socket.emit('NEW_MESSAGE_DATA', messageData);
-          socket.broadcast.emit('NEW_MESSAGE_DATA', messageData);
         }
       });
+      if(!isUrl){
+        const messageData = {
+          message: data.message,
+          fromWho: data.fromWho,
+          line: lineCounter,
+          toWho: data.toWho,
+          haveLink: false,
+          secretID: ID
+        }
+        const saveMessageData = new Messages({
+          message: data.message,
+          fromWho: data.fromWho,
+          line: lineCounter,
+          toWho: data.toWho,
+          haveLink: false,
+          secretID: ID
+        });
+        saveMessageData.save((err) => {
+          if(!err){
+            socket.emit('NEW_MESSAGE_DATA', messageData);
+            socket.broadcast.emit('NEW_MESSAGE_DATA', messageData);
+          }
+        });
+      }else{
+        const words = data.message.split(' ');
+        let beforeLink = [];
+        let afterLink = [];
+        let linkCounter = 0;
+        for(var i = 0; i < words.length; i++){
+          if(words[i] == URL){
+            linkCounter++;
+          }
+          if(linkCounter){
+            afterLink.push(words[i]);
+          }else{
+            beforeLink.push(words[i]);
+          }
+        }
+        const messageData = {
+          fromWho: data.fromWho,
+          line: linkCounter,
+          toWho: data.toWho,
+          haveLink: true,
+          secretID: ID,
+          beforeLink: beforeLink,
+          afterLink: afterLink,
+          link: URL
+        }
+        const saveMessageData = new Messages({
+          fromWho: data.fromWho,
+          line: lineCounter,
+          toWho: data.toWho,
+          haveLink: true,
+          secretID: ID,
+          beforeLink: beforeLink,
+          afterLink: afterLink,
+          link: URL
+        });
+        saveMessageData.save((err) => {
+          if(!err){
+            socket.emit('NEW_MESSAGE_DATA', messageData);
+            socket.broadcast.emit('NEW_MESSAGE_DATA', messageData);
+          }
+        });
+      }
     });
   }
 }
