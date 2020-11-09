@@ -21,20 +21,34 @@ body{
 }.row{
     min-width: 1100px;
     max-width: 1100px;
-}
-.column{
+}.column{
     background-color: green;
     min-width: 200px;
     max-width: 200px;
     float: left;
     height: 548px;
-}.profile{
-    background-color: green;
+    border-right: 1px solid red;
+}.create-group-column{
+    height: 548px;
+}.buton_home{
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}.goBack{height: 30px; outline: none;}
+.create-group-text{
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+}
+.create-group-column-first{display: none;}
+.profile{
     height: 75px;
     min-width: 200px;
     max-width: 200px;
-}
-.btn{
+}.btn{
     width: 25px;
     height: 25px;
     background-color: green;
@@ -78,7 +92,12 @@ body{
     background-color: rgb(61, 58, 58);
     color: white;
 }
-.dropdown:hover .dropdown-content {display: block;}
+/* .dropdown:hover .dropdown-content {
+    display: block;
+} */
+@keyframes open-setting-animation {
+    0% {}
+}
 
 .ID-home{
     font-size: 20px;

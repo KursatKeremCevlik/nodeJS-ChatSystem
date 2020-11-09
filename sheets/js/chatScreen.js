@@ -22,7 +22,64 @@ $(() => {
     return false;
   }
 
-  $('.add-friend-buton').on('click', () => {
+  let settingCounter = false;
+  $('.btn').on('click', () => {
+    if(!settingCounter){$('.dropdown-content').show();settingCounter = true;}
+    else{$('.dropdown-content').hide();settingCounter = false;}
+  });
+  window.addEventListener('click', e => {
+    if(settingCounter){
+      if(e.target.className.indexOf('fa fa-bars') === -1){
+        $('.dropdown-content').hide();
+        settingCounter = false;
+      }
+    }
+  });
+
+  $('.create-group-buton').on('click', () => {
+    const profile = document.getElementById('profile');
+    const peopleColumn = document.getElementById('people-column');
+    const HR = document.getElementById('HR');
+    const HR1 = document.getElementById('HR1');
+    const butonsColumn = document.getElementById('butons-column');
+    const createGroupColumn = document.getElementById('create-group-column-first');
+    profile.className = 'profile setting-animation-blackout';
+    peopleColumn.className = 'people-column setting-animation-blackout';
+    HR.className = 'HR setting-animation-blackout';
+    HR1.className = 'HR setting-animation-blackout';
+    butonsColumn.className = 'butons-column setting-animation-blackout';
+    setTimeout(() => {
+      $('.profile').hide();
+      $('.people-column').hide();
+      $('.HR').hide();
+      $('.butons-column').hide();
+    }, 480);
+    setTimeout(() => {
+      createGroupColumn.className = 'create-group-column setting-animation-lighting';
+    }, 510);
+    setTimeout(() => {
+      $('.create-group-column').show();
+    }, 990);
+    $('.goBack').on('click', () => {
+      createGroupColumn.className = 'create-group-column setting-animation-blackout';
+      setTimeout(() => {$('.create-group-column').hide();}, 480);
+      setTimeout(() => {
+        profile.className = 'profile setting-animation-lighting';
+        peopleColumn.className = 'people-column setting-animation-lighting';
+        HR.className = 'HR setting-animation-lighting';
+        HR1.className = 'HR setting-animation-lighting';
+        butonsColumn.className = 'butons-column setting-animation-lighting';
+      }, 510);
+      setTimeout(() => {
+        $('.profile').show();
+        $('.people-column').show();
+        $('.HR').show();
+        $('.butons-column').show();
+      }, 990);
+    });
+  });
+
+  const open_add_friend_column = () => {
     if(counter == 'empty'){
       peopleColumn.className = 'people-column people-column-animation-up';
       add_friend_home.className = 'add_friend_home setting add-friend-animation';
@@ -44,8 +101,8 @@ $(() => {
       }, 490);
       counter = 'add-friend-now';
     }
-  });
-  $('.delete-friend-buton').on('click', () => {
+  }
+  const open_delete_friend_column = () => {
     if(counter == 'empty'){
       peopleColumn.className = 'people-column people-column-animation-up';
       peopleColumn.style.height = '270px';
@@ -66,7 +123,10 @@ $(() => {
         $('.delete_friend_home').show();
       }, 490);
     }
-  });
+  }
+
+  $('.add-friend-buton').on('click', () => {open_add_friend_column();});
+  $('.delete-friend-buton').on('click', () => {open_delete_friend_column();});
 
   const add_friend_home = document.getElementById('add_friend_home');
   const delete_friend_home = document.getElementById('delete_friend_home');
@@ -312,51 +372,8 @@ $(() => {
     $('.info-message-delete').html(`${data.text}`);
   });
   
-  $('.add_friend').on('click', () => {
-    if(counter == 'empty'){
-      peopleColumn.className = 'people-column people-column-animation-up';
-      add_friend_home.className = 'add_friend_home setting add-friend-animation';
-      peopleColumn.style.height = '270px';
-      $('.setting').hide();
-      $('.close_buton_home').show();
-      setTimeout(() => {
-        $('.add_friend_home').show();
-        add_friend_home.className = 'add_friend_home setting setting-animation-up';
-      }, 490);
-      counter = 'add-friend-now';
-    }
-    if(counter == 'delete-friend-now'){
-      delete_friend_home.className = 'delete_friend_home setting setting-animation-blackout';
-      setTimeout(() => {
-        $('.delete_friend_home').hide();
-        add_friend_home.className = 'add_friend_home setting setting-animation-lighting';
-        $('.add_friend_home').show();
-      }, 490);
-      counter = 'add-friend-now';
-    }
-  });
-  $('.delete_friend').on('click', () => {
-    if(counter == 'empty'){
-      peopleColumn.className = 'people-column people-column-animation-up';
-      peopleColumn.style.height = '270px';
-      counter = 'delete-friend-now';
-      $('.setting').hide();
-      $('.close_buton_home').show();
-      setTimeout(() => {
-        $('.delete_friend_home').show();
-        delete_friend_home.className = 'delete_friend_home setting setting-animation-up'
-      }, 490);
-    }
-    if(counter == 'add-friend-now'){
-      add_friend_home.className = 'add_friend_home setting setting-animation-blackout';
-      counter = 'delete-friend-now';
-      setTimeout(() => {
-        $('.add_friend_home').hide();
-        delete_friend_home.className = 'delete_friend_home setting setting-animation-lighting';
-        $('.delete_friend_home').show();
-      }, 490);
-    }
-  });
+  $('.add_friend').on('click', () => {open_add_friend_column();});
+  $('.delete_friend').on('click', () => {open_delete_friend_column();});
   $('.close_setting').on('click', () => {
     if(counter == 'add-friend-now'){
       counter = 'empty';

@@ -17,13 +17,13 @@
   <div class="chat_screen mainPage">
     <div class="container">
       <div class="row">
-        <div class="column">
-          <div class="profile">
+        <div class="column" id="column">
+          <div class="profile" id="profile">
             <div class="top-settings-home">
               <div class="dropdown">
                 <button class="btn"><i class="fa fa-bars"></i></button>
                 <div class="dropdown-content">
-                  <a class="create-group-buton">Grup oluştur (İşlevsiz)</a>
+                  <a class="create-group-buton">Grup oluştur</a>
                   <a class="add-friend-buton">Arkadaş ekle</a>
                   <a class="delete-friend-buton">Arkadaş sil</a>
                 </div>
@@ -33,7 +33,7 @@
               <a class="profile-id"></a>
             </div>
           </div>
-          <div class="HR"></div>
+          <div class="HR" id="HR"></div>
           <div class="people-column" id="people-column">
             <div class="loading"></div>
             <!-- <div class="person">
@@ -44,8 +44,8 @@
               <div class="people_hr"></div>
             </div> -->
           </div>
-          <div class="HR"></div>
-          <div class="butons-column">
+          <div class="HR" id="HR1"></div>
+          <div class="butons-column" id="butons-column">
             <button class="add_friend buton">Add</button>
             <button class="delete_friend buton">Delete</button>
           </div>
@@ -77,17 +77,25 @@
               <button class="close_setting">x</button>
             </div>
           </div>
+          <div class="create-group-column-first" id="create-group-column-first">
+            <div class="buton_home">
+              <button class="goBack">Geri Dön</button>
+            </div>
+            <div class="create-group-text">
+              Yapımda
+            </div>
+          </div>
         </div>
         <div class="homeScreen page">
           <div class="homeScreen-message">About Us Page</div>
         </div>
         <div class="clientPage page" id="clientPage">
           <!-- <div class="top-user-information">About This User</div>
-          <div class="private-chat-HR"></div>
-          <div class="messages-container">
-            <div class="message-container">
-              <div class="message-home my-message-home">
-                <div class="message my-message">Example message. This is a first message in this system</div>
+            <div class="private-chat-HR"></div>
+            <div class="messages-container">
+              <div class="message-container">
+                <div class="message-home my-message-home">
+                  <div class="message my-message">Example message. This is a first message in this system</div>
               </div>
             </div>
             <div class="message-container">
