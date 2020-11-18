@@ -6,8 +6,13 @@ body{
 .mainPage{min-height: 620px; max-height: 620px; display: flex; align-items: center;}
 
 /* CHAT SCREEN */
-.container{
+.header{
+    text-align: center;
+    color: white;
+    margin-top: 24px;
+}.container{
     border: 1px solid red;
+    border-radius: 10px;
     min-width: 1100px;
     max-width: 1100px;
     min-height: 550px;
@@ -21,29 +26,96 @@ body{
 }.row{
     min-width: 1100px;
     max-width: 1100px;
-}.column{
+}.cards-home:after{
+    content: "";
+    display: table;
+    clear: both;
+}.cards-home{
+    min-width: 800px;
+    max-width: 800px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+}.card-left{margin-left: 100px; margin-right: auto;}
+.card-right{margin-right: 100px; margin-left: auto;}
+.card{
+    width: 250px;
+    height: 400px;
+    background-color: rgb(141, 129, 129);
+    color: black;
+    border-radius: 40px;
+    transition: 0.3s;
+}.card:hover:first-child{
+    width: 260px;
+    height: 410px;
+    margin-left: 95px;
+    border-radius: 20px;
+}.card:hover:last-child{
+    width: 260px;
+    height: 410px;
+    margin-right: 95px;
+    border-radius: 20px;
+}.card-content{
+    color: rgb(31, 28, 28);
+    text-align: center;
+}.card-title{
+    color: black;
+    font-size: 23px;
+    margin-top: 32px;
+}.card-bio{
+    border-radius: 10px;
+    border: 2px solid rgb(54, 51, 51);
+    font-size: 17px;
+    margin-top: 32px;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+}.normal-message{height: 150px;}
+.trol-message{margin-top: 24px;}
+.private-message-for-card{
+    height: 50px;
+    display: flex;
+    align-items: center;
+}.social-media-links{height: 55px; margin-top: 50px;}
+.social-media-links-private{height: 55px; margin-top: 50px;}
+.link{cursor: pointer;}
+.github{margin-bottom: 5px;}
+.column{
     background-color: green;
     min-width: 200px;
     max-width: 200px;
     float: left;
     height: 548px;
     border-right: 1px solid red;
-}.create-group-column{
-    height: 548px;
-}.buton_home{
+    border-radius: 10px;
+}.create-group-column{height: 548px}
+.create-group-column-content{height: 500px;}
+.buton_home{
     height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
 }.goBack{height: 30px; outline: none;}
-.create-group-text{
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 500px;
-}
 .create-group-column-first{display: none;}
+.create-group-column-content{text-align: center;}
+.group-inputs{
+    width: 150px;
+    height: 25px;
+    outline: none;
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+.group-title-input-home{margin-top: 12px;}
+.group-content-input-home{margin-top: 12px;}
+.group-content-text{font-size: 16px;}
 .profile{
     height: 75px;
     min-width: 200px;
@@ -88,16 +160,24 @@ body{
     transition: 0.3s;
     border-radius: 5px;
     cursor: pointer;
-}.dropdown-content a:hover{
-    background-color: rgb(61, 58, 58);
-    color: white;
-}
-/* .dropdown:hover .dropdown-content {
+}.dropdown-content a:hover{background-color: rgb(61, 58, 58);color: white;}
+.people-dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    max-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+}.people-dropdown-content a{
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
     display: block;
-} */
-@keyframes open-setting-animation {
-    0% {}
-}
+    text-align: left;
+}.from-who-home{overflow: hidden;}
 
 .ID-home{
     font-size: 20px;
@@ -113,10 +193,50 @@ body{
 }.people-column{
     height: 420px;
     overflow-y: auto;
-}
-.people:hover{
+}.people:hover{
     background-color: rgb(161, 159, 159);
+}.userList{overflow-y: auto; margin-top: 24px; height: 200px;}
+.user{
+    height: 50px;
+    display: inline-grid;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
+.permiss-create-group-buton-home{height: 43.5px; display: flex; align-items: center; justify-content: center;}
+.permiss-create-group-buton{
+    width: 130px;
+    height: 30px;
+    color: white;
+    background-color: black;
+    border: 2px solid white;
+    border-radius: 20px;
+    transition: 0.3s;
+    outline: none;
+    cursor: pointer;
+}.permiss-create-group-buton:hover{
+    color: black;
+    background-color: white;
+}.user:hover{font-size: 16px;}
+.user-name{color: white;}
+.user-name:hover{color: white;}
+.add-user-for-group{margin-top: 24px;}
+#group-add-people-input{
+    margin-top: 12px;
+    color: white;
+    background-color: green;
+    width: 170px;
+    height: 25px;
+    font-size: 15px;
+    border: 1px solid green;
+    border-bottom: 1px solid grey;
+    outline: none;
+}#group-add-people-input::placeholder{color: rgb(163, 157, 157);}
 .people{
     height: 50px;
     display: flex;
@@ -200,6 +320,7 @@ body{
     border-radius: 50%;
     font-size: 17px;
     text-align: center;
+    cursor: pointer;
 }.info-message-delete-home{
     min-width: 150px;
     max-width: 150px;
@@ -312,6 +433,10 @@ body{
 }
 .my-message-home{margin-right: 20px; float: right; margin-left: auto;}
 .another-message-home{margin-left: 20px; float: left; margin-right: auto;}
+.message-container-group{
+    display: flex;
+    margin-bottom: 5px;
+}
 .message{
     border-radius: 5px;
     max-width: 500px;
@@ -319,10 +444,16 @@ body{
     color: white;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    padding: 0.3rem;
+    padding: 0.5rem;
+    font-size: 17px;
 }
 .my-message{background-color: green;}
 .another-message{background-color: grey;}
+.from-who-home{height: 14px; display: flex; align-items: center; margin-bottom: 3px;}
+.from-who, .from-who:hover{font-size: 12.5px; cursor: pointer;}
+.from-who:hover{text-decoration-line: underline;}
+.from-me{margin-right: 5px; float: right; margin-left: auto;}
+.from-another{margin-right: 5px; float: right; margin-left: auto;}
 
 .message-form-container{
     height: 45px;
@@ -362,9 +493,20 @@ body{
 
 body ::-webkit-scrollbar-thumb{
     cursor: pointer;
-    border-radius: 5px;
-    background-color: red;
-}
+    border-radius: 10px;
+    background-color: rgb(31, 47, 65);
+    transition: 0.3s;
+}body ::-webkit-scrollbar-thumb:hover{background-color: rgb(31, 47, 65); cursor: pointer;}
 
 .message-link{color: rgb(37, 33, 33);}
 .message-link:hover{color: rgb(37, 33, 33); text-decoration-line: underline;}
+
+/* Colors */
+.lightblue, .lightblue:hover{color: lightblue;}
+.red, .red:hover{color: red;}
+.yellow, .yellow:hover{color: yellow;}
+.orange, .orange:hover{color: orange;}
+.black, .black:hover{color: black;}
+.purple, .purple:hover{color: purple;}
+.pink, .pink:hover{color: pink;}
+.blue, .blue:hover{color: blue;}

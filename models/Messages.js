@@ -10,7 +10,8 @@ const Messages = new Schema({
     secretID: Number,
     beforeLink: Array,
     afterLink: Array,
-    link: String
+    link: String,
+    type: String
 });
 
 module.exports = mongoose.model('Messages', Messages);

@@ -22,10 +22,13 @@ app.use('/css/chatScreen', express.static(path.join(__dirname, '/sheets/css/chat
 app.use('/js/signupPage', express.static(path.join(__dirname, '/sheets/js/signupPage.js')));
 app.use('/js/loginPage', express.static(path.join(__dirname, '/sheets/js/loginPage.js')));
 app.use('/js/chatScreen', express.static(path.join(__dirname, '/sheets/js/chatScreen.js')));
-
+// Bower and error page
 app.use('/jquery/dist/jquery.min.js', express.static(path.join(__dirname, '/bower_components/jquery/dist/jquery.min.js')));
 app.use('/semantic/dist/semantic.min.css', express.static(path.join(__dirname, '/bower_components/semantic/dist/semantic.min.css')));
 app.use('/css/errorPage', express.static(path.join(__dirname, '/sheets/css/errorPage.css')));
+// Images
+app.use('/img/instagram', express.static(path.join(__dirname, '/sheets/images/instagram.png')));
+app.use('/img/github', express.static(path.join(__dirname, '/sheets/images/github.jpg')));
 
 const expressOprt = require('./operations/expressOprt')(app, express, logger, cookieParser, path);
 app.use(function (req, res, next) {res.sendFile(__dirname + '/sheets/htmls/errorPage.html');});

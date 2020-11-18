@@ -11,6 +11,48 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/chatScreen">
   <title>Chat</title>
+  <script>
+    const searchFriend = () => {
+      var input, filter, list, li, a, i, txtValue;
+      input = document.getElementById('group-add-people-input');
+      filter = input.value.toUpperCase();
+      list = document.getElementById('userList');
+      li = list.getElementsByTagName("div");
+      for(var i = 0; i < li.length; i++){
+        if(li[i].classList[0] == "user"){
+          a = li[i].getElementsByTagName("div")[0];
+          txtValue = a.textContent.toUpperCase() || a.innerText.toUpperCase();
+          if(txtValue.indexOf(filter) > -1){
+            li[i].style.display = "";
+            const txtNode = a.innerText;
+            const txtNodeArr = txtNode.split('');
+            a.innerText = '';
+            for(var j = 0; j < txtNodeArr.length; j++){
+              let ColorFinish = false;
+              const txtNodePush = document.createElement("a");
+              const txtNodeItem = document.createTextNode(txtNodeArr[j]);
+              for(var k = 0; k < input.value.length; k++){
+                if(input.value[k] == txtNodeArr[j]){ColorFinish = true;}
+              }
+              if(ColorFinish){
+                txtNodePush.style.color = 'rgb(63, 48, 48)';
+                txtNodePush.appendChild(txtNodeItem);
+                a.appendChild(txtNodePush);
+              }else{
+                txtNodePush.style.color = 'white';
+                txtNodePush.appendChild(txtNodeItem);
+                a.appendChild(txtNodePush);
+              }
+            }
+            // if(!input.value == ''){
+            // }
+          }else{
+            li[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
 </head>
 <body class="body">
   <div class="waiting_room page"><h1>Loading</h1></div>
@@ -18,101 +60,152 @@
     <div class="container">
       <div class="row">
         <div class="column" id="column">
-          <div class="profile" id="profile">
-            <div class="top-settings-home">
-              <div class="dropdown">
-                <button class="btn"><i class="fa fa-bars"></i></button>
-                <div class="dropdown-content">
-                  <a class="create-group-buton">Grup oluştur</a>
-                  <a class="add-friend-buton">Arkadaş ekle</a>
-                  <a class="delete-friend-buton">Arkadaş sil</a>
+          <div class="firstColumn" id="firstColumn">
+            <div class="profile" id="profile">
+              <div class="top-settings-home">
+                <div class="dropdown">
+                  <button class="btn"><i class="fa fa-bars"></i></button>
+                  <div class="dropdown-content">
+                    <a class="create-group-buton">Create group</a>
+                    <a class="add-friend-buton">Add friend</a>
+                    <a class="delete-friend-buton">Delete friend</a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="ID-home">
-              <a class="profile-id"></a>
-            </div>
-          </div>
-          <div class="HR" id="HR"></div>
-          <div class="people-column" id="people-column">
-            <div class="loading"></div>
-            <!-- <div class="person">
-              <div class="people_hr"></div>
-              <div class="people">
-                <div class="people_name">Kürşat Kerem</div>
+              <div class="ID-home">
+                <a class="profile-id"></a>
               </div>
-              <div class="people_hr"></div>
-            </div> -->
-          </div>
-          <div class="HR" id="HR1"></div>
-          <div class="butons-column" id="butons-column">
-            <button class="add_friend buton">Add</button>
-            <button class="delete_friend buton">Delete</button>
-          </div>
-          <div class="add_friend_home setting" id="add_friend_home">
-            <div class="add-friend-input-home setting-home" id="add-friend-input-home">
-              <input type="text" max="1000000" class="add-friend-input setting_input" id="add-friend-input" autocomplete="off"> <br>
-              <button class="permiss_add_friend setting_buton">+</button>
-              <div class="info-message-add-home setting-info-home">
-                <div class="info-message-add">
-                  Eklemek istediğiniz arakadışınızın ID sini girin
+            </div>
+            <div class="HR" id="HR"></div>
+            <div class="people-column" id="people-column">
+              <div class="loading"></div>
+              <!-- <div class="person">
+                <div class="people_hr"></div>
+                <div class="people">
+                  <div class="people_name">Kürşat Kerem</div>
+                </div>
+                <div class="people_hr"></div>
+              </div> -->
+            </div>
+            <div class="HR" id="HR1"></div>
+            <div class="butons-column" id="butons-column">
+              <button class="add_friend buton">Add</button>
+              <button class="delete_friend buton">Delete</button>
+            </div>
+            <div class="add_friend_home setting" id="add_friend_home">
+              <div class="add-friend-input-home setting-home" id="add-friend-input-home">
+                <input type="text" max="1000000" class="add-friend-input setting_input" id="add-friend-input" autocomplete="off"> <br>
+                <button class="permiss_add_friend setting_buton">+</button>
+                <div class="info-message-add-home setting-info-home">
+                  <div class="info-message-add">
+                    Eklemek istediğiniz arakadışınızın ID sini girin
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="close_buton_home">
-              <button class="close_setting">x</button>
-            </div>
-          </div>
-          <div class="delete_friend_home setting" id="delete_friend_home">
-            <div class="delete-friend-input-home setting-home" id="delete-friend-input-home">
-              <input type="text" max="1000000" class="delte-friend-input setting_input" id="delete-friend-input" autocomplete="off"> <br>
-              <button class="permiss_delete_friend setting_buton">-</button>
-              <div class="info-message-delete-home setting-info-home">
-                <div class="info-message-delete">
-                  Silmek istediğiniz kişinin ID sini girin
-                </div>
+              <div class="close_buton_home">
+                <button class="close_setting">x</button>
               </div>
             </div>
-            <div class="close_buton_home">
-              <button class="close_setting">x</button>
+            <div class="delete_friend_home setting" id="delete_friend_home">
+              <div class="delete-friend-input-home setting-home" id="delete-friend-input-home">
+                <input type="text" max="1000000" class="delte-friend-input setting_input" id="delete-friend-input" autocomplete="off"> <br>
+                <button class="permiss_delete_friend setting_buton">-</button>
+                <div class="info-message-delete-home setting-info-home">
+                  <div class="info-message-delete">
+                    Silmek istediğiniz kişinin ID sini girin
+                  </div>
+                </div>
+              </div>
+              <div class="close_buton_home">
+                <button class="close_setting">x</button>
+              </div>
             </div>
           </div>
           <div class="create-group-column-first" id="create-group-column-first">
             <div class="buton_home">
               <button class="goBack">Geri Dön</button>
             </div>
-            <div class="create-group-text">
-              Yapımda
+            <div class="HR"></div>
+            <div class="create-group-column-content">
+              <div class="group-title-input-home">
+                <div class="group-content-text">Grup başlığı</div>
+                <input type="text" class="group-inputs" id="group-title-input" autocomplete="off">
+              </div>
+              <div class="HR"></div>
+              <div class="group-content-input-home">
+                <div class="group-content-text">Grup konusu</div>
+                <input type="text" class="group-inputs" id="group-subject-input" autocomplete="off">
+              </div>
+              <div class="HR"></div>
+              <div class="add-user-for-group" id="add-user-for-group">
+                <div class="group-content-text">Kişi ekle</div>
+                <input type="text" id="group-add-people-input" onkeyup="searchFriend()" placeholder="Kişi ismi gir">
+                <div class="userList" id="userList"></div>
+                <div class="HR"></div>
+                <div class="permiss-create-group-buton-home">
+                  <button class="permiss-create-group-buton">Grup oluştur</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="homeScreen page">
-          <div class="homeScreen-message">About Us Page</div>
-        </div>
-        <div class="clientPage page" id="clientPage">
-          <!-- <div class="top-user-information">About This User</div>
-            <div class="private-chat-HR"></div>
-            <div class="messages-container">
-              <div class="message-container">
-                <div class="message-home my-message-home">
-                  <div class="message my-message">Example message. This is a first message in this system</div>
-              </div>
+          <div class="homeScreen-message">
+            <div class="header">
+              Developers
             </div>
-            <div class="message-container">
-              <div class="message-home another-message-home">
-                <div class="message another-message">This message writing  by another people</div>
+            <div class="cards-home">
+              <div class="card-left card">
+                <div class="card-content">
+                  <div class="card-title">Kürşat Kerem Çevlik</div>
+                  <div class="card-bio">
+                    <div class="normal-message">
+                      Front End developer and Arduino developer
+                      <div class="trol-message">
+                        He is so intelligent
+                      </div>
+                    </div>
+                    <div class="private-message-for-card">
+                      He is so smart for use social media
+                    </div>
+                  </div>
+                  <div class="social-media-links">
+                    <a href="https://www.instagram.com/krstkerem01/" target="_blank">
+                      <img src="/img/instagram" class="instagram link" width="50">
+                    </a>
+                    <a href="https://github.com/KursatKeremCevlik" target="_blank">
+                      <img src="/img/github" class="github link" width="40">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-right card">
+                <div class="card-content">
+                  <div class="card-title">Yusuf İbrahim Coşgun</div>
+                  <div class="card-bio">
+                    <div class="normal-message"> 
+                      Back End developer and Designer
+                      <div class="trol-message">
+                        Big Brain and very imaginative
+                      </div>
+                    </div>
+                    <div class="private-message-for-card">
+                      He is so smart for don't use social media 
+                    </div>
+                    <br>
+                    But even so
+                  </div>
+                  <div class="social-media-links-private">
+                    <a href="https://www.instagram.com/abramo_giuseppe/" target="_blank">
+                      <img src="/img/instagram" class="instagram link" width="50">
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="private-chat-HR-down"></div>
-          <div class="message-form-container">
-          </div> -->
-          <!-- <div class="message-form-home">
-            <form id="message-form">
-              <input type="text" class="input-element message-input" id="message-input" autocomplete="off">
-              <input type="submit" class="input-element message-input-buton" id="message-input-buton">
-            </form>
-          </div> -->
+        </div>
+        <div class="clientPage page" id="clientPage">
         </div>
       </div>
     </div>

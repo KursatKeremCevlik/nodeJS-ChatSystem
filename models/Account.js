@@ -8,7 +8,8 @@ const Account = new Schema({
     password: String,
     friends: Array,
     isOnline: Boolean,
-    secretID: Number
+    secretID: Number,
+    type: String
 });
 
 module.exports = mongoose.model('Account', Account);

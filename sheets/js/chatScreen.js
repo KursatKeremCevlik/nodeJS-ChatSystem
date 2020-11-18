@@ -22,6 +22,7 @@ $(() => {
     return false;
   }
 
+  let friends;
   let settingCounter = false;
   $('.btn').on('click', () => {
     if(!settingCounter){$('.dropdown-content').show();settingCounter = true;}
@@ -36,23 +37,14 @@ $(() => {
     }
   });
 
-  $('.create-group-buton').on('click', () => {
-    const profile = document.getElementById('profile');
-    const peopleColumn = document.getElementById('people-column');
-    const HR = document.getElementById('HR');
-    const HR1 = document.getElementById('HR1');
-    const butonsColumn = document.getElementById('butons-column');
+  $('.create-group-buton').on('click', () => {open_create_group_column();});
+
+  const open_create_group_column = () => {
     const createGroupColumn = document.getElementById('create-group-column-first');
-    profile.className = 'profile setting-animation-blackout';
-    peopleColumn.className = 'people-column setting-animation-blackout';
-    HR.className = 'HR setting-animation-blackout';
-    HR1.className = 'HR setting-animation-blackout';
-    butonsColumn.className = 'butons-column setting-animation-blackout';
+    const firstColumn = document.getElementById('firstColumn');
+    firstColumn.className = 'firstColumn setting-animation-blackout';
     setTimeout(() => {
-      $('.profile').hide();
-      $('.people-column').hide();
-      $('.HR').hide();
-      $('.butons-column').hide();
+      $('.firstColumn').hide();
     }, 480);
     setTimeout(() => {
       createGroupColumn.className = 'create-group-column setting-animation-lighting';
@@ -64,21 +56,13 @@ $(() => {
       createGroupColumn.className = 'create-group-column setting-animation-blackout';
       setTimeout(() => {$('.create-group-column').hide();}, 480);
       setTimeout(() => {
-        profile.className = 'profile setting-animation-lighting';
-        peopleColumn.className = 'people-column setting-animation-lighting';
-        HR.className = 'HR setting-animation-lighting';
-        HR1.className = 'HR setting-animation-lighting';
-        butonsColumn.className = 'butons-column setting-animation-lighting';
+        firstColumn.className = 'firstColumn setting-animation-lighting';
       }, 510);
       setTimeout(() => {
-        $('.profile').show();
-        $('.people-column').show();
-        $('.HR').show();
-        $('.butons-column').show();
+        $('.firstColumn').show();
       }, 990);
     });
-  });
-
+  }
   const open_add_friend_column = () => {
     if(counter == 'empty'){
       peopleColumn.className = 'people-column people-column-animation-up';
@@ -132,39 +116,116 @@ $(() => {
   const delete_friend_home = document.getElementById('delete_friend_home');
   const peopleColumn = document.getElementById('people-column');
   const person = document.createElement('div');
-
+  let friendsArr = [];
+  
   socket.emit('PLEASE_PROFILE_DATAS', { id, username });
+  let addGroupPeopleArr = [];
   let friendID;
+  const groupTitleInput = document.getElementById('group-title-input');
+  const groupContentInput = document.getElementById('group-subject-input');
+  const groupUsersInput = document.getElementById('group-add-people-input');
+  socket.on('CLEAR-PEOPLE-COLUMN', (data) => {
+    if(data.usernameValue == username){
+      friendsArr = [];
+      friends = [];
+      $('.person').html('');
+      $('.userList').html('');
+    }
+  });
   socket.on('FRIEND_NAME_DATAS', (data) => {
     if(data.toWho == username){
-      person.className = 'person';
-      const people_hr = document.createElement('div');
-      people_hr.className = 'people_hr';
-      person.appendChild(people_hr);
-      const people = document.createElement('div');
-      people.className = `people ${data.friendID}`;
-      people.id = 'people';
-      person.appendChild(people);
-      const people_name = document.createElement('div');
-      people_name.className = 'people_name';
-      const node = document.createTextNode(`${data.friendName}`);
-      people_name.appendChild(node);
-      people.appendChild(people_name);
-      person.appendChild(people_hr);
+      friendsArr.push(data);
+      if(data.info == 'Friend' || data.info == 'Group'){
+        person.className = 'person';
+        const people_hr = document.createElement('div');
+        people_hr.className = 'people_hr';
+        person.appendChild(people_hr);
+        const people = document.createElement('div');
+        people.className = `people ${data.friendID}`;
+        people.id = 'people';
+        person.appendChild(people);
+        const people_name = document.createElement('div');
+        people_name.className = 'people_name';
+        const node = document.createTextNode(`${data.friendName}`);
+        people_name.appendChild(node);
+        people.appendChild(people_name);
+        person.appendChild(people_hr);
 
-      people.onclick = () => {
-        $('.page').hide();
-        $('.clientPage').show();
-        $('.clientPage').html('');
-        friendID = people.classList[1];
-        socket.emit('PLEASE_FRIEND_DATAS', { friendID });
+        people.onclick = () => {
+          if(friendID==people.classList[1]){
+          }else{
+            $('.page').hide();
+            $('.clientPage').show();
+            $('.clientPage').html('');
+            friendID = people.classList[1];
+            socket.emit('PLEASE_FRIEND_DATAS', { friendID });
+          }
+        }
       }
+      if(data.info == 'Friend'){
+        const userList = document.getElementById('userList');
+        const user = document.createElement('div');
+        user.className = `user ${data.friendID}`;
+        const userName = document.createElement('div');
+        userName.className = 'user-name';
+        userName.id = `${data.friendID}`;
+        const userNameText = document.createTextNode(`${data.friendName}`);
+        userName.appendChild(userNameText);
+        const people_HR = document.createElement('div');
+        people_HR.className = 'people_hr';
+        user.appendChild(userName);
+        user.appendChild(people_HR);
+        userList.appendChild(user);
+
+        user.onclick = () => {
+          const userID = document.getElementById(userName.id);
+          if(addGroupPeopleArr[0]){
+            let finish = false;
+            for(var i = 0; i < addGroupPeopleArr.length; i++){
+              if(userID.id == addGroupPeopleArr[i]){finish = true;}
+            }
+            if(!finish){
+              user.style.backgroundColor = 'rgb(89, 89, 202)';
+              addGroupPeopleArr.push(userID.id);
+            }else{
+              user.style.backgroundColor = 'green'
+              for(var i = 0; i < addGroupPeopleArr.length; i++){
+                if(userID.id == addGroupPeopleArr[i]){addGroupPeopleArr.splice(i, 1);}
+              }
+            }
+          }else{
+            user.style.backgroundColor = 'rgb(89, 89, 202)';
+            addGroupPeopleArr.push(userID.id);
+          }
+        }
+      }
+
+      socket.on('CREATE-GROUP-INFO', (info) => {
+        // Empty group title
+        if(info == 1){groupTitleInput.style.border = '1px solid red';}
+        // Empty group content
+        if(info == 2){groupContentInput.style.border = '1px solid red';}
+        // Empty group users
+        if(info == 3){groupUsersInput.style.borderBottom = '1px solid red';}
+      });
     }
   });
   peopleColumn.appendChild(person);
+  
+  $('.permiss-create-group-buton').on('click', () => {
+    groupTitleInput.style.border = '1px solid white';
+    groupContentInput.style.border = '1px solid white';
+    groupUsersInput.style.borderBottom = '1px solid grey';
+    const groupTitle = groupTitleInput.value;
+    const groupContent = groupContentInput.value;
+    socket.emit('CREATE_NEW_GROUP', {groupTitle, groupContent, addGroupPeopleArr, id, username});
+  });
+  
+
   /* CHAT SCRIPTS */
   let friendName;
   socket.on('FRIEND_DATA', (data) => {
+    friends.push(data);
     const clientPage = document.getElementById('clientPage');
     const topUserInformation = document.createElement('div');
     topUserInformation.className = 'top-user-information';
@@ -204,23 +265,409 @@ $(() => {
     clientPage.appendChild(messageFormContainer);
     messageForm.addEventListener('submit', e => {
       e.preventDefault();
-      if(messageInput.value){
-        const message = messageInput.value;
-        socket.emit('NEW_MESSAGE', {message, username, friendID});
-        messageInput.value = '';
+      if(!data.chatInfo == 'Group'){
+        // Chat with friend
+        if(messageInput.value){
+          const message = messageInput.value;
+          socket.emit('NEW_MESSAGE', {message, username, friendID});
+          messageInput.value = '';
+        }
+      }else{
+        // Chat with group
+        if(messageInput.value){
+          const message = messageInput.value;
+          socket.emit('NEW_MESSAGE_FOR_GROUP', {message, username, friendID});
+          messageInput.value = '';
+        }
       }
     });
     friendName = data.friendName;
-    socket.emit('PLEASE_MESSAGE_DATAS', {username, friendName});
+    if(data.chatInfo == 'Group'){
+      socket.emit('PLEASE_MESSAGE_DATAS_FOR_GROUP', {username, id, friendID});
+    }else{
+      socket.emit('PLEASE_MESSAGE_DATAS', {username, friendName});
+    }
   });
+
+  socket.on('OPEN-NEW-GROUP-SCREEN', () => {
+    const createGroupColumn = document.getElementById('create-group-column-first');
+    const firstColumn = document.getElementById('firstColumn');
+    createGroupColumn.className = 'create-group-column setting-animation-blackout';
+    setTimeout(() => {$('.create-group-column').hide();}, 480);
+    setTimeout(() => {
+      firstColumn.className = 'firstColumn setting-animation-lighting';
+    }, 510);
+    setTimeout(() => {
+      $('.firstColumn').show();
+    }, 990);
+  });
+  
   let messages = [];
+  // Loading animation
   socket.on('CREATE_LOADING_EVENT', () => {
-    // Loading animation
     messages = [];
     const element = document.getElementById('messages-container');
     element.className = 'messages-container messages-container-align';
     $('.messages-container').html('Yükleniyor');
   });
+  //
+
+  // Group message scripts
+  socket.on('CLEAR-GROUP-CONTENT', () => {
+    setTimeout(() => {
+      const element = document.getElementById('messages-container');
+      $('.messages-container').html('');
+      element.className = 'messages-container';
+    }, 500);
+  });
+
+  socket.on('NEW-MESSAGE-FOR-GROUP', (data) => {
+    let finish = false;
+    for(var i = 0; i < friendsArr.length; i++){
+      if(friendsArr[i].friendID == data.toWho){
+        finish = true;
+      }
+    }
+    if(finish){createMessageForGroup(data);}
+  });
+  socket.on('MESSAGE-DATAS-FOR-GROUP', (data) => {
+    let finish = false;
+    for(var i = 0; i < friendsArr.length; i++){
+      if(friendsArr[i].friendID == data.veri.toWho){
+        finish = true;
+      }
+    }
+    if(finish){
+      const veri = {
+        afterLink: data.veri.afterLink,
+        beforeLink: data.veri.beforeLink,
+        fromWho: data.veri.fromWho,
+        haveLink: data.veri.haveLink,
+        line: data.veri.line,
+        message: data.veri.message,
+        link: data.veri.link,
+        secretID: data.veri.secretID,
+        toWho: data.veri.toWho,
+        userColor: data.userColor,
+      }
+      setTimeout(() => {createMessageForGroup(veri);}, 500);
+    }
+  });
+  let peopleSettingCounter = false;
+  // window.addEventListener('click', e => {
+  //   if(settingCounter){
+  //     if(e.target.className.indexOf('fa fa-bars') === -1){
+  //       $('.dropdown-content').hide();
+  //       settingCounter = false;
+  //     }
+  //   }
+  // });
+  $('.from-who').on('click', () => {
+    if(!peopleSettingCounter){
+      $('.people-dropdown-content').show();
+      peopleSettingCounter = true;
+    }else{
+      $('.people-dropdown-content').hide();
+      peopleSettingCounter = true;
+    }
+  });
+  const createMessageForGroup = (data) => {
+    const MessagesContainer = document.getElementById('messages-container');
+    if(data.haveLink){
+      // This message with link
+      if(data.fromWho == username){
+        // My message with link
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container-group';
+        const messageHome = document.createElement('div');
+        messageHome.className = 'message-home my-message-home';
+        const message = document.createElement('div');
+        message.className = 'message my-message';
+        const fromWhoHome = document.createElement('div');
+        fromWhoHome.className = 'from-who-home';
+        const fromWho = document.createElement('a');
+        fromWho.className = `from-who from-me ${data.userColor}`;
+        const fromWhoTextHome = document.createElement('b');
+        const fromWhoText = document.createTextNode(`${data.fromWho}`);
+        fromWhoTextHome.appendChild(fromWhoText);
+        fromWho.appendChild(fromWhoTextHome);
+        fromWhoHome.appendChild(fromWho);
+        const peopleDropDownContent = document.createElement('div');
+        peopleDropDownContent.className = 'people-dropdown-content';
+        let createElementCounter = false;
+        for(var i = 0; i < friendsArr.length; i++){
+          if(friendsArr[i].friendName == data.fromWho){
+            createElementCounter = true;
+          }
+        }
+        setTimeout(() => {
+          if(createElementCounter){
+            // Dropdown content is ``Send message``
+            const sendMessageHome = document.createElement('a');
+            sendMessageHome.className = `send-message ${data.fromWho}`;
+            const sendMessageText = document.createTextNode('Mesaj at');
+            sendMessageHome.appendChild(sendMessageText);
+            peopleDropDownContent.appendChild(sendMessageHome);
+          }else{
+            // Dropdown content is ``Add friend``
+            const addFriendHome = document.createElement('a');
+            addFriendHome.className = `add-friend ${data.fromWho}`;
+            const addFriendText = document.createTextNode('Kişi ekle');
+            addFriendHome.appendChild(addFriendText);
+            peopleDropDownContent.appendChild(addFriendHome);
+          }
+          setTimeout(() => {
+            fromWhoHome.appendChild(peopleDropDownContent);
+            message.appendChild(fromWhoHome);
+            const myMessage = document.createElement('div');
+            myMessage.className = `my-message ${data.secretID}`;
+            message.appendChild(myMessage);
+            messageHome.appendChild(message);
+            messageContainer.appendChild(messageHome);
+            MessagesContainer.appendChild(messageContainer);
+            messageWithLink(data);
+          });
+          // $('.messages-container').append(`
+          // <div class="message-container-group">
+          //   <div class="message-home my-message-home">
+          //     <div class="message my-message">
+          //       <div class="from-who-home">
+          //         <a class="from-who from-me ${data.userColor}"><b>${data.fromWho}</b></a>
+          //         <div class="people-dropdown-content">
+          //           <a class="send-message">Mesaj at</a>
+          //           <a class="add-friend">Kişi ekle</a>
+          //         </div>
+          //       </div>
+          //       <div class="my-message ${data.secretID}"></div>
+          //     </div>
+          //   </div>
+          // </div>
+          // `);
+        });
+      }else{
+        // Another message with link
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container-group';
+        const messageHome = document.createElement('div');
+        messageHome.className = 'message-home another-message-home';
+        const message = document.createElement('div');
+        message.className = 'message another-message';
+        const fromWhoHome = document.createElement('div');
+        fromWhoHome.className = 'from-who-home';
+        const fromWho = document.createElement('a');
+        fromWho.className = `from-who from-another ${data.userColor}`;
+        const fromWhoTextHome = document.createElement('b');
+        const fromWhoText = document.createTextNode(`${data.fromWho}`);
+        fromWhoTextHome.appendChild(fromWhoText);
+        fromWho.appendChild(fromWhoTextHome);
+        fromWhoHome.appendChild(fromWho);
+        const peopleDropDownContent = document.createElement('div');
+        peopleDropDownContent.className = 'people-dropdown-content';
+        let createElementCounter = false;
+        for(var i = 0; i < friendsArr.length; i++){
+          if(friendsArr[i].friendName == data.fromWho){
+            createElementCounter = true;
+          }
+        }
+        setTimeout(() => {
+          if(createElementCounter){
+            // Dropdown content is ``Send message``
+            const sendMessageHome = document.createElement('a');
+            sendMessageHome.className = `send-message ${data.fromWho}`;
+            const sendMessageText = document.createTextNode('Mesaj at');
+            sendMessageHome.appendChild(sendMessageText);
+            peopleDropDownContent.appendChild(sendMessageHome);
+          }else{
+            // Dropdown content is ``Add friend``
+            const addFriendHome = document.createElement('a');
+            addFriendHome.className = `add-friend ${data.fromWho}`;
+            const addFriendText = document.createTextNode('Kişi ekle');
+            addFriendHome.appendChild(addFriendText);
+            peopleDropDownContent.appendChild(addFriendHome);
+          }
+          setTimeout(() => {
+            fromWhoHome.appendChild(peopleDropDownContent);
+            message.appendChild(fromWhoHome);
+            const myMessage = document.createElement('div');
+            myMessage.className = `another-message ${data.secretID}`;
+            message.appendChild(myMessage);
+            messageHome.appendChild(message);
+            messageContainer.appendChild(messageHome);
+            MessagesContainer.appendChild(messageContainer);
+            messageWithLink(data);
+          });
+        });
+        // $('.messages-container').append(`
+        // <div class="message-container-group">
+        //   <div class="message-home another-message-home">
+        //     <div class="message another-message">
+        //       <div class="from-who-home">
+        //         <a class="from-who from-another ${data.userColor}"><b>${data.fromWho}</b></a>
+        //         <div class="people-dropdown-content">
+        //           <a class="send-message">Mesaj at</a>
+        //           <a class="add-friend">Kişi ekle</a>
+        //         </div>
+        //       </div>
+        //       <div class="another-message ${data.secretID}"></div>
+        //     </div>
+        //   </div>
+        // <div>
+        // `);
+      }
+    }else{
+      if(data.fromWho == username){
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container-group';
+        const messageHome = document.createElement('div');
+        messageHome.className = 'message-home my-message-home';
+        const message = document.createElement('div');
+        message.className = 'message my-message';
+        const fromWhoHome = document.createElement('div');
+        fromWhoHome.className = 'from-who-home';
+        const fromWho = document.createElement('a');
+        fromWho.className = `from-who from-me ${data.userColor}`;
+        const fromWhoTextHome = document.createElement('b');
+        const fromWhoText = document.createTextNode(`${data.fromWho}`);
+        fromWhoTextHome.appendChild(fromWhoText);
+        fromWho.appendChild(fromWhoTextHome);
+        fromWhoHome.appendChild(fromWho);
+        const peopleDropDownContent = document.createElement('div');
+        peopleDropDownContent.className = 'people-dropdown-content';
+        let createElementCounter = false;
+        for(var i = 0; i < friendsArr.length; i++){
+          console.log('=====');
+          console.log(friendsArr[i]);
+          console.log('=====');
+          if(friendsArr[i].friendName == data.fromWho){
+            createElementCounter = true;
+          }
+        }
+        setTimeout(() => {
+          if(createElementCounter){
+            console.log('111')
+            // Dropdown content is ``Send message``
+            const sendMessageHome = document.createElement('a');
+            sendMessageHome.className = `send-message ${data.fromWho}`;
+            const sendMessageText = document.createTextNode('Mesaj at');
+            sendMessageHome.appendChild(sendMessageText);
+            peopleDropDownContent.appendChild(sendMessageHome);
+          }else{
+            console.log('222');
+            // Dropdown content is ``Add friend``
+            const addFriendHome = document.createElement('a');
+            addFriendHome.className = `add-friend ${data.fromWho}`;
+            const addFriendText = document.createTextNode('Kişi ekle');
+            addFriendHome.appendChild(addFriendText);
+            peopleDropDownContent.appendChild(addFriendHome);
+          }
+          setTimeout(() => {
+            console.log('333');
+            fromWhoHome.appendChild(peopleDropDownContent);
+            message.appendChild(fromWhoHome);
+            const myMessage = document.createElement('div');
+            myMessage.className = `my-message ${data.secretID}`;
+            const myMessageText = document.createTextNode(`${data.message}`);
+            myMessage.appendChild(myMessageText);
+            message.appendChild(myMessage);
+            messageHome.appendChild(message);
+            messageContainer.appendChild(messageHome);
+            MessagesContainer.appendChild(messageContainer);
+          });
+        });
+        // $('.messages-container').append(`
+        // <div class="message-container-group">
+        //   <div class="message-home my-message-home">
+        //     <div class="message my-message">
+        //       <div class="from-who-home">
+        //         <a class="from-who from-me ${data.userColor}"><b>${data.fromWho}</b></a>
+        //         <div class="people-dropdown-content">
+        //           <a class="send-message">Mesaj at</a>
+        //           <a class="add-friend">Kişi ekle</a>
+        //         </div>
+        //       </div>
+        //       <div class="my-message ${data.secretID}">${data.message}</div>
+        //     </div>
+        //   </div>
+        // </div>
+        // `);
+      }else{
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container-group';
+        const messageHome = document.createElement('div');
+        messageHome.className = 'message-home another-message-home';
+        const message = document.createElement('div');
+        message.className = 'message another-message';
+        const fromWhoHome = document.createElement('div');
+        fromWhoHome.className = 'from-who-home';
+        const fromWho = document.createElement('a');
+        fromWho.className = `from-who from-another ${data.userColor}`;
+        const fromWhoTextHome = document.createElement('b');
+        const fromWhoText = document.createTextNode(`${data.fromWho}`);
+        fromWhoTextHome.appendChild(fromWhoText);
+        fromWho.appendChild(fromWhoTextHome);
+        fromWhoHome.appendChild(fromWho);
+        const peopleDropDownContent = document.createElement('div');
+        peopleDropDownContent.className = 'people-dropdown-content';
+        let createElementCounter = false;
+        for(var i = 0; i < friendsArr.length; i++){
+          if(friendsArr[i].friendName == data.fromWho){
+            createElementCounter = true;
+          }
+        }
+        setTimeout(() => {
+          if(createElementCounter){
+            // Dropdown content is ``Send message``
+            const sendMessageHome = document.createElement('a');
+            sendMessageHome.className = `send-message ${data.fromWho}`;
+            const sendMessageText = document.createTextNode('Mesaj at');
+            sendMessageHome.appendChild(sendMessageText);
+            peopleDropDownContent.appendChild(sendMessageHome);
+          }else{
+            // Dropdown content is ``Add friend``
+            const addFriendHome = document.createElement('a');
+            addFriendHome.className = `add-friend ${data.fromWho}`;
+            const addFriendText = document.createTextNode('Kişi ekle');
+            addFriendHome.appendChild(addFriendText);
+            peopleDropDownContent.appendChild(addFriendHome);
+          }
+          setTimeout(() => {
+            fromWhoHome.appendChild(peopleDropDownContent);
+            message.appendChild(fromWhoHome);
+            const myMessage = document.createElement('div');
+            myMessage.className = `another-message ${data.secretID}`;
+            const myMessageText = document.createTextNode(`${data.message}`);
+            myMessage.appendChild(myMessageText);
+            message.appendChild(myMessage);
+            messageHome.appendChild(message);
+            messageContainer.appendChild(messageHome);
+            MessagesContainer.appendChild(messageContainer);
+          });
+        });
+        // $('.messages-container').append(`
+        // <div class="message-container-group">
+        //   <div class="message-home another-message-home">
+        //     <div class="message another-message">
+        //       <div class="from-who-home">
+        //         <a class="from-who from-another ${data.userColor}"><b>${data.fromWho}</b></a>
+        //         <div class="people-dropdown-content">
+        //           <a class="send-message">Mesaj at</a>
+        //           <a class="add-friend">Kişi ekle</a>
+        //         </div>
+        //       </div>
+        //       <div class="another-message ${data.secretID}">${data.message}</div>
+        //     </div>
+        //   </div>
+        // <div>
+        // `);
+      }
+      setTimeout(() => {
+        const element = document.getElementById('messages-container');
+        element.scrollTop = element.scrollHeight;
+      });
+    }
+  }
+  //
+  
   socket.on('ACCOUNT_MESSAGE_DATAS', (data) => {messages.push(data);});
   socket.on('ACCOUNT_MESSAGES_DATAS_DONE', () => {
     setTimeout(() => {
@@ -360,11 +807,6 @@ $(() => {
 
   // Animations
   let counter = 'empty';
-  socket.on('CLEAR-PEOPLE-COLUMN', (data) => {
-    if(data.usernameValue == username){
-      $('.person').html('');
-    }
-  });
   socket.on('SOMETHING_WRONG_ADD_FRIEND', (data) => {
     $('.info-message-add').html(`${data.text}`);
   });
@@ -382,7 +824,7 @@ $(() => {
         $('.setting').hide();
         peopleColumn.className = 'people-column people-column-animation-down';
         peopleColumn.style.height = '420px';
-      }, 490);
+      }, 480);
     }
     if(counter == 'delete-friend-now'){
       counter = 'empty';
@@ -391,7 +833,7 @@ $(() => {
         peopleColumn.style.height = '420px';
         peopleColumn.className = 'people-column people-column-animation-down';
         $('.setting').hide();
-      }, 490);
+      }, 480);
     }
   });
 
