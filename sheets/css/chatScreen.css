@@ -161,23 +161,38 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }.dropdown-content a:hover{background-color: rgb(61, 58, 58);color: white;}
+.from-who-home{overflow: hidden;}
 .people-dropdown-content{
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 120px;
-    max-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    /* background-color: #f9f9f9; */
+    background-color: white;
+    box-shadow: 0px 16px 32px 0px rgba(0,0,0,0.2);
     z-index: 1;
     border-radius: 5px;
+    margin-left: 100px;
+    margin-bottom: 64px;
+    height: 30px;
+    transition: 0.3s;
+    align-items: center;
+    cursor: pointer;
 }.people-dropdown-content a{
     float: none;
     color: black;
-    padding: 12px 16px;
     text-decoration: none;
     display: block;
-    text-align: left;
-}.from-who-home{overflow: hidden;}
+    text-align: right;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+}.people-dropdown-content:hover{
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: grey;
+}
 
 .ID-home{
     font-size: 20px;
@@ -449,7 +464,14 @@ body{
 }
 .my-message{background-color: green;}
 .another-message{background-color: grey;}
-.from-who-home{height: 14px; display: flex; align-items: center; margin-bottom: 3px;}
+.from-who-home{
+    height: 14px; 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 3px; 
+    margin-right: 1px;
+    margin-left: auto;
+}
 .from-who, .from-who:hover{font-size: 12.5px; cursor: pointer;}
 .from-who:hover{text-decoration-line: underline;}
 .from-me{margin-right: 5px; float: right; margin-left: auto;}
@@ -471,7 +493,7 @@ body{
     font-size: 15px;
     margin-right: 6px;
     transition: 0.3s;
-}.message-input:focus{
+}.message-input:hover{
     color: black;
     background-color: white;
 }.message-input-buton{
@@ -483,9 +505,6 @@ body{
     margin-left: 6px;
     width: 100px;
     transition: 0.3s;
-}.message-input-buton:focus{
-    background-color: white;
-    color: black;
 }.message-input-buton:hover{
     background-color: white;
     color: black;

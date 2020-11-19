@@ -35,6 +35,9 @@ $(() => {
         settingCounter = false;
       }
     }
+    if(e.target.className.indexOf('from-who-text') === -1){
+      $('.people-dropdown-content').hide();
+    }
   });
 
   $('.create-group-buton').on('click', () => {open_create_group_column();});
@@ -246,9 +249,10 @@ $(() => {
     messageForm.className = 'message-form';
     const messageInput = document.createElement('input');
     messageInput.type = 'text';
+    messageInput.autocomplete = 'off';
+    messageInput.autofocus = 'true';
     messageInput.className = 'input-element message-input';
     messageInput.id = 'message-input';
-    messageInput.autocomplete = 'off';
     const messageInputButon = document.createElement('input');
     messageInputButon.type = 'submit';
     messageInputButon.className = 'input-element message-input-buton';
@@ -265,14 +269,14 @@ $(() => {
     clientPage.appendChild(messageFormContainer);
     messageForm.addEventListener('submit', e => {
       e.preventDefault();
-      if(!data.chatInfo == 'Group'){
+      if(data.chatInfo == 'Friend'){
         // Chat with friend
         if(messageInput.value){
           const message = messageInput.value;
           socket.emit('NEW_MESSAGE', {message, username, friendID});
           messageInput.value = '';
         }
-      }else{
+      }else if(data.chatInfo == 'Group'){
         // Chat with group
         if(messageInput.value){
           const message = messageInput.value;
@@ -324,6 +328,7 @@ $(() => {
   socket.on('NEW-MESSAGE-FOR-GROUP', (data) => {
     let finish = false;
     for(var i = 0; i < friendsArr.length; i++){
+      console.log(friendsArr[i].friendID, data.toWho);
       if(friendsArr[i].friendID == data.toWho){
         finish = true;
       }
@@ -353,24 +358,6 @@ $(() => {
       setTimeout(() => {createMessageForGroup(veri);}, 500);
     }
   });
-  let peopleSettingCounter = false;
-  // window.addEventListener('click', e => {
-  //   if(settingCounter){
-  //     if(e.target.className.indexOf('fa fa-bars') === -1){
-  //       $('.dropdown-content').hide();
-  //       settingCounter = false;
-  //     }
-  //   }
-  // });
-  $('.from-who').on('click', () => {
-    if(!peopleSettingCounter){
-      $('.people-dropdown-content').show();
-      peopleSettingCounter = true;
-    }else{
-      $('.people-dropdown-content').hide();
-      peopleSettingCounter = true;
-    }
-  });
   const createMessageForGroup = (data) => {
     const MessagesContainer = document.getElementById('messages-container');
     if(data.haveLink){
@@ -388,12 +375,14 @@ $(() => {
         const fromWho = document.createElement('a');
         fromWho.className = `from-who from-me ${data.userColor}`;
         const fromWhoTextHome = document.createElement('b');
+        fromWhoTextHome.className = 'from-who-text';
         const fromWhoText = document.createTextNode(`${data.fromWho}`);
         fromWhoTextHome.appendChild(fromWhoText);
         fromWho.appendChild(fromWhoTextHome);
         fromWhoHome.appendChild(fromWho);
-        const peopleDropDownContent = document.createElement('div');
-        peopleDropDownContent.className = 'people-dropdown-content';
+        // const peopleDropDownContent = document.createElement('div');
+        // peopleDropDownContent.className = `people-dropdown-content my-dropdown-content`;
+        // peopleDropDownContent.id = `${data.secretID}`;
         let createElementCounter = false;
         for(var i = 0; i < friendsArr.length; i++){
           if(friendsArr[i].friendName == data.fromWho){
@@ -401,48 +390,33 @@ $(() => {
           }
         }
         setTimeout(() => {
-          if(createElementCounter){
-            // Dropdown content is ``Send message``
-            const sendMessageHome = document.createElement('a');
-            sendMessageHome.className = `send-message ${data.fromWho}`;
-            const sendMessageText = document.createTextNode('Mesaj at');
-            sendMessageHome.appendChild(sendMessageText);
-            peopleDropDownContent.appendChild(sendMessageHome);
-          }else{
-            // Dropdown content is ``Add friend``
-            const addFriendHome = document.createElement('a');
-            addFriendHome.className = `add-friend ${data.fromWho}`;
-            const addFriendText = document.createTextNode('Kişi ekle');
-            addFriendHome.appendChild(addFriendText);
-            peopleDropDownContent.appendChild(addFriendHome);
-          }
+          // if(createElementCounter){
+          //   // Dropdown content is ``Send message``
+          //   const sendMessageHome = document.createElement('a');
+          //   sendMessageHome.className = `send-message ${data.fromWho}`;
+          //   const sendMessageText = document.createTextNode('Mesaj at');
+          //   sendMessageHome.appendChild(sendMessageText);
+          //   peopleDropDownContent.appendChild(sendMessageHome);
+          // }else{
+          //   // Dropdown content is ``Add friend``
+          //   const addFriendHome = document.createElement('a');
+          //   addFriendHome.className = `add-friend ${data.fromWho}`;
+          //   const addFriendText = document.createTextNode('Kişi ekle');
+          //   addFriendHome.appendChild(addFriendText);
+          //   peopleDropDownContent.appendChild(addFriendHome);
+          // }
           setTimeout(() => {
-            fromWhoHome.appendChild(peopleDropDownContent);
+            // fromWhoHome.appendChild(peopleDropDownContent);
             message.appendChild(fromWhoHome);
             const myMessage = document.createElement('div');
             myMessage.className = `my-message ${data.secretID}`;
+            fromWho.onclick = () => {fromWhoClick(data.secretID);}
             message.appendChild(myMessage);
             messageHome.appendChild(message);
             messageContainer.appendChild(messageHome);
             MessagesContainer.appendChild(messageContainer);
             messageWithLink(data);
           });
-          // $('.messages-container').append(`
-          // <div class="message-container-group">
-          //   <div class="message-home my-message-home">
-          //     <div class="message my-message">
-          //       <div class="from-who-home">
-          //         <a class="from-who from-me ${data.userColor}"><b>${data.fromWho}</b></a>
-          //         <div class="people-dropdown-content">
-          //           <a class="send-message">Mesaj at</a>
-          //           <a class="add-friend">Kişi ekle</a>
-          //         </div>
-          //       </div>
-          //       <div class="my-message ${data.secretID}"></div>
-          //     </div>
-          //   </div>
-          // </div>
-          // `);
         });
       }else{
         // Another message with link
@@ -457,12 +431,14 @@ $(() => {
         const fromWho = document.createElement('a');
         fromWho.className = `from-who from-another ${data.userColor}`;
         const fromWhoTextHome = document.createElement('b');
+        fromWhoTextHome.className = 'from-who-text';
         const fromWhoText = document.createTextNode(`${data.fromWho}`);
         fromWhoTextHome.appendChild(fromWhoText);
         fromWho.appendChild(fromWhoTextHome);
         fromWhoHome.appendChild(fromWho);
         const peopleDropDownContent = document.createElement('div');
-        peopleDropDownContent.className = 'people-dropdown-content';
+        peopleDropDownContent.className = `people-dropdown-content another-people-dropdown-content`;
+        peopleDropDownContent.id = `${data.secretID}`;
         let createElementCounter = false;
         for(var i = 0; i < friendsArr.length; i++){
           if(friendsArr[i].friendName == data.fromWho){
@@ -474,14 +450,14 @@ $(() => {
             // Dropdown content is ``Send message``
             const sendMessageHome = document.createElement('a');
             sendMessageHome.className = `send-message ${data.fromWho}`;
-            const sendMessageText = document.createTextNode('Mesaj at');
+            const sendMessageText = document.createTextNode('New message');
             sendMessageHome.appendChild(sendMessageText);
             peopleDropDownContent.appendChild(sendMessageHome);
           }else{
             // Dropdown content is ``Add friend``
             const addFriendHome = document.createElement('a');
             addFriendHome.className = `add-friend ${data.fromWho}`;
-            const addFriendText = document.createTextNode('Kişi ekle');
+            const addFriendText = document.createTextNode('Add friend');
             addFriendHome.appendChild(addFriendText);
             peopleDropDownContent.appendChild(addFriendHome);
           }
@@ -490,6 +466,7 @@ $(() => {
             message.appendChild(fromWhoHome);
             const myMessage = document.createElement('div');
             myMessage.className = `another-message ${data.secretID}`;
+            fromWho.onclick = () => {fromWhoClick(data.secretID);}
             message.appendChild(myMessage);
             messageHome.appendChild(message);
             messageContainer.appendChild(messageHome);
@@ -497,25 +474,10 @@ $(() => {
             messageWithLink(data);
           });
         });
-        // $('.messages-container').append(`
-        // <div class="message-container-group">
-        //   <div class="message-home another-message-home">
-        //     <div class="message another-message">
-        //       <div class="from-who-home">
-        //         <a class="from-who from-another ${data.userColor}"><b>${data.fromWho}</b></a>
-        //         <div class="people-dropdown-content">
-        //           <a class="send-message">Mesaj at</a>
-        //           <a class="add-friend">Kişi ekle</a>
-        //         </div>
-        //       </div>
-        //       <div class="another-message ${data.secretID}"></div>
-        //     </div>
-        //   </div>
-        // <div>
-        // `);
       }
     }else{
       if(data.fromWho == username){
+        // My message for group
         const messageContainer = document.createElement('div');
         messageContainer.className = 'message-container-group';
         const messageHome = document.createElement('div');
@@ -527,45 +489,42 @@ $(() => {
         const fromWho = document.createElement('a');
         fromWho.className = `from-who from-me ${data.userColor}`;
         const fromWhoTextHome = document.createElement('b');
+        fromWhoTextHome.className = 'from-who-text';
         const fromWhoText = document.createTextNode(`${data.fromWho}`);
         fromWhoTextHome.appendChild(fromWhoText);
         fromWho.appendChild(fromWhoTextHome);
         fromWhoHome.appendChild(fromWho);
-        const peopleDropDownContent = document.createElement('div');
-        peopleDropDownContent.className = 'people-dropdown-content';
+        // const peopleDropDownContent = document.createElement('div');
+        // peopleDropDownContent.className = `people-dropdown-content my-dropdown-content`;
+        // peopleDropDownContent.id = `${data.secretID}`;
         let createElementCounter = false;
         for(var i = 0; i < friendsArr.length; i++){
-          console.log('=====');
-          console.log(friendsArr[i]);
-          console.log('=====');
           if(friendsArr[i].friendName == data.fromWho){
             createElementCounter = true;
           }
         }
         setTimeout(() => {
-          if(createElementCounter){
-            console.log('111')
-            // Dropdown content is ``Send message``
-            const sendMessageHome = document.createElement('a');
-            sendMessageHome.className = `send-message ${data.fromWho}`;
-            const sendMessageText = document.createTextNode('Mesaj at');
-            sendMessageHome.appendChild(sendMessageText);
-            peopleDropDownContent.appendChild(sendMessageHome);
-          }else{
-            console.log('222');
-            // Dropdown content is ``Add friend``
-            const addFriendHome = document.createElement('a');
-            addFriendHome.className = `add-friend ${data.fromWho}`;
-            const addFriendText = document.createTextNode('Kişi ekle');
-            addFriendHome.appendChild(addFriendText);
-            peopleDropDownContent.appendChild(addFriendHome);
-          }
+          // if(createElementCounter){
+          //   // Dropdown content is ``Send message``
+          //   const sendMessageHome = document.createElement('a');
+          //   sendMessageHome.className = `send-message ${data.fromWho}`;
+          //   const sendMessageText = document.createTextNode('Mesaj at');
+          //   sendMessageHome.appendChild(sendMessageText);
+          //   peopleDropDownContent.appendChild(sendMessageHome);
+          // }else{
+          //   // Dropdown content is ``Add friend``
+          //   const addFriendHome = document.createElement('a');
+          //   addFriendHome.className = `add-friend ${data.fromWho}`;
+          //   const addFriendText = document.createTextNode('Kişi ekle');
+          //   addFriendHome.appendChild(addFriendText);
+          //   peopleDropDownContent.appendChild(addFriendHome);
+          // }
           setTimeout(() => {
-            console.log('333');
-            fromWhoHome.appendChild(peopleDropDownContent);
+            // fromWhoHome.appendChild(peopleDropDownContent);
             message.appendChild(fromWhoHome);
             const myMessage = document.createElement('div');
             myMessage.className = `my-message ${data.secretID}`;
+            fromWho.onclick = () => {fromWhoClick(data.secretID);}
             const myMessageText = document.createTextNode(`${data.message}`);
             myMessage.appendChild(myMessageText);
             message.appendChild(myMessage);
@@ -574,23 +533,8 @@ $(() => {
             MessagesContainer.appendChild(messageContainer);
           });
         });
-        // $('.messages-container').append(`
-        // <div class="message-container-group">
-        //   <div class="message-home my-message-home">
-        //     <div class="message my-message">
-        //       <div class="from-who-home">
-        //         <a class="from-who from-me ${data.userColor}"><b>${data.fromWho}</b></a>
-        //         <div class="people-dropdown-content">
-        //           <a class="send-message">Mesaj at</a>
-        //           <a class="add-friend">Kişi ekle</a>
-        //         </div>
-        //       </div>
-        //       <div class="my-message ${data.secretID}">${data.message}</div>
-        //     </div>
-        //   </div>
-        // </div>
-        // `);
       }else{
+        // Another people message for group
         const messageContainer = document.createElement('div');
         messageContainer.className = 'message-container-group';
         const messageHome = document.createElement('div');
@@ -602,12 +546,14 @@ $(() => {
         const fromWho = document.createElement('a');
         fromWho.className = `from-who from-another ${data.userColor}`;
         const fromWhoTextHome = document.createElement('b');
+        fromWhoTextHome.className = 'from-who-text';
         const fromWhoText = document.createTextNode(`${data.fromWho}`);
         fromWhoTextHome.appendChild(fromWhoText);
         fromWho.appendChild(fromWhoTextHome);
         fromWhoHome.appendChild(fromWho);
         const peopleDropDownContent = document.createElement('div');
-        peopleDropDownContent.className = 'people-dropdown-content';
+        peopleDropDownContent.className = `people-dropdown-content another-people-dropdown-content`;
+        peopleDropDownContent.id = `${data.secretID}`;
         let createElementCounter = false;
         for(var i = 0; i < friendsArr.length; i++){
           if(friendsArr[i].friendName == data.fromWho){
@@ -619,14 +565,14 @@ $(() => {
             // Dropdown content is ``Send message``
             const sendMessageHome = document.createElement('a');
             sendMessageHome.className = `send-message ${data.fromWho}`;
-            const sendMessageText = document.createTextNode('Mesaj at');
+            const sendMessageText = document.createTextNode('New message');
             sendMessageHome.appendChild(sendMessageText);
             peopleDropDownContent.appendChild(sendMessageHome);
           }else{
             // Dropdown content is ``Add friend``
             const addFriendHome = document.createElement('a');
             addFriendHome.className = `add-friend ${data.fromWho}`;
-            const addFriendText = document.createTextNode('Kişi ekle');
+            const addFriendText = document.createTextNode('Add friend');
             addFriendHome.appendChild(addFriendText);
             peopleDropDownContent.appendChild(addFriendHome);
           }
@@ -635,6 +581,7 @@ $(() => {
             message.appendChild(fromWhoHome);
             const myMessage = document.createElement('div');
             myMessage.className = `another-message ${data.secretID}`;
+            fromWho.onclick = () => {fromWhoClick(data.secretID);}
             const myMessageText = document.createTextNode(`${data.message}`);
             myMessage.appendChild(myMessageText);
             message.appendChild(myMessage);
@@ -643,28 +590,17 @@ $(() => {
             MessagesContainer.appendChild(messageContainer);
           });
         });
-        // $('.messages-container').append(`
-        // <div class="message-container-group">
-        //   <div class="message-home another-message-home">
-        //     <div class="message another-message">
-        //       <div class="from-who-home">
-        //         <a class="from-who from-another ${data.userColor}"><b>${data.fromWho}</b></a>
-        //         <div class="people-dropdown-content">
-        //           <a class="send-message">Mesaj at</a>
-        //           <a class="add-friend">Kişi ekle</a>
-        //         </div>
-        //       </div>
-        //       <div class="another-message ${data.secretID}">${data.message}</div>
-        //     </div>
-        //   </div>
-        // <div>
-        // `);
       }
-      setTimeout(() => {
-        const element = document.getElementById('messages-container');
-        element.scrollTop = element.scrollHeight;
-      });
     }
+    setTimeout(() => {
+      const element = document.getElementById('messages-container');
+      element.scrollTop = element.scrollHeight;
+    }, 10);
+  }
+
+  const fromWhoClick = (secretID) => {
+    $('.people-dropdown-content').hide();
+    $(`#${secretID}`).show();
   }
   //
   
@@ -803,6 +739,10 @@ $(() => {
         messageWithLink(data);
       }
     }
+    setTimeout(() => {
+      const element = document.getElementById('messages-container');
+      element.scrollTop = element.scrollHeight;
+    }, 10);
   }
 
   // Animations

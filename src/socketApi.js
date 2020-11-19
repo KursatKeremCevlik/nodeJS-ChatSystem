@@ -173,24 +173,22 @@ io.on('connection', (socket) => {
   });
 
   socket.on('PLEASE_FRIEND_DATAS', (data) => {
-    let finish = false;
     Account.find({secretID: data.friendID}, (err, object) => {
       if(!err && object[0]){
-        finish = true;
         const friendName = object[0].username;
-        socket.emit('FRIEND_DATA', { friendName });
+        const chatInfo = 'Friend';
+        socket.emit('FRIEND_DATA', { friendName, chatInfo });
+      }else{
+        // Client open group screen
+        Groups.find({secretID: data.friendID}, (err, object) => {
+          if(!err && object[0]){
+            const friendName = object[0].name;
+            const chatInfo = 'Group';
+            socket.emit('FRIEND_DATA', { friendName, chatInfo });
+          }
+        });
       }
     });
-    if(!finish){
-      // Client open group screen
-      Groups.find({secretID: data.friendID}, (err, object) => {
-        if(!err && object[0]){
-          const friendName = object[0].name;
-          const chatInfo = 'Group';
-          socket.emit('FRIEND_DATA', { friendName, chatInfo });
-        }
-      });
-    }
   });
 
   // Messages
@@ -201,7 +199,8 @@ io.on('connection', (socket) => {
           const message = data.message;
           const toWho = object[0].username;
           const fromWho = data.username;
-          generator('Message', {message, toWho, fromWho}, socket);
+          const info = 'Message';
+          generator('Message', {message, toWho, fromWho}, socket, info);
         }
       });
     }
@@ -258,7 +257,7 @@ io.on('connection', (socket) => {
               toWho: foundObject[0].secretID,
               message: data.message
             }
-            const info = 'GroupMessage';
+            const info = 'MessageGroup';
             generator('Message', messageData, socket, info);
           }
         });

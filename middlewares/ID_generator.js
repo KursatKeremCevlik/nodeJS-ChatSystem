@@ -116,7 +116,7 @@ module.exports = (prm, data, socket, info) => {
         });
         saveMessageData.save((err) => {
           if(!err){
-            if(!info == 'GroupMessage'){
+            if(info == 'Message'){
               // Normal client message
               const messageData = {
                 message: data.message,
@@ -128,7 +128,7 @@ module.exports = (prm, data, socket, info) => {
               }
               socket.emit('NEW_MESSAGE_DATA', messageData);
               socket.broadcast.emit('NEW_MESSAGE_DATA', messageData);
-            }else{
+            }else if(info == 'MessageGroup'){
               // Group message
               Accounts.find({username: data.fromWho}, (err, object) => {
                 if(!err && object[0]){
@@ -197,11 +197,11 @@ module.exports = (prm, data, socket, info) => {
         });
         saveMessageData.save((err) => {
           if(!err){
-            if(!info == 'GroupMessage'){
+            if(info == 'Message'){
               // Normal client message
               socket.emit('NEW_MESSAGE_DATA', messageData);
               socket.broadcast.emit('NEW_MESSAGE_DATA', messageData);
-            }else{
+            }else if(info == 'GroupMessage'){
               // Group message
               Accounts.find({username: data.fromWho}, (err, object) => {
                 if(!err && object[0]){
