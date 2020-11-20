@@ -355,6 +355,7 @@ $(() => {
         toWho: data.veri.toWho,
         userColor: data.userColor,
       }
+      console.log(veri);
       setTimeout(() => {createMessageForGroup(veri);}, 500);
     }
   });
