@@ -306,7 +306,7 @@ module.exports = (prm, data, socket, info) => {
                         for(var i = 0; i < peopleArr.length; i++){
                           Accounts.find({secretID: peopleArr[i].secretID}, (err, foundObject) => {
                             if(!err, foundObject[0]){
-                              foundObject[0].friends.push(data.groupTitle);
+                              foundObject[0].friends.push({name: groupData.name, secretID: groupData.secretID});
                               foundObject[0].save();
                               setTimeout(() => {
                                 if(foundObject[0].secretID == object[0].secretID){
@@ -343,8 +343,8 @@ const update_another_people_list = (secretID, ID, socket) => {
       setTimeout(() => {
         for(var i = 0; i < friendList.length; i++){
           let friendID;
-          const friendName = friendList[i];
-          Accounts.find({username: friendList[i]}, (err, friendObject) => {
+          const friendName = friendList[i].name;
+          Accounts.find({username: friendList[i].name}, (err, friendObject) => {
             if(!err && friendObject[0]){
               friendID = friendObject[0].secretID;
               const toWho = object[0].username;
@@ -353,9 +353,9 @@ const update_another_people_list = (secretID, ID, socket) => {
                 socket.broadcast.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho, info });
               });
             }else{
-              Groups.find({secretID: ID}, (err, friendObject) => {
-                if(!err && friendObject[0]){
-                  friendID = friendObject[0].secretID;
+              Groups.find({secretID: ID}, (err, groupObject) => {
+                if(!err && groupObject[0]){
+                  friendID = groupObject[0].secretID;
                   const toWho = object[0].username;
                   const info = 'Group';
                   setTimeout(() => {
@@ -381,8 +381,8 @@ const update_my_list = (secretID, ID, socket) => {
       setTimeout(() => {
         for(var i = 0; i < friendList.length; i++){
           let friendID;
-          const friendName = friendList[i];
-          Accounts.find({username: friendList[i]}, (err, friendObject) => {
+          const friendName = friendList[i].name;
+          Accounts.find({username: friendList[i].name}, (err, friendObject) => {
             if(!err && friendObject[0]){
               friendID = friendObject[0].secretID;
               const toWho = object[0].username;

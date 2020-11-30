@@ -176,6 +176,7 @@ body{
     transition: 0.3s;
     align-items: center;
     cursor: pointer;
+    border: 1px solid black;
 }.people-dropdown-content a{
     float: none;
     color: black;
@@ -300,6 +301,7 @@ body{
     background-color: black;
     height: 25px;
 }.setting_buton{
+    cursor: pointer;
     margin-top: 10px;
     outline: none;
     border: 1px solid black;

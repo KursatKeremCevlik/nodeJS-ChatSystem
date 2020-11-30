@@ -1,6 +1,5 @@
 $(() => {
-  const socket = io.connect('https://example-chat-system.herokuapp.com/');
-  // const socket = io.connect('http://localhost:3000');
+  const socket = io.connect('/');
   
   const id = localStorage.getItem('kursatkerem-chat-system-account-id');
   const username = localStorage.getItem('kursatkerem-chat-system-username');
@@ -328,7 +327,6 @@ $(() => {
   socket.on('NEW-MESSAGE-FOR-GROUP', (data) => {
     let finish = false;
     for(var i = 0; i < friendsArr.length; i++){
-      console.log(friendsArr[i].friendID, data.toWho);
       if(friendsArr[i].friendID == data.toWho){
         finish = true;
       }
@@ -355,7 +353,6 @@ $(() => {
         toWho: data.veri.toWho,
         userColor: data.userColor,
       }
-      console.log(veri);
       setTimeout(() => {createMessageForGroup(veri);}, 500);
     }
   });

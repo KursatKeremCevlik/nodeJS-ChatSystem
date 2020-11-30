@@ -99,8 +99,8 @@ io.on('connection', (socket) => {
                 }
               }
               if(!finish){
-                friendAccount[0].friends.push(foundObject[0].username);
-                foundObject[0].friends.push(friendAccount[0].username);
+                friendAccount[0].friends.push({name: foundObject[0].username, secretID: foundObject[0].secretID});
+                foundObject[0].friends.push({name: friendAccount[0].username, secretID: friendAccount[0].secretID});
                 foundObject[0].save();
                 friendAccount[0].save();
                 const prm = data.add_friend_value;
@@ -136,7 +136,7 @@ io.on('connection', (socket) => {
             if(friendAccount[0].secretID == data.delete_friend_value){
               delete_username = friendAccount[0].username;
               for(var i = 0; i < foundObject[0].friends.length; i++){
-                if(delete_username == foundObject[0].friends[i]){
+                if(delete_username == foundObject[0].friends[i].name){
                   foundObject[0].friends.splice(i, 1);
                   finish = true;
                 }
@@ -149,7 +149,7 @@ io.on('connection', (socket) => {
                 foundObject[0].save();
                 socket.emit('SOMETHING_WRONG_DELETE_FRIEND', { text });
                 for(var i = 0; i < friendAccount[0].friends.length; i++){
-                  if(friendAccount[0].friends[i] == foundObject[0].username){
+                  if(friendAccount[0].friends[i].name == foundObject[0].username){
                     friendAccount[0].friends.splice(i, 1);
                   }
                 }
@@ -313,21 +313,23 @@ const update_friend_list = (socket, data, prm) => {
       socket.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
       for(var i = 0; i < object[0].friends.length; i++){
         let friendID;
-        const friendName = object[0].friends[i];
-        Account.find({username: friendName}, (err, foundObject) => {
+        friendID = object[0].friends[i].secretID;
+        Account.find({secretID: friendID}, (err, foundObject) => {
           if(!err && foundObject[0]){
             friendID = foundObject[0].secretID;
             const toWho = data.username;
+            const friendName = foundObject[0].username;
             setTimeout(() => {
               const info = 'Friend';
               socket.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho, info });
             }, 10);
           }
         });
-        Groups.find({name: friendName}, (err, foundObject) => {
+        Groups.find({secretID: friendID}, (err, foundObject) => {
           if(!err && foundObject[0]){
             friendID = foundObject[0].secretID;
             const toWho = data.username;
+            const friendName = foundObject[0].name;
             setTimeout(() => {
               const info = 'Group';
               socket.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho, info });
@@ -343,21 +345,23 @@ const update_friend_list = (socket, data, prm) => {
       socket.broadcast.emit('CLEAR-PEOPLE-COLUMN', {usernameValue});
       for(var i = 0; i < object[0].friends.length; i++){
         let friendID;
-        const friendName = object[0].friends[i];
-        Account.find({username: friendName}, (err, foundObject) => {
+        friendID = object[0].friends[i].secretID;
+        Account.find({secretID: friendID}, (err, foundObject) => {
           if(!err && foundObject[0]){
             const toWho = object[0].username;
             friendID = foundObject[0].secretID;
+            const friendName = foundObject[0].username;
             setTimeout(() => {
               const info = 'Friend';
               socket.broadcast.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho, info });
             }, 10);
           }
         });
-        Groups.find({name: friendName}, (err, foundObject) => {
+        Groups.find({secretID: friendID}, (err, foundObject) => {
           if(!err && foundObject[0]){
             const toWho = object[0].username;
             friendID = foundObject[0].secretID;
+            const friendName = foundObject[0].name;
             setTimeout(() => {
               const info = 'Group';
               socket.broadcast.emit('FRIEND_NAME_DATAS', { friendName, friendID, toWho, info });
