@@ -138,6 +138,7 @@ $(() => {
     if(data.toWho == username){
       friendsArr.push(data);
       if(data.info == 'Friend' || data.info == 'Group'){
+        console.log(data);
         person.className = 'person';
         const people_hr = document.createElement('div');
         people_hr.className = 'people_hr';

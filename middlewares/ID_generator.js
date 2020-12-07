@@ -282,13 +282,14 @@ module.exports = (prm, data, socket, info) => {
             ]
             */
             const peopleArr = [];
-            const colors = ['blue', 'lightblue', 'red', 'yellow', 'orange', 'black', 'purple', 'pink'];
+            // const colors = ['blue', 'lightblue', 'red', 'yellow', 'orange', 'black', 'purple', 'pink'];
+            const colors = ['blue', 'lightblue', 'red', 'yellow'];
             Accounts.find({username: data.ownerName}, (err, ownerObject) => {
               if(!err && ownerObject[0]){
                 data.addGroupPeopleArr.push(ownerObject[0].secretID);
                 setTimeout(() => {
                   for(var i = 0; i < data.addGroupPeopleArr.length; i++){
-                    peopleArr.push({secretID: Number(data.addGroupPeopleArr[i]), color: generateColor(colors)});
+                    peopleArr.push({secretID: Number(data.addGroupPeopleArr[i]), color: generateColor(colors, peopleArr)});
                   }
                   const groupData = new Groups({
                     name: data.groupTitle,

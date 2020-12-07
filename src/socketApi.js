@@ -31,14 +31,19 @@ io.on('connection', (socket) => {
           const text = 'Bu kullanıcı adı kullanımda';
           socket.emit('INFO_DATA', { text });
         }else{
-          const text = 'Kayıt ediliyor';
-          socket.emit('INFO_DATA', { text });
-          const name = data.name;
-          const surname = data.surname;
-          const username = data.username;
-          const password = data.password;
-          const isOnline = false;
-          generator('Account', {name, surname, username, password, isOnline}, socket);
+          if(!data.username == 'testAccount'){
+            const text = 'Kayıt ediliyor';
+            socket.emit('INFO_DATA', { text });
+            const name = data.name;
+            const surname = data.surname;
+            const username = data.username;
+            const password = data.password;
+            const isOnline = false;
+            generator('Account', {name, surname, username, password, isOnline}, socket);
+          }else{
+            const text = 'Bu kullanıcı adı kullanımda';
+            socket.emit('INFO_DATA', { text });
+          }
         }
       });
     }
