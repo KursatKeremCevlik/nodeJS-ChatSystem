@@ -1,12 +1,12 @@
 # nodeJS-ChatSystem
 
-Yapımda !
+In progress !
 
-Gereken programlar:
+Required programs:
   - NodeJS
   - NPM
   - MongoDB
+  
+This project also available on https://example-chat-system.herokuapp.com website
 
-Şu anda örnek proje https://example-chat-system.herokuapp.com sitesinde hazır
-
-Unutmayın hala projeye devam ediyoruz.
+Don't forget. We are still continuing the project
